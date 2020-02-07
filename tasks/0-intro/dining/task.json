@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["FaultyFiber", "Debug", "FaultyTsan"],
+  "test_targets": ["stress_test"],
+  "lint_files": ["dining.cpp", "dining.hpp", "philosopher.hpp", "philosopher.cpp"],
+  "submit_files": ["philosopher.cpp"]
+}
