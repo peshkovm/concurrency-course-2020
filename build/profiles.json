@@ -1,0 +1,23 @@
+{
+  "Debug": [
+    "CMAKE_BUILD_TYPE=Debug"
+  ],
+  "Release": [
+    "CMAKE_BUILD_TYPE=Release"
+  ],
+  "FaultyAsan": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "TWIST_FAULTY=ON",
+    "ASAN=ON"
+  ],
+  "FaultyTsan": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "TWIST_FAULTY=ON",
+    "TSAN=ON"
+  ],
+  "FaultyFiber": [
+    "CMAKE_BUILD_TYPE=Release",
+    "TWIST_FAULTY=ON",
+    "TWIST_FIBER=ON"
+  ]
+}

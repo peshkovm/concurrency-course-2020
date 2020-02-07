@@ -1,0 +1,93 @@
+## Memory consistency models
+
+- [Memory Barriers: a Hardware View for Software Hackers](http://www.puppetmastertrading.com/images/hwViewForSwHackers.pdf)
+- [Memory Models: A Case For Rethinking Parallel Languages and Hardware](https://cacm.acm.org/magazines/2010/8/96610-memory-models-a-case-for-rethinking-parallel-languages-and-hardware/pdf)
+- [Go Memory Model](https://golang.org/ref/mem), [Don't be clever](https://golang.org/ref/mem#tmp_1)
+- [Java Memory Model](https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4)
+- [Foundations of the C++ Concurrency Memory Model](http://www.hpl.hp.com/techreports/2008/HPL-2008-56.pdf)
+- [Explanation of the Linux-Kernel Memory Consistency Model](https://github.com/torvalds/linux/tree/master/tools/memory-model/Documentation) 
+- [Weak memory concurrency in C/C++11](https://hydraconf.com/2019/talks/143pbdxfvijthb8rg3qk6e/)
+- [Weak Memory Consistency](https://people.mpi-sws.org/~viktor/wmc/)
+- [Weakly Consistent Concurrency](https://www.cs.tau.ac.il/~orilahav/seminar18/index.html)
+
+## Lock-Free data structures
+
+- [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](http://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
+- [Split-Ordered Lists: Lock-Free Extensible Hash Tables](http://people.csail.mit.edu/shanir/publications/Split-Ordered_Lists.pdf)
+- [Cliff Click – A Lock-Free Hash Table](https://www.youtube.com/watch?v=HJ-719EGIts)
+- [Цикл статей про lock-free структуры данных](https://habr.com/post/195770/)
+- [Data Structures in the Multicore Age](http://people.csail.mit.edu/shanir/publications/p76-shavit.pdf) 
+
+## Lock-Freedom и Wait-Freedom
+
+- [A Practical Multi-Word Compare-and-Swap Operation](https://www.cl.cam.ac.uk/research/srg/netos/papers/2002-casn.pdf)
+- [Wait-Free Synchronization](https://cs.brown.edu/~mph/Herlihy91/p124-herlihy.pdf)
+- [On the Nature of Progress](http://citeseerx.ist.psu.edu/viewdoc/download;?doi=10.1.1.469.3698&rep=rep1&type=pdf)
+- [Are Lock-Free Concurrent Algorithms Practically Wait-Free?](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/paper-18.pdf)
+
+## Consistency models for concurrent objects
+
+- [Linearizability: A Correctness Condition for Concurrent Objects ](https://cs.brown.edu/~mph/HerlihyW90/p463-herlihy.pdf)
+- [Consistency Models Map](https://jepsen.io/consistency)
+- [Linearizability versus Serializability](http://www.bailis.org/blog/linearizability-versus-serializability/)
+- [Strong consistency models](https://aphyr.com/posts/313-strong-consistency-models)
+
+## Transactions
+ 
+- [ Martin Kleppmann – Transactions: myths, surprises and opportunities](https://www.youtube.com/watch?v=5ZjhNTM8XU8), [слайды и ссылки](https://martin.kleppmann.com/2015/09/26/transactions-at-strange-loop.html)
+- [A Critique of ANSI SQL Isolation Levels](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-95-51.pdf)
+- [Serializable Isolation for Snapshot Databases](https://ses.library.usyd.edu.au/bitstream/2123/5353/1/michael-cahill-2009-thesis.pdf)
+- [What Write Skew Looks Like](https://www.cockroachlabs.com/blog/what-write-skew-looks-like/)
+- [A Read-Only Transaction Anomaly Under Snapshot Isolation](https://www.cs.umb.edu/~poneil/ROAnom.pdf)
+- [Google Percolator](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36726.pdf)
+- [Serializable Snapshot Isolation in PostgreSQL](https://drkp.net/papers/ssi-vldb12.pdf)
+- [PostgreSQL SSI Implementation Notes](https://github.com/postgres/postgres/blob/master/src/backend/storage/lmgr/README-SSI)
+- [A History of Transaction Histories](https://ristret.com/s/f643zk/history_transaction_histories) 
+
+#### Demystifying Database Systems
+- [An Introduction to Transaction Isolation Levels](https://fauna.com/blog/introduction-to-transaction-isolation-levels)
+- [Correctness Anomalies Under Serializable Isolation](https://fauna.com/blog/demystifying-database-systems-correctness-anomalies-under-serializable-isolation)
+- [Introduction to Consistency Levels](https://fauna.com/blog/demystifying-database-systems-introduction-to-consistency-levels) 
+- [Isolation levels vs. Consistency levels](https://fauna.com/blog/demystifying-database-systems-part-4-isolation-levels-vs-consistency-levels)
+
+## Hardware Transactional Memory
+
+- [Maurice Herlihy – Transactional Memory](https://www.youtube.com/watch?v=ZkUrl8BZHjk), [слайды](http://neerc.ifmo.ru/sptcc/slides/slides-herlihy.pdf)
+- [Gil Tene – Understanding Hardware Transactional Memory](https://www.youtube.com/watch?v=0jy4Sc_IY7o)
+- [Is Parallel Programming Hard, And, If So, What Can You Do About It?](https://mirrors.edge.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html), 17.3
+- [Глава 16 – Programming with Intel Transactional Synchronization Extensions](https://software.intel.com/sites/default/files/managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf)
+- [Глава 15 – Intel TSX Recommendations](https://software.intel.com/sites/default/files/managed/9e/bc/64-ia-32-architectures-optimization-manual.pdf)
+- [TSX Anti-Patterns](https://software.intel.com/en-us/articles/tsx-anti-patterns-in-lock-elision-code)
+- [Lock Elision Implementation Guide](https://sourceware.org/glibc/wiki/LockElisionGuide)
+
+## Automatic Memory Management
+
+- [Baby's First Garbage Collector](https://journal.stuffwithstuff.com/2013/12/08/babys-first-garbage-collector/)
+- [Do It Yourself (OpenJDK) Garbage Collector](https://shipilev.net/jvm/diy-gc/)
+
+---
+
+- [The Garbage Collection Handbook](http://gchandbook.org/)
+- [Understanding Java Garbage Collection](https://www.azul.com/files/Understanding_Java_Garbage_Collection_v4.pdf) 
+
+---
+
+- [Getting to Go: The Journey of Go's Garbage Collector](https://blog.golang.org/ismmkeynote)
+- [Go Proposal: Eliminate STW stack re-scanning](https://github.com/golang/proposal/blob/master/design/17503-eliminate-rescan.md)
+- [Go Garbage Collection Implementation](https://go.hidva.com/src/runtime/mgc.go)
+
+---
+
+- [Алексей Шипилёв — Shenandoah: сборщик мусора, который смог](https://www.youtube.com/watch?v=CnRtbtis79U)
+
+---
+
+- [A Unified Theory of Garbage Collection](https://www.cs.virginia.edu/~cs415/reading/bacon-garbage.pdf)
+- [Matter, Anti-Matter, and the Unified Theory of Garbage Collection](http://michaelrbernste.in/2013/06/12/matter-anti-matter.html)
+
+## Sanitizers
+
+- [AddressSanitizer: A Fast Address Sanity Checker](https://www.usenix.org/system/files/conference/atc12/atc12-final39.pdf)
+- [Kostya Serebryany – Sanitize your C++ code](https://www.youtube.com/watch?v=V2_80g0eOMc)
+- [ThreadSanitizer – data race detection in practice](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/35604.pdf)
+- [FastTrack: Efficient and Precise Dynamic Race Detection](https://users.soe.ucsc.edu/~cormac/papers/pldi09.pdf)
