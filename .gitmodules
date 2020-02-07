@@ -1,3 +1,6 @@
 [submodule "client"]
 	path = client
 	url = https://gitlab.com/Lipovsky/tpcc-course-client.git
+[submodule "library/twist"]
+	path = library/twist
+	url = https://gitlab.com/Lipovsky/twist.git
