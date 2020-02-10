@@ -66,6 +66,8 @@ git submodule update --init --recursive
 
 #### Ручная установка
 
+Если вы решили пойти по этому пути, то убедитесь, что у вас свежий стабильный 64-битный Linux.
+
 Установите [необходимые зависимости](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/docker/tpcc-image/install_deps.sh)
 
 ### Шаг 5
