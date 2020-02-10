@@ -49,8 +49,8 @@ TEST_SUITE(Guarded) {
 
     auto call_increment = [&]() { counter->SlowIncrement(); };
 
-   twist::strand::thread thread1(call_increment);
-   twist::strand:: thread thread2(call_increment);
+    twist::strand::thread thread1(call_increment);
+    twist::strand::thread thread2(call_increment);
     thread1.join();
     thread2.join();
 
