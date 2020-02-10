@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug"],
+  "test_targets": ["test"],
+  "submit_files": ["test.cpp"],
+  "lint_files": ["test.cpp"]
+}

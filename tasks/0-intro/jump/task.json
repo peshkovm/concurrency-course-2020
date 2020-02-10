@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug"],
+  "test_targets": ["unit_test"],
+  "lint_files": [],
+  "submit_files": ["jump.hpp", "jump.S"]
+}

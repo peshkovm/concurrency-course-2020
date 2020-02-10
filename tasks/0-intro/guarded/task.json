@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug", "FaultyTsan"],
+  "test_targets": ["unit_test"],
+  "submit_files": ["guarded.hpp"],
+  "lint_files": ["guarded.hpp"]
+}
