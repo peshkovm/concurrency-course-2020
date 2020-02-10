@@ -47,7 +47,9 @@ TEST_SUITE(Guarded) {
 
     solutions::Guarded<Counter> counter;
 
-    auto call_increment = [&]() { counter->SlowIncrement(); };
+    auto call_increment = [&]() {
+      counter->SlowIncrement();
+    };
 
     twist::strand::thread thread1(call_increment);
     twist::strand::thread thread2(call_increment);
