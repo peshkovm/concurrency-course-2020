@@ -19,4 +19,3 @@ docker exec -it tpcc-image groupadd -g $(id -g) grp
 docker exec -it tpcc-image useradd -u $(id -u) -g $(id -g) -m $USER
 docker exec -it tpcc-image chown -R $USER /tpcc
 
-docker exec -it --user $(id -u):$(id -g) tpcc-image sh -c "/tpcc/tpcc-course-2020/install_client.sh"
