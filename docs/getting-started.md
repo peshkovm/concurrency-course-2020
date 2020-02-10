@@ -60,7 +60,7 @@ git submodule update --init --recursive
 
 #### Докер
 
-Следуйте [инструкции](https://gitlab.com/Lipovsky/tpcc-course-2020/tree/master/docs/docker.md)
+Следуйте [инструкции](https://gitlab.com/Lipovsky/tpcc-course-2020/tree/master/docs/docker.md).
 
 Дальнейшие шаги инструкции выполняйте _внутри_ контейнера.
 
@@ -68,7 +68,7 @@ git submodule update --init --recursive
 
 Установите [необходимые зависимости](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/docker/tpcc-image/install_deps.sh)
 
-### Шаг 6
+### Шаг 5
 
 Теперь пришел черед установки консольного клиента для работы с курсом. С помощью него вы будете запускать тесты и сдавать задачи.
 
@@ -85,12 +85,10 @@ git submodule update --init --recursive
 
 После успешного завершения скрипта установки перезапустите терминал / перелогинтесь в контейнер.
 
-### Шаг 5
-
-Запустите:
+### Шаг 6
 
 ```shell
-tpcc cmake # генерируем файлы для сборки
+tpcc cmake # генерируем файлы для сборки проекта курса
 tpcc warmup # собираем общие библиотеки
 ```
 
