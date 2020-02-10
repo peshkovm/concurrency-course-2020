@@ -5,9 +5,9 @@ set -e -x
 apt-get update
 
 apt-get install -y \
-  ssh \
-  make \
-  cmake \
+	ssh \
+	make \
+	cmake \
 	ninja-build \
 	git \
 	clang-8 \
@@ -21,14 +21,15 @@ apt-get install -y \
 	rsync \
 	lldb-8 \
 	vim \
-  gdb \
-  libboost-all-dev \
-  wget \
-  autoconf
+	gdb \
+	libboost-all-dev \
+	wget \
+	autoconf
 
 pip3 install \
-  click \
+	click \
 	gitpython \
 	python-gitlab \
 	termcolor \
 	virtualenv
+
