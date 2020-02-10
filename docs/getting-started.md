@@ -62,6 +62,8 @@ git submodule update --init --recursive
 
 Следуйте [инструкции](https://gitlab.com/Lipovsky/tpcc-course-2020/tree/master/docs/docker.md).
 
+Репозиторий курса в контейнере находится в `/tpcc`.
+
 Дальнейшие шаги инструкции выполняйте _внутри_ контейнера.
 
 #### Ручная установка
