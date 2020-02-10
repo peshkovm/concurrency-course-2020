@@ -70,7 +70,7 @@ git submodule update --init --recursive
 
 Если вы решили пойти по этому пути, то убедитесь, что у вас свежий стабильный 64-битный Linux.
 
-Установите [необходимые зависимости](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/docker/tpcc-image/install_deps.sh)
+Установите [необходимые зависимости](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/docker/tpcc-image/install_deps.sh).
 
 ### Шаг 5
 
@@ -125,9 +125,7 @@ tpcc warmup # собираем общие библиотеки
 
 Если у вас возникли проблемы, то сначала попытайтесь разобраться с ними самостоятельно, и только потом пишите в чат техподдержки.
 
-Если вы пишете в чат поддержки, то пожалуйста приложите полный выхлоп клиента, начиная от строки с вызываемой командой:
-
-В вашем выхлопе должна быть диагностика, которую печатает сам клиент:
+Если вы пишете в чат поддержки, то пожалуйста приложите через [pastebin](https://pastebin.com/) полный выхлоп клиента вместе с командой и диагностической информацией: 
 
 ```
 rlipovsky@57c3eda1a8c3:/$ tpcc status
@@ -140,9 +138,10 @@ C++ compiler: /usr/bin/clang++-8 (clang version 8.0.0-3~ubuntu18.04.2 (tags/RELE
 Python: 3.6.9, CPython, /tpcc/tpcc-course-2020/client/venv/bin/python
 Repository root directory: /tpcc/tpcc-course-2020
 Git current commit: 97fa5f8d9f85030c95a417f8e267f4d0f6fe6c01
+...
 ```
 
-Возможно вам пригодятся ссылки из [Toolchain](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/toolchain.md)
+Возможно вам пригодятся ссылки из [Toolchain](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/toolchain.md).
 
 ## Документы
 
