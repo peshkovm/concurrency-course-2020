@@ -1,5 +1,7 @@
 # Теория и практика concurrency
 
+_"You don't have to be an engineer to be be a racing driver, but you do have to have Mechanical Sympathy"_ – Jackie Stewart, racing driver
+
 Добро пожаловать в репозиторий курса!
 
 Прочтите [Getting Started](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/getting-started.md) прежде чем клонировать этот репозиторий.
