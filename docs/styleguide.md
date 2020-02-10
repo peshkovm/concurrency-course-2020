@@ -2,7 +2,7 @@
 
 За основу взят [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 
-[Наглядные примеры с комментариями](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/styleguide/examples.hpp)
+[Наглядные примеры с комментариями](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/styleguide/examples.hpp)
 
 ### Линтеры
 

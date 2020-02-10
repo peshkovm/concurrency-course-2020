@@ -4,7 +4,7 @@
 
 Для работы с репозиторием вам необходимо настроить окружение.
 
-Все необходимые зависимости описаны [здесь](https://gitlab.com/Lipovsky/tpcc-course-2019/tree/master/docker).
+Все необходимые зависимости описаны [здесь](https://gitlab.com/Lipovsky/tpcc-course-2020/tree/master/docker).
 
 Если вы умеете пользоваться Докером, то попробуйте работать сразу в нем.
 
@@ -62,18 +62,18 @@ git clone https://gitlab.com/Lipovsky/tpcc-course-2020.git
 
 Если у вас возникли проблемы, то сначала попытайтесь разобраться с ними самостоятельно, и только потом пишите в чат техподдержки.
 
-Возможно вам пригодятся ссылки из [Toolchain](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/toolchain.md)
+Возможно вам пригодятся ссылки из [Toolchain](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/toolchain.md)
 
 ## Документы
 
 Внимательно прочитайте ключевые документы:
 
-- [Правила выставления оценок](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/grading.md)
-- [Кодекс чести](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/honorcode.md)
-- [Style Guide](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/styleguide.md)
+- [Правила выставления оценок](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/grading.md)
+- [Кодекс чести](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/honorcode.md)
+- [Style Guide](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/styleguide.md)
 
-По ходу семестра будет заполняться [FAQ](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/faq.md)
+По ходу семестра будет заполняться [FAQ](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/faq.md)
 
 ## Telegram
 
-Подпишитесь на [чаты и канал курса](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/docs/telegram.md).
+Подпишитесь на [чаты и канал курса](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/telegram.md).
