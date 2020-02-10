@@ -1,9 +1,8 @@
 #!/bin/sh
 
 if ( which dirname ) && ( which realpath ); then
-  BOOTSTRAP_ROOT=$(dirname $(realpath $0))
-  cd "${BOOTSTRAP_ROOT}"
-  cd ../
+  PROJECT_ROOT=$(dirname $(realpath $0))
+  cd "${PROJECT_ROOT}"
 fi
 
 git submodule update --init --recursive
