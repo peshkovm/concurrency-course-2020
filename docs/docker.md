@@ -55,14 +55,16 @@ bash create.sh
 Логинтесь за текущего пользователя используя секцию "Логин в контейнер".
 
 ## Интеграция с CLion
+
+### Настройка Remote Host
+
 - Убедитесь, что контейнер запущен:
   ```
   docker container list | grep tpcc
   ```
 - В CLion:
   1. Откройте проект `tpcc-course-2020`
-  2. Перейдите в `Preferences` > `Build, Execution, Deployment` > `Toolchains`
-  3. Создайте Remote Host:
+  2. В `Preferences` > `Build, Execution, Deployment` > `Toolchains` создайте Remote Host:
   
   ![Setup remote host](images/remote-host-setup.png)
   
@@ -73,8 +75,10 @@ bash create.sh
   
   ![Insert credentials](images/credentials.png)
 
-  4. Выберите `Remote Host` toolchain:
+  3. В `Preferences` > `Build, Execution, Deployment` > `CMake` выберите `Toolchain` – созданный выше Remote Host:
   
   ![Setup toolchain](images/toolchain.png)
 
-  5. В окошке `Terminal` удобно залогиниться в контейнер и оттуда звать команду `tpcc`. 
+### Работа с консольным клиентом из Clion
+
+В окошке `Terminal` удобно залогиниться в докер-контейнер и звать оттуда команду `tpcc` для запуска тестов и т.п.
