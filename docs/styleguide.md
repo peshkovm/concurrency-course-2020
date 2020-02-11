@@ -10,4 +10,4 @@
 
 Для автоматической проверки и коррекции стиля мы используем [clang-format](https://clang.llvm.org/docs/ClangFormat.html) и [clang-tidy](http://clang.llvm.org/extra/clang-tidy/)
 
-Конфиги линтеров лежат в корне репозитория: [.clang-format](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/.clang-format) и [.clang-tidy](https://gitlab.com/Lipovsky/tpcc-course-2019/blob/master/.clang-tidy)
+Конфиги линтеров лежат в корне репозитория: [.clang-format](/.clang-format) и [.clang-tidy](/.clang-tidy)
