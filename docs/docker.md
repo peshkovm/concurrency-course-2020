@@ -61,7 +61,7 @@ bash create.sh
   ```
 - В CLion:
   1. Откройте проект `tpcc-course-2020`
-  2. Перейдите в настройках в `Build, Execution, Deployment > Toolchains`
+  2. Перейдите в `Preferences` > `Build, Execution, Deployment` > `Toolchains`
   3. Создайте Remote Host:
   
   ![Setup remote host](images/remote-host-setup.png)
@@ -76,3 +76,5 @@ bash create.sh
   4. Выберите `Remote Host` toolchain:
   
   ![Setup toolchain](images/toolchain.png)
+
+  5. В окошке `Terminal` удобно залогиниться в контейнер и оттуда звать команду `tpcc`. 
