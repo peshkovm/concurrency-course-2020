@@ -56,7 +56,7 @@
 
 #### Списывание
 
-Этому посвящен отдельный документ – [honorcode](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/honorcode.md)
+Этому посвящен отдельный документ – [honorcode](/docs/honorcode.md)
 
 -----
 
