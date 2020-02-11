@@ -4,7 +4,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 Добро пожаловать в репозиторий курса!
 
-Прочтите [Getting Started](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/getting-started.md) прежде чем клонировать этот репозиторий.
+Прочтите [Getting Started](docs/getting-started.md) прежде чем клонировать этот репозиторий.
 
 ## Навигация
 
