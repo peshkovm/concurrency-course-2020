@@ -60,7 +60,7 @@ git submodule update --init --recursive
 
 #### Докер
 
-Следуйте [инструкции](https://gitlab.com/Lipovsky/tpcc-course-2020/tree/master/docs/docker.md).
+Следуйте [инструкции](/docs/docker.md).
 
 Репозиторий курса в контейнере находится в `/tpcc`.
 
@@ -70,7 +70,7 @@ git submodule update --init --recursive
 
 Если вы решили пойти по этому пути, то убедитесь, что у вас свежий стабильный 64-битный Linux.
 
-Установите [необходимые зависимости](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/docker/tpcc-image/install_deps.sh).
+Установите [необходимые зависимости](/docker/tpcc-image/install_deps.sh).
 
 ### Шаг 5
 
@@ -141,18 +141,18 @@ Git current commit: 97fa5f8d9f85030c95a417f8e267f4d0f6fe6c01
 ...
 ```
 
-Возможно вам пригодятся ссылки из [Toolchain](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/toolchain.md).
+Возможно вам пригодятся ссылки из [Toolchain](/docs/toolchain.md).
 
 ## Документы
 
 Внимательно прочитайте ключевые документы:
 
-- [Правила выставления оценок](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/grading.md)
-- [Кодекс чести](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/honorcode.md)
-- [Style Guide](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/styleguide.md)
+- [Правила выставления оценок](/docs/grading.md)
+- [Кодекс чести](/docs/honorcode.md)
+- [Style Guide](/docs/styleguide.md)
 
-По ходу семестра будет заполняться [FAQ](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/faq.md)
+По ходу семестра будет заполняться [FAQ](/docs/faq.md)
 
 ## Telegram
 
-Подпишитесь на [чаты и канал курса](https://gitlab.com/Lipovsky/tpcc-course-2020/blob/master/docs/telegram.md).
+Подпишитесь на [чаты и канал курса](/docs/telegram.md).
