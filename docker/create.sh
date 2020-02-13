@@ -18,4 +18,3 @@ docker-compose -f docker-compose.yml up -d --build --force-recreate
 docker exec -it tpcc-image groupadd -g $(id -g) grp
 docker exec -it tpcc-image useradd -u $(id -u) -g $(id -g) -m $USER
 docker exec -it tpcc-image chown -R $USER /tpcc
-
