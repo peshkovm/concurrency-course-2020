@@ -32,6 +32,6 @@
 Проверять, что прыжки выполняются внутри одного вызова функции, не требуются. Если пользователь проигнорирует это ограничение, то получит неопределенное поведение.
 
 ## Полезные ссылки:
-- [Introduction to X86-64 Assembly for Compiler Writers](https://www3.nd.edu/~dthain/courses/cse40243/fall2015/intel-intro.html)
+- [Introduction to X86-64 Assembly for Compiler Writers](https://web.archive.org/web/20160714182232/https://www3.nd.edu/~dthain/courses/cse40243/fall2015/intel-intro.html)
 - [Journey to the Stack](https://manybutfinite.com/post/journey-to-the-stack/)
 - [Stack frame layout on x86-64](https://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64/)
