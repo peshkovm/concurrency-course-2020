@@ -56,6 +56,8 @@ bash create.sh
 
 ## Интеграция с CLion
 
+Эта часть – опциональная, для тех, кто хочет разрабатываться в IDE [CLion](https://www.jetbrains.com/ru-ru/clion/).
+
 [Stay local, let your IDE do remote work for you!](https://blog.jetbrains.com/clion/2018/09/initial-remote-dev-support-clion/)
 
 ### Настройка Remote Host
