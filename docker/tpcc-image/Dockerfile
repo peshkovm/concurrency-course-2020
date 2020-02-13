@@ -11,8 +11,9 @@ ENV LC_ALL C.UTF-8
 RUN echo "StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
 EXPOSE 22
 
+# User for CLion
 RUN groupadd -g 712342 clion_user_group
-RUN useradd -u 712342 -g 712342 -m user && yes password | passwd user
+RUN useradd -u 712342 -g 712342 -m clion_user && yes password | passwd clion_user
 
 RUN mkdir /var/run/sshd
 

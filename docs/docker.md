@@ -69,7 +69,7 @@ bash create.sh
   ![Setup remote host](images/remote-host-setup.png)
   
   ```
-  username: user
+  username: clion_user
   password: password
   ```
   
