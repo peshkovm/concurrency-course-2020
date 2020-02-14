@@ -22,7 +22,7 @@ sudo usermod -aG docker $USER
 
 OS X:
 
-Скачайте, установите и запустите [Docker Desktop](https://download.docker.com/mac/stable/Docker.dmg)
+Скачайте, установите и запустите [Docker Desktop](https://download.docker.com/mac/stable/Docker.dmg).
 
 ## Создание контейнера
 Перейдите в папку `tpcc-course-2020/docker` и выполните следующую команду:
@@ -55,6 +55,10 @@ bash create.sh
 Логинтесь за текущего пользователя используя секцию "Логин в контейнер".
 
 ## Интеграция с CLion
+
+Эта часть – опциональная, для тех, кто хочет разрабатываться в IDE [CLion](https://www.jetbrains.com/ru-ru/clion/).
+
+[Stay local, let your IDE do remote work for you!](https://blog.jetbrains.com/clion/2018/09/initial-remote-dev-support-clion/)
 
 ### Настройка Remote Host
 
