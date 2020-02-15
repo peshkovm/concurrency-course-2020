@@ -9,7 +9,7 @@
 
 - Ставим зависимости:
 	```shell
-	sudo apt-get install libboost-all-dev wget autoconf
+	apt-get install libboost-all-dev wget autoconf
   ```
   
 - Скачиваем архив с библиотекой:
@@ -26,6 +26,6 @@
 	autoreconf -i
 	./configure --without-boost
 	make
-	sudo make install
+	make install
 	```
 
