@@ -1,0 +1,5 @@
+{
+  "test_profiles": ["Debug"],
+  "lint_files": ["spinlock.hpp"],
+  "submit_files": ["atomics.S", "spinlock.hpp"]
+}
