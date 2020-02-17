@@ -14,16 +14,23 @@ class BlockingTcpClient {
   }
 
   void Send(const std::string& data) {
-    asio::write(socket_, asio::buffer(data.data(), data.size()));
+    Send(data.data(), data.size());
+  }
+
+  void Send(const char* buf, size_t bytes) {
+    asio::write(socket_, asio::buffer(buf, bytes));
   }
 
   std::string Recv(size_t bytes) {
     std::string reply;
     reply.resize(bytes);
-    size_t bytes_read =
-        asio::read(socket_, asio::buffer(reply.data(), reply.size()));
+    size_t bytes_read = Recv(reply.data(), reply.size());
     reply.resize(bytes_read);
     return reply;
+  }
+
+  size_t Recv(char* buf, size_t limit) {
+    return asio::read(socket_, asio::buffer(buf, limit));
   }
 
  private:
