@@ -1,4 +1,4 @@
-### Как ставить asio 1.12.2
+# Как ставить asio 1.12.2
 
 Ниже описана установка из исходников. Команды написаны для Ubuntu 18.04.
 
@@ -29,3 +29,8 @@
 	make install
 	```
 
+## CLion
+
+Чтобы asio был виден в CLion при работе в Remote Mode, нужно позвать `Tools` > `Resync with Remote Hosts`.
+
+[Full Remote Mode | Resync header search paths](https://www.jetbrains.com/help/clion/remote-projects-support.html#resync)
