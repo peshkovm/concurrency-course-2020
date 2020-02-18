@@ -21,7 +21,7 @@
 	cd ./asio-1.12.2/
 	```
 	
-- Собираем библиотеку:
+- Собираем и устанавливаем библиотеку:
 	```shell
 	autoreconf -i
 	./configure --without-boost
