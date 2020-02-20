@@ -1,6 +1,6 @@
 - group:    Intro
-  start:    08-02-2019 09:00
-  deadline: 03-03-2019 09:00
+  start:    08-02-2020 09:00
+  deadline: 03-03-2020 09:00
   tasks:
     - task: 0-intro/deadlock
       score: 0
@@ -14,8 +14,8 @@
       score: 0
 
 - group:    Mutual Exclusion
-  start:    15-02-2019 09:00
-  deadline: 03-03-2019 09:00
+  start:    15-02-2020 09:00
+  deadline: 03-03-2020 09:00
   tasks:
     - task: 1-mutex/spinlock
       score: 200
