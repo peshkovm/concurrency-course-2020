@@ -1,0 +1,14 @@
+- group:    Intro
+  start:    08-02-2019 09:00
+  deadline: 01-03-2019 09:00
+  tasks:
+    - task: 0-intro/deadlock
+      score: 0
+    - task: 0-intro/dining
+      score: 0
+    - task: 0-intro/echo
+      score: 0
+    - task: 0-intro/guarded
+      score: 0
+    - task: 0-intro/jump
+      score: 0
