@@ -62,12 +62,12 @@ tpcc attach {solutions-repo-url}
 
 Команда будет выглядеть примерно так:
 ```shell
-tpcc attach https://gitlab.com/tpcc-course/test-roman-lipovsky-u-lipovsky
+tpcc attach https://gitlab.com/tpcc-course/777-roman-lipovsky-u-lipovsky
 ```
 
 Можно аттачить иначе: 
 ```shell
-tpcc attach git@gitlab.com:tpcc-course/test-roman-lipovsky-u-lipovsky
+tpcc attach git@gitlab.com:tpcc-course/777-roman-lipovsky-u-lipovsky
 ```
 Тогда вам не придется вводить логин и пароль для каждого пуша.
 
