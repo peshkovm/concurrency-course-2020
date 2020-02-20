@@ -15,7 +15,8 @@ TEST_SUITE(Deadlock) {
     Mutex mutex;
 
     auto fiber = [&]() {
-      // Your code goes here
+      mutex.Lock();
+      mutex.Lock();
       // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
     };
 
@@ -25,15 +26,24 @@ TEST_SUITE(Deadlock) {
 
   // Deadlock with two fibers
   SIMPLE_TEST(TwoFibers) {
-    // Declare some Mutex-es
+    Mutex a, b;
 
     auto finn = [&]() {
-      // Your code goes here
+      a.Lock();
+      Yield();
+      b.Lock();
+      b.Unlock();
+      a.Unlock();
+      Yield();
       // Use Yield() to reschedule current fiber
     };
 
     auto jake = [&]() {
-      // Your code goes here
+      b.Lock();
+      Yield();
+      a.Lock();
+      a.Unlock();
+      b.Unlock();
     };
 
     // Don't change this routine
