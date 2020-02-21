@@ -7,6 +7,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 - Прочтите [Getting Started](/docs/getting-started.md) прежде чем клонировать этот репозиторий.
 
 - [Как сдавать задачи](docs/ci.md)
+- [Приложение](http://tpcc.btty.su:5111/)
 
 ## Навигация
 
