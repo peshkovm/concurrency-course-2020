@@ -1,5 +1,6 @@
 {
   "test_profiles": ["Debug"],
   "lint_files": ["spinlock.hpp"],
-  "submit_files": ["atomics.S", "spinlock.hpp"]
+  "submit_files": ["atomics.S", "spinlock.hpp"],
+  "forbidden_patterns": ["Your asm code goes here", "Solution starts here"]
 }
