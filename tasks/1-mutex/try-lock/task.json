@@ -1,5 +1,7 @@
 {
   "test_profiles": ["Debug", "FaultyAsan", "FaultyTsan", "FaultyFiber"],
   "lint_files": ["ticket_lock.hpp"],
-  "submit_files": ["ticket_lock.hpp"]
+  "submit_files": ["ticket_lock.hpp"],
+  "forbidden_patterns": ["To be implemented"]
+
 }
