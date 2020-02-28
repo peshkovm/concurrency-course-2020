@@ -30,3 +30,6 @@
   tasks:
     - task: 1-mutex/toyalloc
       score: 400
+    - task: 1-mutex/mutex
+      score: 300
+

@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["FaultyFiber", "Debug", "FaultyAsan", "FaultyTsan"],
+  "submit_files": ["mutex.hpp"],
+  "lint_files": ["mutex.hpp"],
+  "forbidden_patterns": ["std::mutex"]
+}
