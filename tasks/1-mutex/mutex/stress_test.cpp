@@ -67,7 +67,7 @@ void StressTest(TTestParameters parameters) {
 // Parameters: threads, iterations
 
 T_TEST_CASES(StressTest)
-  .TimeLimit(std::chrono::seconds(30))
+  .TimeLimit(std::chrono::minutes(1))
   .Case({2, 100000})
   .Case({10, 100000});
 
