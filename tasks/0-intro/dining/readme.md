@@ -18,7 +18,7 @@
 
 ---
 
-В нашей задаче философы – это потоки, вилки – мьютексы, а сама задача посвящена понятию [starvation](https://en.wikipedia.org/wiki/Starvation_(computer_science%29 ).
+В нашей задаче философы – это потоки, вилки – мьютексы.
 
 Для решения реализуйте методы `AcquireForks` и `ReleaseForks` в файле `philosopher.cpp`.
 
