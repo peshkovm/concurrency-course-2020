@@ -5,4 +5,12 @@ if [[ $EUID == 0 ]]; then
    exit 1
 fi
 
-docker exec -it --user $(id -u):$(id -g) tpcc-image /bin/bash
+if [[ -z $tpcc_docker_start_directory ]]; then
+    tpcc_docker_start_directory=/tpcc/tpcc-course-2020/tasks/
+fi
+
+docker exec -it --user $(id -u):$(id -g) tpcc-image /bin/bash -c \
+"if [[ -d $tpcc_docker_start_directory ]]; then
+    cd $tpcc_docker_start_directory
+fi
+/bin/bash"
