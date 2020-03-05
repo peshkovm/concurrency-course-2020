@@ -4,6 +4,3 @@
 [submodule "library/twist"]
 	path = library/twist
 	url = https://gitlab.com/Lipovsky/twist.git
-[submodule "library/tinyfiber"]
-	path = library/tinyfiber
-	url = https://gitlab.com/Lipovsky/tinyfiber
