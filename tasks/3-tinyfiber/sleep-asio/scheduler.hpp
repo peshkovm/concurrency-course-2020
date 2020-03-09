@@ -5,6 +5,8 @@
 
 #include <tinysupport/time.hpp>
 
+#include <asio.hpp>
+
 namespace tinyfiber {
 
 using FiberQueue = IntrusiveList<Fiber>;

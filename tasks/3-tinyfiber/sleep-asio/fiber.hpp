@@ -7,6 +7,8 @@
 
 #include <tinysupport/intrusive_list.hpp>
 
+#include <asio.hpp>
+
 namespace tinyfiber {
 
 //////////////////////////////////////////////////////////////////////
