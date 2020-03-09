@@ -1,6 +1,6 @@
 # Корутины
 
-[_Корутина_](https://www.boost.org/doc/libs/1_60_0/libs/coroutine/doc/html/coroutine/intro.html) (_coroutine_, _сопрограмма_) – это функция, из вызова которой можно выйти в середине, а затем вернуться в него и продолжить исполнение.
+[_Корутина_](https://www.boost.org/doc/libs/1_60_0/libs/coroutine/doc/html/coroutine/intro.html) (или _сопрограмма_, _coroutine_) – это функция, из вызова которой можно выйти в середине, а затем вернуться в него и продолжить исполнение.
 
 Чуть аккуратнее, корутина – это объект, который представляет собой вычисление, которое может останавливаться (по собственной воле) и возобновляться (по воле вызывающего кода).
 
@@ -10,7 +10,7 @@ coroutine::Coroutine co(routine);
 ```
 Здесь `routine` – произвольная пользовательская функция.
 
-Созданная корутина запускается вызовом `co.Resume()`. После этого управление передается функции `routine`, и она исполняется до первого вызова `Suspend()` (или до завершения функции).
+Созданная корутина запускается вызовом `co.Resume()`. После этого управление передается функции `routine`, и она исполняется до первого вызова `Suspend()` (или до своего завершения).
 
 Вызов `Suspend()` в корутине останавливает ее исполнение, передает управление обратно caller-у и завершает его вызов `co.Resume()`. Вызов `Suspend()` – это точка выхода из корутины, _suspension point_.
 
@@ -22,9 +22,9 @@ coroutine::Coroutine co(routine);
 
 ## Терминология
 
-Есть мнение, что говорить _корутина_ – неграмотно, что следует говорить _сопрограмма_, по аналогии с _подпрограммой_ ([subroutine](https://en.wikipedia.org/wiki/Subroutine)).
+Есть мнение, что говорить _корутина_ – неграмотно и вульгарно, вместо этого следует употреблять термин _сопрограмма_, по аналогии с _подпрограммой_ ([subroutine](https://en.wikipedia.org/wiki/Subroutine)).
 
-Выберите тот вариант, который вам кажется правильным.
+Выберите вариант по душе.
 
 ## Виды корутин
 
@@ -60,11 +60,22 @@ coroutine::Coroutine co(routine);
 
 В этой задаче вы должны выразить файберы через корутины.
 
-Именно такой дизайн был выбран для реализации файберов в Java: на уровне _компилятора_ реализуются корутины, а уже поверх них на уровне _библиотеки_ реализуются файберы.
+Корутины – базовый механизм, с помощью которого асинхронность реализуется в современных языках программирования:
+
+### C++
+
+- [Гор Нишанов, C++ Coroutines – a negative overhead abstraction](https://www.youtube.com/watch?v=Ts-1mWBmTNE)
+- https://github.com/lewissbaker/cppcoro
+
+### Java
+
+На уровне _компилятора_ реализуются корутины, а уже поверх них на уровне _библиотеки_ реализуются файберы.
 - [Project Loom with Ron Pressler and Alan Bateman](https://www.youtube.com/watch?v=J31o0ZMQEnI)
 - [Project Loom: Fibers and Continuations for the Java Virtual Machine](http://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
 
-Подумайте, в чем причины / преимущества / недостатки такого дизайна.
+### Kotlin
+- [Kotlin Coroutines Proposal](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
+- [KotlinConf 2017 - Introduction to Coroutines by Roman Elizarov](https://www.youtube.com/watch?v=_hfBv0a09Jc)
 
 ## Генераторы и итераторы
 
@@ -74,13 +85,13 @@ coroutine::Coroutine co(routine);
 
 ## Задание
 
-Вам дан класс `ExecutionContext`.
+Вам дан `ExecutionContext`.
 
 1) Реализуйте с его помощью корутины.
 
 2) Через построенные корутины выразите файберы.
 
-Вы можете свободно писать код в `coroutine.hpp`, `coroutine.cpp` и `fiber.cpp`.
+Вы можете писать код в `coroutine.hpp`, `coroutine.cpp` и `fiber.cpp`.
 
 Изменять `fiber.hpp` нельзя, он не сабмитится.
 
