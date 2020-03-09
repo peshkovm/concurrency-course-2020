@@ -7,7 +7,6 @@
 
 namespace tinyfiber {
 
-// TODO(Lipovsky): closure instead of void(void) function
 typedef void (*Trampoline)();
 
 struct ExecutionContext {
