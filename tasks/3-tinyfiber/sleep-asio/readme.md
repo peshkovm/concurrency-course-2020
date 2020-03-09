@@ -4,6 +4,8 @@
 
 Но в этом варианте задачи вам запрещается использовать функции [std::this_thread::sleep_for](https://en.cppreference.com/w/cpp/thread/sleep_for) и [sleep](http://man7.org/linux/man-pages/man3/sleep.3.html), т.е. явно ставить поток на паузу, а так же писать свои собственные очереди спящих потоков. Вместо этого вы должны использовать таймеры из библиотеки [Asio](https://github.com/chriskohlhoff/asio).
 
+## Пререквизиты
+
 Перед тем, как приступать к этой задаче, рекомендуем:
 
 1) Решить задачу [Echo](/tasks/0-intro/echo) и познакомиться с библиотекой _Asio_.
