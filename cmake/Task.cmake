@@ -2,6 +2,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 
 # --------------------------------------------------------------------
 
+set(LIBS_LIST "twist")
+
+# --------------------------------------------------------------------
+
 # Helpers
 
 macro(get_task_target VAR NAME)
@@ -12,8 +16,8 @@ function(add_task_executable BINARY_NAME)
     prepend(BINARY_SOURCES "${TASK_DIR}/" ${ARGN})
 
     add_executable(${BINARY_NAME} ${BINARY_SOURCES} ${TASK_SOURCES})
-    target_link_libraries(${BINARY_NAME} pthread twist)
-    add_dependencies(${BINARY_NAME} twist)
+    target_link_libraries(${BINARY_NAME} pthread ${LIBS_LIST})
+    add_dependencies(${BINARY_NAME} ${LIBS_LIST})
 endfunction()
 
 # --------------------------------------------------------------------
@@ -33,6 +37,14 @@ macro(begin_task)
     include_directories(${TASK_DIR})
 
     set(TEST_LIST "")
+endmacro()
+
+# --------------------------------------------------------------------
+
+# Dependencies
+
+macro(task_link_libraries)
+    list(APPEND LIBS_LIST ${ARGV})
 endmacro()
 
 # --------------------------------------------------------------------

@@ -7,3 +7,6 @@
 [submodule "library/tinyfiber"]
 	path = library/tinyfiber
 	url = https://gitlab.com/Lipovsky/tinyfiber
+[submodule "library/tiny-support"]
+	path = library/tiny-support
+	url = https://gitlab.com/Lipovsky/tiny-support
