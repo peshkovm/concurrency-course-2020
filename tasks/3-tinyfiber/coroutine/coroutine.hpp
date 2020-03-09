@@ -1,6 +1,7 @@
 #pragma once
 
 #include "context.hpp"
+#include "stack.hpp"
 
 #include <exception>
 #include <functional>
