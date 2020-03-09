@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug"],
+  "test_targets": ["test"],
+  "lint_files": ["fiber.hpp", "scheduler.hpp", "scheduler.cpp"],
+  "submit_files": ["fiber.hpp", "scheduler.hpp", "scheduler.cpp"]
+}
