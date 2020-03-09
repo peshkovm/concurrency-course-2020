@@ -4,7 +4,7 @@
 
 ```cpp
 void Scheduler::SleepFor(Duration delay) {
-  twist::Timer timer;
+  Timer timer;
   do {
     Yield();
   } while (timer.Elapsed() < delay);
