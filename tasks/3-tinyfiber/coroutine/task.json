@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug"],
+  "test_targets": ["test"],
+  "lint_files": ["coroutine.hpp", "coroutine.cpp", "fiber.cpp"],
+  "submit_files": ["coroutine.hpp", "coroutine.cpp", "fiber.cpp"]
+}

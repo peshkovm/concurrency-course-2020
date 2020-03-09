@@ -33,3 +33,13 @@
     - task: 1-mutex/mutex
       score: 300
 
+- group:    Tiny Fibers
+  start:    09-03-2020 00:00
+  deadline: 24-03-2020 09:00
+  tasks:
+    - task: 3-tinyfiber/coroutine
+      score: 500
+    - task: 3-tinyfiber/sleep
+      score: 400
+    - task: 3-tinyfiber/sleep-asio
+      score: 400
