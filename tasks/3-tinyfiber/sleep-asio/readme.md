@@ -2,7 +2,9 @@
 
 Эта задача полностью повторяет соседниюю задачу [SleepFor](/tasks/3-tinyfiber/sleep) – вы так же должны научить файберы спать.
 
-Но в этом варианте задачи вам запрещается использовать функции [std::this_thread::sleep_for](https://en.cppreference.com/w/cpp/thread/sleep_for) и [sleep](http://man7.org/linux/man-pages/man3/sleep.3.html), т.е. явно ставить поток на паузу, а так же писать свои собственные очереди спящих потоков. Вместо этого вы должны использовать таймеры из библиотеки [Asio](https://github.com/chriskohlhoff/asio).
+Но в этом варианте задачи вам запрещается использовать функции [std::this_thread::sleep_for](https://en.cppreference.com/w/cpp/thread/sleep_for) и [sleep](http://man7.org/linux/man-pages/man3/sleep.3.html), т.е. явно ставить поток на паузу, а так же писать свои собственные очереди спящих потоков.
+
+Вместо этого вы должны использовать таймеры и event loop (`io_context`) из библиотеки [Asio](https://github.com/chriskohlhoff/asio).
 
 ## Пререквизиты
 
@@ -15,8 +17,15 @@
 
 ## Asio
 
-- [Using a timer asynchronously](http://think-async.com/Asio/asio-1.12.2/doc/asio/tutorial/tuttimer2.html) – tutorial по таймерам в _Asio_
-- [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html) – документация по `io_context`, изучите вариации методов `run` и `poll`.
+Прочтите tutorial по таймерам:  [Using a timer asynchronously](http://think-async.com/Asio/asio-1.12.2/doc/asio/tutorial/tuttimer2.html).
+
+Используйте специализацию `WaitableTimer`, определенную в [timer.hpp](/tasks/3-tinyfiber/sleep-asio/timer.hpp).
+
+Изучите варианты методов `run` и `poll` из документации по [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html).
+
+## Фйлы решения
+
+Вы можете менять содержимое файлов `fiber.{hpp,cpp}` и `scheduler.{hpp,cpp}`.
 
 ## Мораль
 
