@@ -27,3 +27,4 @@ void Scheduler::SleepFor(Duration delay) {
 
 В этой задаче вы можете изменять содержимое файлов `scheduler.{hpp,cpp}` и `fiber.{hpp,cpp}`.
 
+Использовать библиотеку Asio нельзя.
