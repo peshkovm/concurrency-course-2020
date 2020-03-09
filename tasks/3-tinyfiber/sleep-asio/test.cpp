@@ -170,40 +170,6 @@ TEST_SUITE(Scheduler) {
       tinyfiber::Spawn(sleeper);
     });
   }
-
-  SIMPLE_TEST(SleepSort) {
-    static const size_t kNumbers = 100;
-    std::vector<int> ints;
-    for (size_t i = 0; i < kNumbers; ++i) {
-      ints.push_back(i);
-    }
-    auto sorted_ints = ints;
-
-    std::vector<int> sleep_sorted_ints;
-
-    twist::RandomShuffleInplace(ints);
-
-    auto worker = [&](int value) {
-      tinyfiber::SleepFor(std::chrono::milliseconds(value));
-      sleep_sorted_ints.push_back(value);
-    };
-
-    auto launcher = [&]() {
-      for (size_t i = 0; i < ints.size(); ++i) {
-        tinyfiber::Spawn(std::bind(worker, ints[i]));
-      }
-    };
-
-    tinyfiber::RunScheduler(launcher);
-
-    std::cout << "SleepSort-ed: ";
-    for (size_t i = 0; i < sleep_sorted_ints.size(); ++i) {
-      std::cout << sleep_sorted_ints[i] << ", ";
-    }
-    std::cout << std::endl;
-
-    //ASSERT_EQ(sleep_sorted_ints, sorted_ints);
-  }
 }
 
 RUN_ALL_TESTS()
