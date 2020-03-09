@@ -13,12 +13,7 @@ namespace tinyfiber {
 
 //////////////////////////////////////////////////////////////////////
 
-enum class FiberState {
-  Starting,
-  Runnable,
-  Running,
-  Terminated
-};
+enum class FiberState { Starting, Runnable, Running, Terminated };
 
 class Fiber : public IntrusiveListNode<Fiber> {
  public:
