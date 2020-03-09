@@ -15,8 +15,11 @@
 
 ## Asio
 
-- [Using a timer asynchronously](http://think-async.com/Asio/asio-1.12.2/doc/asio/tutorial/tuttimer2.html) – tutorial по таймерам в _Asio_
-- [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html) – документация по `io_context`, изучите вариации методов `run` и `poll`.
+Прочтите tutorial по таймерам:  [Using a timer asynchronously](http://think-async.com/Asio/asio-1.12.2/doc/asio/tutorial/tuttimer2.html).
+
+Используйте специализацию `WaitableTimer`, определенную в [timer.hpp](/tasks/3-tinyfiber/sleep-asio/timer.hpp).
+
+Изучите варианты методов `run` и `poll` из документации по [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html).
 
 ## Мораль
 
