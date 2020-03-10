@@ -12,6 +12,8 @@ set_task_sources(
   stack.cpp
   coroutine.hpp
   coroutine.cpp
+        scheduler.hpp
+        scheduler.cpp
   fiber.hpp
   fiber.cpp)
 add_task_test(test test.cpp)

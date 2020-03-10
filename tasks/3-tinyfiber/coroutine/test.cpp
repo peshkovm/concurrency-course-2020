@@ -268,6 +268,39 @@ TEST_SUITE(Fiber) {
 
     ASSERT_EQ(baton.CurrentOwner(), 0);
   }
+
+  SIMPLE_TEST(RacyCounter) {
+    static const size_t kIncrements = 1'000'000;
+    static const size_t kThreads = 4;
+    static const size_t kFibers = 50;
+
+    size_t count = 0;
+
+    auto routine = [&]() {
+      for (size_t i = 0; i < kIncrements; ++i) {
+        ++count;
+        if (i % 10 == 0) {
+          tinyfiber::Yield();
+        }
+      }
+    };
+
+    auto init = [&]() {
+      for (size_t i = 0; i < kFibers; ++i) {
+        tinyfiber::Spawn(routine);
+      }
+    };
+
+    tinyfiber::RunScheduler(init, kThreads);
+
+    std::cout << "Thread count: " << kThreads << std::endl
+              << "Fibers: " << kFibers << std::endl
+              << "Increments per fiber: " << kIncrements << std::endl
+              << "Racy counter value: " << count << std::endl;
+
+    ASSERT_GE(count, kIncrements);
+    ASSERT_LT(count, kIncrements * kFibers);
+  }
 }
 
 RUN_ALL_TESTS()

@@ -1,8 +1,9 @@
 #include "fiber.hpp"
+#include "scheduler.hpp"
 
 namespace tinyfiber {
 
-void RunScheduler(FiberRoutine init) {
+void RunScheduler(FiberRoutine init, size_t threads) {
   // Not implemented
 }
 

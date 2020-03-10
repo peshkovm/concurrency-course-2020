@@ -6,7 +6,7 @@ namespace tinyfiber {
 
 using FiberRoutine = coroutine::Routine;
 
-void RunScheduler(FiberRoutine init);
+void RunScheduler(FiberRoutine init, size_t threads = 1);
 
 void Spawn(FiberRoutine routine);
 void Yield();
