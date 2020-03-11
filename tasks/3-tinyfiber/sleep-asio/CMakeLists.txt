@@ -15,6 +15,7 @@ set_task_sources(
   fiber.hpp
   fiber.cpp
   scheduler.hpp
-  scheduler.cpp)
+  scheduler.cpp
+  timer.hpp)
 add_task_test(test test.cpp)
 end_task()
