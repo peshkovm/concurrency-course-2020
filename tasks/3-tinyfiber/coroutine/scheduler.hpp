@@ -17,7 +17,7 @@ class ThreadPool {
   // Submit new task for execution
   void Submit(Task task);
 
-  // Access current executor from task
+  // Locate current thread pool from task
   static ThreadPool* Current();
 
   // No more tasks
@@ -31,7 +31,7 @@ class ThreadPool {
   asio::io_context io_context_;
   // Some magic for graceful shutdown
   asio::executor_work_guard<asio::io_context::executor_type> work_guard_;
-  // Running threads
+  // Worker threads
   std::vector<std::thread> workers_;
 };
 
