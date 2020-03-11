@@ -23,7 +23,7 @@
 
 Изучите варианты методов `run` и `poll` из документации по [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html).
 
-Если в `io_context` заканчиваются события, то он _останавливается_ (см. метод `stopped`): все последующие вызовы `run` и `poll` будут моментально возвращать управление, не вызывая никаких хэндлеров. Не споткнитесь об это в своей реализации.
+Если в `io_context` заканчиваются события, то он _останавливается_ (см. метод `stopped`): все последующие вызовы `run` и `poll` будут моментально возвращать управление, не вызывая никаких хэндлеров. Не споткнитесь об эту особенность в своей реализации. Можно воспользоваться рецептом из [Stopping the io_context from running out of work](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html#asio.reference.io_context.stopping_the_io_context_from_running_out_of_work).
 
 ## Файлы решения
 
