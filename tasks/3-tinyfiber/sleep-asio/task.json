@@ -6,6 +6,6 @@
   "forbidden_patterns": [
     "sleep_for", "usleep", "sleep(",
     ".restart()",
-    "ineffective implementation"
+    "ineffective implementation", "homework"
   ]
 }
