@@ -4,39 +4,39 @@
 
 namespace tinyfiber {
 
-Scheduler::Scheduler(size_t thread_count)
+ThreadPool::ThreadPool(size_t thread_count)
   : work_guard_(asio::make_work_guard(io_context_)) {
   StartWorkerThreads(thread_count);
 }
 
-Scheduler::~Scheduler() {
+ThreadPool::~ThreadPool() {
   for (auto& worker : workers_) {
     worker.join();
   }
 }
 
-void Scheduler::Submit(Task task) {
+void ThreadPool::Submit(Task task) {
   io_context_.post(task);
 }
 
-void Scheduler::Shutdown() {
+void ThreadPool::Shutdown() {
   work_guard_.reset();
 }
 
-static thread_local Scheduler* current{nullptr};
+static thread_local ThreadPool* current{nullptr};
 
-Scheduler* Scheduler::Current() {
+ThreadPool* ThreadPool::Current() {
   return current;
 }
 
-void Scheduler::Work() {
+void ThreadPool::Work() {
   current = this;
   io_context_.run(); // invoke posted handlers
 }
 
-void Scheduler::StartWorkerThreads(size_t thread_count) {
+void ThreadPool::StartWorkerThreads(size_t thread_count) {
   for (size_t i = 0; i < thread_count; ++i) {
-    workers_.emplace_back(std::bind(&Scheduler::Work, this));
+    workers_.emplace_back(std::bind(&ThreadPool::Work, this));
   }
 }
 

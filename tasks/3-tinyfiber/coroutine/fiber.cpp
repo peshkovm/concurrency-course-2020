@@ -5,7 +5,7 @@
 namespace tinyfiber {
 
 void RunScheduler(FiberRoutine init, size_t threads) {
-  Scheduler scheduler(threads);
+  ThreadPool scheduler(threads);
   // Your code goes here
 }
 

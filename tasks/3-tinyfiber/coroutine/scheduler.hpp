@@ -7,19 +7,18 @@
 
 namespace tinyfiber {
 
-// Simple thread pool
-class Scheduler {
+class ThreadPool {
  public:
   using Task = std::function<void()>;
 
-  Scheduler(size_t thread_count);
-  ~Scheduler();
+  ThreadPool(size_t thread_count);
+  ~ThreadPool();
 
   // Submit new task for execution
   void Submit(Task task);
 
   // Access current executor from task
-  static Scheduler* Current();
+  static ThreadPool* Current();
 
   // No more tasks
   void Shutdown();

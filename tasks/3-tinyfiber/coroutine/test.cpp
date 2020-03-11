@@ -5,40 +5,41 @@
 #include <twist/test_framework/test_framework.hpp>
 
 #include <memory>
+#include <chrono>
 
 using namespace std::chrono_literals;
 
-TEST_SUITE(Scheduler) {
+TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(HelloWorld) {
-    tinyfiber::Scheduler scheduler{1};
-    scheduler.Submit([]() {
+    tinyfiber::ThreadPool tp{1};
+    tp.Submit([]() {
       std::this_thread::sleep_for(1s);
       std::cout << "Hello, World!" << std::endl;
     });
-    scheduler.Shutdown();
+    tp.Shutdown();
   }
 
   SIMPLE_TEST(WeNeedToGoDeeper) {
-    tinyfiber::Scheduler scheduler{1};
+    tinyfiber::ThreadPool tp{1};
     auto deeper = []() {
-      tinyfiber::Scheduler::Current()->Submit(
+      tinyfiber::ThreadPool::Current()->Submit(
           []() {
             std::cout << "We need to go deeper..." << std::endl;
           });
     };
-    scheduler.Submit(deeper);
-    scheduler.Shutdown();
+    tp.Submit(deeper);
+    tp.Shutdown();
   }
 
   SIMPLE_TEST(SubmitAfterShutdown) {
-    tinyfiber::Scheduler scheduler{3};
+    tinyfiber::ThreadPool tp{3};
     auto sleep = []() {
       std::this_thread::sleep_for(3s);
     };
-    scheduler.Submit(sleep);
-    scheduler.Shutdown();
+    tp.Submit(sleep);
+    tp.Shutdown();
     std::this_thread::sleep_for(1s);
-    scheduler.Submit([]() {
+    tp.Submit([]() {
       std::this_thread::sleep_for(1s);
       std::cout << "After shutdown" << std::endl;
     });
