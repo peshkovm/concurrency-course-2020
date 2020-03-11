@@ -44,6 +44,18 @@ TEST_SUITE(ThreadPool) {
       std::cout << "After shutdown" << std::endl;
     });
   }
+
+  SIMPLE_TEST(Current) {
+    tinyfiber::ThreadPool tp{4};
+    ASSERT_EQ(tinyfiber::ThreadPool::Current(), nullptr);
+
+    auto task = [&tp]() {
+      ASSERT_EQ(tinyfiber::ThreadPool::Current(), &tp);
+    };
+
+    tp.Submit(task);
+    tp.Shutdown();
+  }
 }
 
 struct TreeNode;
@@ -310,16 +322,30 @@ TEST_SUITE(Fiber) {
     ASSERT_EQ(baton.CurrentOwner(), 0);
   }
 
+  struct RacyCounter {
+   public:
+    void Increment() {
+      value_.store(
+          value_.load(std::memory_order_relaxed) + 1,
+          std::memory_order_relaxed);
+    }
+    size_t Get() const {
+      return value_.load(std::memory_order_relaxed);
+    }
+   private:
+    std::atomic<size_t> value_{0};
+  };
+
   SIMPLE_TEST(RacyCounter) {
     static const size_t kIncrements = 100'000;
     static const size_t kThreads = 4;
     static const size_t kFibers = 100;
 
-    size_t count = 0;
+    RacyCounter counter;
 
     auto routine = [&]() {
       for (size_t i = 0; i < kIncrements; ++i) {
-        ++count;
+        counter.Increment();
         if (i % 10 == 0) {
           tinyfiber::Yield();
         }
@@ -337,10 +363,10 @@ TEST_SUITE(Fiber) {
     std::cout << "Thread count: " << kThreads << std::endl
               << "Fibers: " << kFibers << std::endl
               << "Increments per fiber: " << kIncrements << std::endl
-              << "Racy counter value: " << count << std::endl;
+              << "Racy counter value: " << counter.Get() << std::endl;
 
-    ASSERT_GE(count, kIncrements);
-    ASSERT_LT(count, kIncrements * kFibers);
+    ASSERT_GE(counter.Get(), kIncrements);
+    ASSERT_LT(counter.Get(), kIncrements * kFibers);
   }
 }
 
