@@ -82,7 +82,7 @@ thread_pool.Submit(hello);
 ```cpp
 auto deeper = []() {
   // Находим текущий планировщик и кладем в него задачу
-  Scheduler::Current()->Submit(
+  ThreadPool::Current()->Submit(
     []() {
       std::cout << "We need to go depeer" << std::endl;
     }
