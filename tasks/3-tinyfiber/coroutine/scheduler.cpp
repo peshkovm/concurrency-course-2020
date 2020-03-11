@@ -1,15 +1,26 @@
 #include "scheduler.hpp"
 
+#include <functional>
+
 namespace tinyfiber {
 
-void Scheduler::Run(Task init) {
-  io_context_.reset();
-  io_context_.post(init);
-  RunWorkerThreads();
+Scheduler::Scheduler(size_t thread_count)
+  : work_guard_(asio::make_work_guard(io_context_)) {
+  StartWorkerThreads(thread_count);
+}
+
+Scheduler::~Scheduler() {
+  for (auto& worker : workers_) {
+    worker.join();
+  }
 }
 
 void Scheduler::Submit(Task task) {
   io_context_.post(task);
+}
+
+void Scheduler::Shutdown() {
+  work_guard_.reset();
 }
 
 static thread_local Scheduler* current{nullptr};
@@ -20,18 +31,12 @@ Scheduler* Scheduler::Current() {
 
 void Scheduler::Work() {
   current = this;
-  io_context_.run(); // invoke handlers
+  io_context_.run(); // invoke posted handlers
 }
 
-void Scheduler::RunWorkerThreads() {
-  std::vector<std::thread> workers;
-
-  for (size_t i = 0; i < thread_count_; ++i) {
-    workers.emplace_back(std::bind(&Scheduler::Work, this));
-  }
-
-  for (auto &worker : workers) {
-    worker.join();
+void Scheduler::StartWorkerThreads(size_t thread_count) {
+  for (size_t i = 0; i < thread_count; ++i) {
+    workers_.emplace_back(std::bind(&Scheduler::Work, this));
   }
 }
 

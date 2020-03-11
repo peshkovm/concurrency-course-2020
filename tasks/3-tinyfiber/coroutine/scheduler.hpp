@@ -1,23 +1,19 @@
 #pragma once
 
+#include <asio.hpp>
+
 #include <vector>
 #include <thread>
-#include <functional>
-
-#include <asio.hpp>
 
 namespace tinyfiber {
 
+// Simple thread pool
 class Scheduler {
  public:
   using Task = std::function<void()>;
 
-  Scheduler(size_t thread_count)
-      : thread_count_(thread_count) {
-  }
-
-  // Submit first task and run processing loop from multiple threads
-  void Run(Task init);
+  Scheduler(size_t thread_count);
+  ~Scheduler();
 
   // Submit new task for execution
   void Submit(Task task);
@@ -25,14 +21,19 @@ class Scheduler {
   // Access current executor from task
   static Scheduler* Current();
 
+  // No more tasks
+  void Shutdown();
 
  private:
-  void RunWorkerThreads();
+  void StartWorkerThreads(size_t thread_count);
   void Work();
 
  private:
-  size_t thread_count_;
   asio::io_context io_context_;
+  // Some magic for graceful shutdown
+  asio::executor_work_guard<asio::io_context::executor_type> work_guard_;
+  // Running threads
+  std::vector<std::thread> workers_;
 };
 
 }  // namespace tinyfiber

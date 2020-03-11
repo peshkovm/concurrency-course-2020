@@ -1,10 +1,13 @@
 #include "fiber.hpp"
+
+#include "coroutine.hpp"
 #include "scheduler.hpp"
 
 namespace tinyfiber {
 
 void RunScheduler(FiberRoutine init, size_t threads) {
-  // Not implemented
+  Scheduler scheduler(threads);
+  // Your code goes here
 }
 
 void Spawn(FiberRoutine routine) {
@@ -12,6 +15,7 @@ void Spawn(FiberRoutine routine) {
 }
 
 void Yield() {
+  // Not implemented
 }
 
 }  // namespace tinyfiber

@@ -1,9 +1,35 @@
+#include "scheduler.hpp"
 #include "coroutine.hpp"
 #include "fiber.hpp"
 
 #include <twist/test_framework/test_framework.hpp>
 
 #include <memory>
+
+using namespace std::chrono_literals;
+
+TEST_SUITE(Scheduler) {
+  SIMPLE_TEST(HelloWorld) {
+    tinyfiber::Scheduler scheduler{1};
+    scheduler.Submit([]() {
+      std::this_thread::sleep_for(1s);
+      std::cout << "Hello, World!" << std::endl;
+    });
+    scheduler.Shutdown();
+  }
+
+  SIMPLE_TEST(WeNeedToGoDeeper) {
+    tinyfiber::Scheduler scheduler{1};
+    auto deeper = []() {
+      tinyfiber::Scheduler::Current()->Submit(
+          []() {
+            std::cout << "We need to go deeper..." << std::endl;
+          });
+    };
+    scheduler.Submit(deeper);
+    scheduler.Shutdown();
+  }
+}
 
 struct TreeNode;
 
