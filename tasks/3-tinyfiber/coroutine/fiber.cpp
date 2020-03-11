@@ -1,6 +1,5 @@
 #include "fiber.hpp"
 
-#include "coroutine.hpp"
 #include "scheduler.hpp"
 
 namespace tinyfiber {
