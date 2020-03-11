@@ -29,6 +29,20 @@ TEST_SUITE(Scheduler) {
     scheduler.Submit(deeper);
     scheduler.Shutdown();
   }
+
+  SIMPLE_TEST(SubmitAfterShutdown) {
+    tinyfiber::Scheduler scheduler{3};
+    auto sleep = []() {
+      std::this_thread::sleep_for(3s);
+    };
+    scheduler.Submit(sleep);
+    scheduler.Shutdown();
+    std::this_thread::sleep_for(1s);
+    scheduler.Submit([]() {
+      std::this_thread::sleep_for(1s);
+      std::cout << "After shutdown" << std::endl;
+    });
+  }
 }
 
 struct TreeNode;
@@ -296,9 +310,9 @@ TEST_SUITE(Fiber) {
   }
 
   SIMPLE_TEST(RacyCounter) {
-    static const size_t kIncrements = 1'000'000;
+    static const size_t kIncrements = 100'000;
     static const size_t kThreads = 4;
-    static const size_t kFibers = 50;
+    static const size_t kFibers = 100;
 
     size_t count = 0;
 
