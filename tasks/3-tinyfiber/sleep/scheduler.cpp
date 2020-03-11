@@ -65,7 +65,6 @@ void Scheduler::Yield() {
 
 void Scheduler::SleepFor(Duration duration) {
   // Intentionally ineffective implementation
-  // Support for sleep in scheduler left as homework
 
   Timer timer;
   do {
