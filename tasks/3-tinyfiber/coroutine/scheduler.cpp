@@ -16,7 +16,7 @@ ThreadPool::~ThreadPool() {
 }
 
 void ThreadPool::Submit(Task task) {
-  io_context_.post(task);
+  asio::post(io_context_, task);
 }
 
 void ThreadPool::Shutdown() {
