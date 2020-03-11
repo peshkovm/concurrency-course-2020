@@ -126,8 +126,6 @@ thread_pool.Submit(deeper);
 
 Вы можете писать код в `coroutine.hpp`, `coroutine.cpp` и `fiber.cpp`.
 
-Изменять `fiber.hpp` нельзя, он не сабмитится.
-
 Включать заголовочные файлы из `twist/fiber` запрещается.
 
 При работе с исключениями в корутинах используйте [std::exception_ptr](https://en.cppreference.com/w/cpp/error/exception_ptr).
