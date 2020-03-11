@@ -64,14 +64,17 @@ coroutine::Coroutine co(routine);
 
 Пул потоков ничего не знает про корутины, он исполняет абстрактные _задачи_ – `std::function<void()>`.
 
+Пример использования:
 ```cpp
+// Создаем пул из 4-х потоков
 ThreadPool thread_pool{/*threads=*/4};
 
 auto hello = []() {
   std::cout << "Hello from pool!" << std::endl;
 };
 
-// Запланировать выполнение задачи
+// Задача будет запущена в одном из 4-х потоков пула
+// Вызов `Submit` вернет управление без ожидания
 thread_pool.Submit(hello); 
 ```
 
