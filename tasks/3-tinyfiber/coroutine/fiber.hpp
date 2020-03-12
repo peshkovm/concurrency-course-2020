@@ -1,10 +1,10 @@
 #pragma once
 
-#include "coroutine.hpp"
+#include <functional>
 
 namespace tinyfiber {
 
-using FiberRoutine = coroutine::Routine;
+using FiberRoutine = std::function<void()>;
 
 void RunScheduler(FiberRoutine init, size_t threads = 1);
 
