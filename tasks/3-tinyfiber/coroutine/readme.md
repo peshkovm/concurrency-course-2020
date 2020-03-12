@@ -62,6 +62,8 @@ coroutine::Coroutine co(routine);
 
 ## Пул потоков
 
+[Реализация ThreadPool](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/tasks/3-tinyfiber/coroutine/scheduler.hpp#L10)
+
 Пул потоков ничего не знает про корутины, он исполняет абстрактные _задачи_ – `std::function<void()>`.
 
 Пример использования:
@@ -110,6 +112,7 @@ thread_pool.Submit(deeper);
 На уровне _компилятора_ реализуются корутины, а уже поверх них на уровне _библиотеки_ реализуются файберы.
 - [Project Loom with Ron Pressler and Alan Bateman](https://www.youtube.com/watch?v=J31o0ZMQEnI)
 - [Project Loom: Fibers and Continuations for the Java Virtual Machine](http://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
+- [ForkJoinPool](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html) – планировщик
 
 ### Kotlin
 - [Kotlin Coroutines Proposal](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
