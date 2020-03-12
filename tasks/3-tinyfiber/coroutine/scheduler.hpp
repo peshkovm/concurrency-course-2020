@@ -28,6 +28,7 @@ class ThreadPool {
   void Work();
 
  private:
+  // Use io_context as task queue
   asio::io_context io_context_;
   // Some magic for graceful shutdown
   asio::executor_work_guard<asio::io_context::executor_type> work_guard_;
