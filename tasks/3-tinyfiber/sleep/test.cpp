@@ -12,6 +12,8 @@
 #include <set>
 #include <thread>
 
+using namespace std::chrono_literals;
+
 // Test utils
 
 class ContextSwitchCounter {
@@ -171,6 +173,24 @@ TEST_SUITE(Scheduler) {
     });
   }
 
+  SIMPLE_TEST(SleepTooLong) {
+    auto finn = [&]() {
+      tinyfiber::Timer timer;
+      tinyfiber::SleepFor(4s);
+      ASSERT_TRUE(timer.Elapsed() < 4100ms);
+    };
+
+    auto jake = [&]() {
+      tinyfiber::SleepFor(3s);
+      tinyfiber::SleepFor(3s);
+    };
+
+    tinyfiber::RunScheduler([&]() {
+      tinyfiber::Spawn(finn);
+      tinyfiber::Spawn(jake);
+    });
+  }
+
   SIMPLE_TEST(SleepSort) {
     static const size_t kNumbers = 100;
     std::vector<int> ints;
@@ -183,8 +203,10 @@ TEST_SUITE(Scheduler) {
 
     twist::RandomShuffleInplace(ints);
 
+    static const auto kTimeUnit = 10ms;
+
     auto worker = [&](int value) {
-      tinyfiber::SleepFor(std::chrono::milliseconds(value));
+      tinyfiber::SleepFor(value * kTimeUnit);
       sleep_sorted_ints.push_back(value);
     };
 
