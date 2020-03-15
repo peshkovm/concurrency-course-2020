@@ -2,6 +2,7 @@
 #include "scheduler.hpp"
 
 #include <tinysupport/compiler.hpp>
+#include <tinysupport/exception.hpp>
 
 namespace tinyfiber {
 
@@ -43,7 +44,7 @@ static void FiberTrampoline() {
   try {
     routine();
   } catch (...) {
-    TINY_PANIC("Uncaught exception in fiber");
+    TINY_PANIC("Uncaught exception in fiber: " << CurrentExceptionMessage());
   }
 
   GetCurrentScheduler()->Terminate();  // never returns
