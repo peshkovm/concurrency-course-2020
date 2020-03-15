@@ -62,7 +62,7 @@ coroutine::Coroutine co(routine);
 
 ## Пул потоков
 
-[Реализация ThreadPool](https://gitlab.com/Lipovsky/tpcc-course-2020/-/blob/master/tasks/3-tinyfiber/coroutine/scheduler.hpp#L10)
+[Реализация ThreadPool](/tasks/3-tinyfiber/coroutine/scheduler.hpp#L10)
 
 Пул потоков ничего не знает про корутины, он исполняет абстрактные _задачи_ – `std::function<void()>`.
 
