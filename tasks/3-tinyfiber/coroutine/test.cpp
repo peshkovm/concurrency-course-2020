@@ -16,7 +16,7 @@ TEST_SUITE(ThreadPool) {
       std::this_thread::sleep_for(1s);
       std::cout << "Hello, World!" << std::endl;
     });
-    tp.Shutdown();
+    tp.Join();
   }
 
   SIMPLE_TEST(WeNeedToGoDeeper) {
@@ -28,21 +28,25 @@ TEST_SUITE(ThreadPool) {
           });
     };
     tp.Submit(deeper);
-    tp.Shutdown();
+    tp.Join();
   }
 
-  SIMPLE_TEST(SubmitAfterShutdown) {
+  SIMPLE_TEST(SubmitAferJoin) {
     tinyfiber::ThreadPool tp{3};
-    auto sleep = []() {
+
+    auto submit = [&tp]() {
       std::this_thread::sleep_for(3s);
+
+      // After join
+      tp.Submit([]() {
+        std::this_thread::sleep_for(1s);
+        std::cout << "Submitted after Join" << std::endl;
+      });
     };
-    tp.Submit(sleep);
-    tp.Shutdown();
-    std::this_thread::sleep_for(1s);
-    tp.Submit([]() {
-      std::this_thread::sleep_for(1s);
-      std::cout << "After shutdown" << std::endl;
-    });
+
+    tp.Submit(submit);
+
+    tp.Join();
   }
 
   SIMPLE_TEST(Current) {
@@ -54,7 +58,7 @@ TEST_SUITE(ThreadPool) {
     };
 
     tp.Submit(task);
-    tp.Shutdown();
+    tp.Join();
   }
 }
 
@@ -250,6 +254,12 @@ TEST_SUITE(Coroutine) {
   }
 }
 
+static void RunScheduler(tinyfiber::FiberRoutine init, size_t threads) {
+  tinyfiber::ThreadPool thread_pool{threads};
+  tinyfiber::Spawn(init, thread_pool);
+  thread_pool.Join();
+}
+
 TEST_SUITE(Fiber) {
   SIMPLE_TEST(PingPong) {
     int step = 0;
@@ -270,10 +280,10 @@ TEST_SUITE(Fiber) {
       step = 4;
     };
 
-    tinyfiber::RunScheduler([&]() {
+    RunScheduler([&]() {
       tinyfiber::Spawn(finn);
       tinyfiber::Spawn(jake);
-    });
+    }, 1);
 
     ASSERT_EQ(step, 4);
   }
@@ -317,7 +327,7 @@ TEST_SUITE(Fiber) {
       }
     };
 
-    tinyfiber::RunScheduler(ref);
+    RunScheduler(ref, 1);
 
     ASSERT_EQ(baton.CurrentOwner(), 0);
   }
@@ -358,7 +368,7 @@ TEST_SUITE(Fiber) {
       }
     };
 
-    tinyfiber::RunScheduler(init, kThreads);
+    RunScheduler(init, kThreads);
 
     std::cout << "Thread count: " << kThreads << std::endl
               << "Fibers: " << kFibers << std::endl

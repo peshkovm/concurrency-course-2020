@@ -2,13 +2,18 @@
 
 #include <functional>
 
+#include "scheduler.hpp"
+
 namespace tinyfiber {
 
 using FiberRoutine = std::function<void()>;
 
-void RunScheduler(FiberRoutine init, size_t threads = 1);
+// Spawn fiber inside provided thread pool
+void Spawn(FiberRoutine routine, ThreadPool& thread_pool);
 
+// Spawn fiber inside current thread pool
 void Spawn(FiberRoutine routine);
+
 void Yield();
 
 }  // namespace tinyfiber

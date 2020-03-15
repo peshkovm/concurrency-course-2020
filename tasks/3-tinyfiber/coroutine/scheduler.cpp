@@ -10,23 +10,28 @@ ThreadPool::ThreadPool(size_t thread_count)
 }
 
 ThreadPool::~ThreadPool() {
-  for (auto& worker : workers_) {
-    worker.join();
-  }
+  Join();
 }
 
 void ThreadPool::Submit(Task task) {
   asio::post(io_context_, task);
 }
 
-void ThreadPool::Shutdown() {
-  work_guard_.reset();
-}
-
 static thread_local ThreadPool* current{nullptr};
 
 ThreadPool* ThreadPool::Current() {
   return current;
+}
+
+void ThreadPool::Join() {
+  if (joined_) {
+    return;
+  }
+  work_guard_.reset();
+  for (auto& worker : workers_) {
+    worker.join();
+  }
+  joined_ = true;
 }
 
 void ThreadPool::Work() {
