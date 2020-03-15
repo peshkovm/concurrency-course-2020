@@ -4,10 +4,10 @@
 
 ```cpp
 void Scheduler::SleepFor(Duration delay) {
-  Timer timer;
+  StopWatch stop_watch;
   do {
     Yield();
-  } while (timer.Elapsed() < delay);
+  } while (stop_watch.Elapsed() < delay);
 }
 ````
 
