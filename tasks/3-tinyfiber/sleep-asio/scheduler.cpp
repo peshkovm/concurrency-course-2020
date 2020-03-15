@@ -66,10 +66,10 @@ void Scheduler::Yield() {
 void Scheduler::SleepFor(Duration duration) {
   // Intentionally ineffective implementation
 
-  Timer timer;
+  StopWatch stop_watch;
   do {
     Yield();
-  } while (timer.Elapsed() < duration);
+  } while (stop_watch.Elapsed() < duration);
 }
 
 void Scheduler::Terminate() {
