@@ -14,6 +14,8 @@ set_task_sources(
   api.hpp
   fiber.hpp
   fiber.cpp
+  sleep_queue.hpp
+  sleep_queue.cpp
   scheduler.hpp
   scheduler.cpp)
 add_task_test(test test.cpp)

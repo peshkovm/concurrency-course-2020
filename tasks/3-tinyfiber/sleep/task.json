@@ -1,8 +1,16 @@
 {
   "test_profiles": ["Debug"],
   "test_targets": ["test"],
-  "lint_files": ["fiber.hpp", "fiber.cpp", "scheduler.hpp", "scheduler.cpp"],
-  "submit_files": ["fiber.hpp", "fiber.cpp", "scheduler.hpp", "scheduler.cpp"],
+  "lint_files": [
+    "fiber.hpp", "fiber.cpp",
+    "sleep_queue.hpp", "sleep_queue.cpp",
+    "scheduler.hpp", "scheduler.cpp"
+  ],
+  "submit_files": [
+    "fiber.hpp", "fiber.cpp",
+    "sleep_queue.hpp", "sleep_queue.cpp",
+    "scheduler.hpp", "scheduler.cpp"
+  ],
   "forbidden_patterns": [
     "asio",
     "ineffective implementation", "homework"
