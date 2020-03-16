@@ -132,7 +132,7 @@ thread_pool.Join();
 
 ### Java
 
-На уровне _компилятора_ реализуются корутины, а уже поверх них на уровне _библиотеки_ реализуются файберы.
+На уровне _компилятора_ реализуются корутины, а уже поверх них на уровне _библиотеки_ реализуются файберы, в качестве планировщика используется готовый `ForkJoinPool` из стандартной библиотеки.
 - [Project Loom with Ron Pressler and Alan Bateman](https://www.youtube.com/watch?v=J31o0ZMQEnI)
 - [Project Loom: Fibers and Continuations for the Java Virtual Machine](http://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
 - [ForkJoinPool](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html) – планировщик
