@@ -67,7 +67,7 @@ API сокетов построено на классах `Result<T>` и `Status
 
 Экземпляр `Result` гарантированно содержит _либо_ значение типа `T`, _либо_ код ошибки.
 
-Если вы проигнорируете проверку `Result`-а, то компилятор сгенерирует warning, см. [nodiscard](https://en.cppreference.com/w/cpp/language/attributes/nodiscard)
+Если вы проигнорируете проверку `Result`-а, который получили из вызова метода или функции, то компилятор сгенерирует warning, см. [nodiscard](https://en.cppreference.com/w/cpp/language/attributes/nodiscard)
 
 ### Примеры использования
 
