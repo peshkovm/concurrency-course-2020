@@ -62,6 +62,17 @@ TEST_SUITE(Scheduler) {
     ASSERT_TRUE(elapsed < kDelay + std::chrono::milliseconds(100));
   }
 
+  SIMPLE_TEST(AfterSleep) {
+    bool ready = false;
+    auto sleeper = [&]() {
+      tinyfiber::SleepFor(std::chrono::microseconds(1));
+      ready = true;
+    };
+
+    tinyfiber::RunScheduler(sleeper);
+    ASSERT_TRUE(ready);
+  }
+
   SIMPLE_TEST(ConcurrentSleeps) {
     static const size_t kFibers = 100;
 
