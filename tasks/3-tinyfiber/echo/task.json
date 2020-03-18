@@ -1,0 +1,17 @@
+{
+  "test_profiles": ["Debug"],
+  "test_targets": ["test"],
+  "lint_files": [
+    "fiber.hpp", "fiber.cpp",
+    "scheduler.hpp", "scheduler.cpp",
+    "socket.hpp", "socket.cpp",
+    "echo.hpp", "echo.cpp"
+  ],
+  "submit_files": [
+    "fiber.hpp", "fiber.cpp",
+    "scheduler.hpp", "scheduler.cpp",
+    "socket.hpp", "socket.cpp",
+    "echo.hpp", "echo.cpp"
+  ],
+  "forbidden_patterns": [""]
+}
