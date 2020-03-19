@@ -17,6 +17,10 @@ void ThreadPool::Submit(Task task) {
   asio::post(io_context_, task);
 }
 
+void ThreadPool::SubmitContinuation(Task cont) {
+  asio::defer(io_context_, cont);
+}
+
 static thread_local ThreadPool* current{nullptr};
 
 ThreadPool* ThreadPool::Current() {

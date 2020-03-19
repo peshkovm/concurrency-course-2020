@@ -20,6 +20,9 @@ class ThreadPool {
   // Submitted task will be scheduled to run in one of the worker threads
   void Submit(Task task);
 
+  // Submit continuation of current task for execution
+  void SubmitContinuation(Task cont);
+
   // Locate current thread pool from task
   static ThreadPool* Current();
 
