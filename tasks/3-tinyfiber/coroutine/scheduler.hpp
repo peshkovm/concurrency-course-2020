@@ -8,7 +8,7 @@
 namespace tinyfiber {
 
 // Fixed-size pool of threads
-// Executes submitted tasks in one of the pooled threads
+// Executes submitted tasks in pooled threads
 class ThreadPool {
  public:
   using Task = std::function<void()>;
