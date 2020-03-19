@@ -143,6 +143,8 @@ Status Socket::ShutdownWrite() {
 
 ## Эхо-сервер
 
+Ваша реализация на файберах должна выглядеть так же просто, как и [многопоточная реализация](http://think-async.com/Asio/asio-1.12.2/src/examples/cpp11/echo/blocking_tcp_echo_server.cpp) на Asio.
+
 ## Файлы решения
 
 Для поддержки сетевого ввода-вывода вы можете изменять файлы `scheduler.{hpp,cpp}`, `fiber.{hpp,cpp}` и `socket.{hpp,cpp}`.
