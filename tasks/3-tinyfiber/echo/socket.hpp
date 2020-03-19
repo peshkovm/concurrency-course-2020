@@ -47,6 +47,8 @@ class Acceptor {
   Acceptor();
 
   Status Listen(uint16_t port);
+
+  // Returns port number
   Result<uint16_t> ListenAvailablePort();
 
   uint16_t GetPort() const;

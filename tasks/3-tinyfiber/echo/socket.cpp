@@ -15,6 +15,7 @@ Result<Socket> Socket::ConnectToLocal(uint16_t port) {
 
 Result<size_t> Socket::ReadSome(MutableBuffer buffer) {
   // Not implemented
+  // Use 'async_read_some` method of ip::tcp::socket
   return Ok<size_t>(0);
 }
 
@@ -25,11 +26,13 @@ Result<size_t> Socket::Read(MutableBuffer buffer) {
 
 Status Socket::Write(ConstBuffer buffer) {
   // Not implemented
+  // Use `asio::async_write` function
   return Ok();
 }
 
 Status Socket::ShutdownWrite() {
   // Not implemented
+  // Use `shutdown` method of ip::tcp::socket
   return Ok();
 }
 
@@ -43,6 +46,7 @@ Status Acceptor::Listen(uint16_t port) {
 
 Result<uint16_t> Acceptor::ListenAvailablePort() {
   // Not implemented
+  // Use Listen(0) to automatically choose available port
 }
 
 Result<Socket> Acceptor::Accept() {
