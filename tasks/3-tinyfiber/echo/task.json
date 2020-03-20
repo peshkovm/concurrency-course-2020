@@ -13,5 +13,5 @@
     "socket.hpp", "socket.cpp",
     "echo.hpp", "echo.cpp"
   ],
-  "forbidden_patterns": [""]
+  "forbidden_patterns": ["Use asio::ip::tcp::socket", "Use asio::ip::tcp::acceptor"]
 }
