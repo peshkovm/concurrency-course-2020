@@ -4,14 +4,20 @@
 
 #include <twist/test_framework/test_framework.hpp>
 
-#include <memory>
+#include <atomic>
 #include <chrono>
+#include <memory>
 
 using namespace std::chrono_literals;
 
+using tinyfiber::ThreadPool;
+using tinyfiber::Spawn;
+using tinyfiber::Yield;
+using tinyfiber::FiberRoutine;
+
 TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(HelloWorld) {
-    tinyfiber::ThreadPool tp{1};
+    ThreadPool tp{1};
     tp.Submit([]() {
       std::this_thread::sleep_for(1s);
       std::cout << "Hello, World!" << std::endl;
@@ -20,9 +26,9 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(WeNeedToGoDeeper) {
-    tinyfiber::ThreadPool tp{1};
+    ThreadPool tp{1};
     auto deeper = []() {
-      tinyfiber::ThreadPool::Current()->Submit(
+      ThreadPool::Current()->Submit(
           []() {
             std::cout << "We need to go deeper..." << std::endl;
           });
@@ -32,7 +38,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(SubmitAferJoin) {
-    tinyfiber::ThreadPool tp{3};
+    ThreadPool tp{3};
 
     auto submit = [&tp]() {
       std::this_thread::sleep_for(3s);
@@ -50,11 +56,11 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(Current) {
-    tinyfiber::ThreadPool tp{4};
-    ASSERT_EQ(tinyfiber::ThreadPool::Current(), nullptr);
+    ThreadPool tp{4};
+    ASSERT_EQ(ThreadPool::Current(), nullptr);
 
     auto task = [&tp]() {
-      ASSERT_EQ(tinyfiber::ThreadPool::Current(), &tp);
+      ASSERT_EQ(ThreadPool::Current(), &tp);
     };
 
     tp.Submit(task);
@@ -261,75 +267,167 @@ static void RunScheduler(tinyfiber::FiberRoutine init, size_t threads) {
 }
 
 TEST_SUITE(Fiber) {
-  SIMPLE_TEST(PingPong) {
-    int step = 0;
+  SIMPLE_TEST(InsideThreadPool) {
+    ThreadPool tp{3};
+    std::atomic<bool> done{false};
 
-    auto finn = [&]() {
-      ASSERT_EQ(step, 0);
-      step = 1;
-      tinyfiber::Yield();
-      ASSERT_EQ(step, 2);
-      step = 3;
+    auto tester = [&]() {
+      ASSERT_EQ(ThreadPool::Current(), &tp);
+      done.store(true);
     };
 
-    auto jake = [&]() {
-      ASSERT_EQ(step, 1);
-      step = 2;
-      tinyfiber::Yield();
-      ASSERT_EQ(step, 3);
-      step = 4;
-    };
+    Spawn(tester, tp);
+    tp.Join();
 
-    RunScheduler([&]() {
-      tinyfiber::Spawn(finn);
-      tinyfiber::Spawn(jake);
-    }, 1);
-
-    ASSERT_EQ(step, 4);
+    ASSERT_EQ(done.load(), true);
   }
 
-  class Baton {
+  SIMPLE_TEST(ChildInsideThreadPool) {
+    ThreadPool tp{3};
+    std::atomic<size_t> done{0};
+
+    auto tester = [&tp, &done]() {
+      ASSERT_EQ(ThreadPool::Current(), &tp);
+
+      auto child = [&tp, &done]() {
+        ASSERT_EQ(ThreadPool::Current(), &tp);
+        done.fetch_add(1);
+      };
+      Spawn(child);
+
+      done.fetch_add(1);
+    };
+
+    Spawn(tester, tp);
+    tp.Join();
+
+    ASSERT_EQ(done.load(), 2);
+  }
+
+  SIMPLE_TEST(RunInParallel) {
+    ThreadPool tp{3};
+    std::atomic<size_t> completed{0};
+
+    auto sleeper = [&completed]() {
+      std::this_thread::sleep_for(3s);
+      completed.fetch_add(1);
+    };
+
+    twist::Timer timer;
+
+    Spawn(sleeper, tp);
+    Spawn(sleeper, tp);
+    Spawn(sleeper, tp);
+    tp.Join();
+
+    ASSERT_EQ(completed.load(), 3);
+    ASSERT_TRUE(timer.Elapsed() < 3s + 500ms);
+  }
+
+  SIMPLE_TEST(Yield) {
+    std::atomic<int> value{0};
+
+    auto check_value = [&value]() {
+      const int kLimit = 10;
+
+      ASSERT_TRUE(value.load() < kLimit);
+      ASSERT_TRUE(value.load() > -kLimit);
+    };
+
+    static const size_t kIterations = 12345;
+
+    auto bull = [&]() {
+      for (size_t i = 0; i < kIterations; ++i) {
+        value.fetch_add(1);
+        Yield();
+        check_value();
+      }
+    };
+
+    auto bear = [&]() {
+      for (size_t i = 0; i < kIterations; ++i) {
+        value.fetch_sub(1);
+        Yield();
+        check_value();
+      }
+    };
+
+    ThreadPool tp{1};
+    Spawn(bull, tp);
+    Spawn(bear, tp);
+    tp.Join();
+  }
+
+  class ForkTester {
    public:
-    Baton(size_t count)
-      : count_(count), current_(0) {
+    ForkTester(size_t threads)
+      : pool_(threads) {
     }
 
-    size_t CurrentOwner() {
-      return current_;
-    }
-
-    void Transfer() {
-      current_ = (current_ + 1) % count_;
+    size_t Explode(size_t d) {
+      Spawn(MakeForker(d), pool_);
+      pool_.Join();
+      return leafs_.load();
     }
 
    private:
-    const size_t count_;
-    size_t current_;
+    FiberRoutine MakeForker(size_t d) {
+      return [this, d]() {
+        if (d > 2) {
+          Spawn(MakeForker(d - 2));
+          Spawn(MakeForker(d - 1));
+        } else {
+          leafs_.fetch_add(1);
+        }
+      };
+    }
+
+   private:
+    ThreadPool pool_;
+    std::atomic<size_t> leafs_{0};
   };
 
-  SIMPLE_TEST(RelayRace) {
-    const size_t kRunners = 10;
-    const size_t kLoops = 10;
+  SIMPLE_TEST(Forks) {
+    ForkTester tester{4};
+    ASSERT_EQ(tester.Explode(21), 10946);
+  }
 
-    Baton baton(kRunners);
+  SIMPLE_TEST(TwoPools1) {
+    ThreadPool tp_1{4};
+    ThreadPool tp_2{4};
 
-    auto runner = [&](size_t t) {
-      for (size_t i = 0; i < kLoops; ++i) {
-        ASSERT_EQ(baton.CurrentOwner(), t);
-        baton.Transfer();
-        tinyfiber::Yield();
-      }
+    auto make_tester = [](ThreadPool& tp) {
+      return [&tp]() {
+        ASSERT_EQ(ThreadPool::Current(), &tp);
+      };
     };
 
-    auto ref = [&]() {
-      for (size_t i = 0; i < kRunners; ++i) {
-        tinyfiber::Spawn(std::bind(runner, i));
-      }
+    Spawn(make_tester(tp_1), tp_1);
+    Spawn(make_tester(tp_2), tp_2);
+  }
+
+  SIMPLE_TEST(TwoPools2) {
+    ThreadPool tp_1{4};
+    ThreadPool tp_2{4};
+
+    auto make_tester = [](ThreadPool& tp) {
+      return [&tp]() {
+        static const size_t kIterations = 1024;
+
+        for (size_t i = 0; i < kIterations; ++i) {
+          ASSERT_EQ(ThreadPool::Current(), &tp);
+
+          Yield();
+
+          Spawn([&tp]() {
+            ASSERT_EQ(ThreadPool::Current(), &tp);
+          });
+        }
+      };
     };
 
-    RunScheduler(ref, 1);
-
-    ASSERT_EQ(baton.CurrentOwner(), 0);
+    Spawn(make_tester(tp_1), tp_1);
+    Spawn(make_tester(tp_2), tp_2);
   }
 
   struct RacyCounter {
