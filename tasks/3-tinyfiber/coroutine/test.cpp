@@ -358,6 +358,23 @@ TEST_SUITE(Fiber) {
     tp.Join();
   }
 
+  SIMPLE_TEST(Yield2) {
+    ThreadPool tp{4};
+
+    static const size_t kYields = 123456;
+
+    auto tester = []() {
+      for (size_t i = 0; i < kYields; ++i) {
+        Yield();
+      }
+    };
+
+    Spawn(tester, tp);
+    Spawn(tester, tp);
+
+    tp.Join();
+  }
+
   class ForkTester {
    public:
     ForkTester(size_t threads)
