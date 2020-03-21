@@ -352,9 +352,13 @@ TEST_SUITE(Fiber) {
       }
     };
 
+    auto starter = [&]() {
+      Spawn(bull);
+      Spawn(bear);
+    };
+
     ThreadPool tp{1};
-    Spawn(bull, tp);
-    Spawn(bear, tp);
+    Spawn(starter, tp);
     tp.Join();
   }
 
