@@ -5,13 +5,18 @@
     "fiber.hpp", "fiber.cpp",
     "scheduler.hpp", "scheduler.cpp",
     "socket.hpp", "socket.cpp",
+    "awaiter.hpp",
     "echo.hpp", "echo.cpp"
   ],
   "submit_files": [
     "fiber.hpp", "fiber.cpp",
     "scheduler.hpp", "scheduler.cpp",
+    "awaiter.hpp",
     "socket.hpp", "socket.cpp",
     "echo.hpp", "echo.cpp"
   ],
-  "forbidden_patterns": ["Use asio::ip::tcp::socket", "Use asio::ip::tcp::acceptor"]
+  "forbidden_patterns": [
+    "Use asio::ip::tcp::socket",
+    "Use asio::ip::tcp::acceptor"
+  ]
 }

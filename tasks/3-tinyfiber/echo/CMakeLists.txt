@@ -16,6 +16,7 @@ set_task_sources(
   fiber.cpp
   scheduler.hpp
   scheduler.cpp
+  awaiter.hpp
   socket.hpp
   socket.cpp
   echo.hpp
