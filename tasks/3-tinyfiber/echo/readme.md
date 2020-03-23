@@ -14,11 +14,9 @@
 
 Альтернативный подход – использовать цикл событий и асинхронные операции. Правда при этом поток управления выворачивается наизнанку: теперь он подчиняется не вашему коду (как в случае с потоками), а циклу внутри `io_context`-а.
 
-Ваш код разрывает на кусочки коллбэков, вы теряете возможность писать циклы. Читать, писать и отлаживать такой код очень сложно. Кроме того вы лишаетесь возможности использовать исключения, снимать стек-трейсы.
+Ваш код разрывает на кусочки коллбэков, вы теряете возможность писать циклы, использовать исключения, снимать стек-трейсы. Такую цену вы платите за масштабируемость вашего сетевого кода.
 
-Такую цену вы платите за масштабируемость вашего сетевого кода.
-
-Файберы позволяют разрешить дилемму между простотой и масштабируемостью и получить преимущества _обоих_ подходов. С помощью механизма переключения контекста можно склеить точки старта и завершения асинхронной операции и получить для пользователя файберов видимость синхронного вызова. В то же время под капотом будет крутиться тот же цикл событий.
+Файберы разрешают дилемму между простотой и масштабируемостью, они сочетают преимущества _обоих_ подходов. С помощью механизма переключения контекста можно склеить точки старта и завершения асинхронной операции и дать пользователю файберов видимость синхронного вызова. При этом под капотом будет крутиться тот же цикл событий.
 
 ## Кооперативность и I/O
 
@@ -139,7 +137,7 @@ Status Socket::ShutdownWrite() {
 - [Joe Duffy's Blog – The Error Model](http://joeduffyblog.com/2016/02/07/the-error-model/)
 - Go: [Error handling and Go](https://blog.golang.org/error-handling-and-go), [Error Handling — Problem Overview](https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md), [Error Handling — Draft Design](https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md)
 - Rust: [Recoverable Errors with `Result`](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
-- C++: [Boost.Outcome](https://www.boost.org/doc/libs/1_72_0/libs/outcome/doc/html/index.html), [`ErrorOr<T>`](https://github.com/llvm-mirror/llvm/blob/master/include/llvm/Support/ErrorOr.h) в LLVM, [`expected`](https://github.com/TartanLlama/expected)
+- C++: [Boost.Outcome](https://www.boost.org/doc/libs/1_72_0/libs/outcome/doc/html/index.html), [`ErrorOr<T>`](https://github.com/llvm-mirror/llvm/blob/master/include/llvm/Support/ErrorOr.h) в LLVM, [`Try<T>`](https://github.com/facebook/folly/blob/master/folly/Try.h) в Folly, [`expected`](https://github.com/TartanLlama/expected)
 
 ## Эхо-сервер
 
@@ -173,4 +171,3 @@ Status Socket::ShutdownWrite() {
 Для поддержки сетевого ввода-вывода вы можете изменять файлы `fiber.{hpp,cpp}`, `scheduler.{hpp,cpp}`, `awaiter.hpp` и `socket.{hpp,cpp}`.
 
 Реализация эхо-сервера находится в `echo.{hpp,cpp}`.
-
