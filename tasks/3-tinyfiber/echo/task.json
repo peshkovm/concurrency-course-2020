@@ -5,13 +5,13 @@
     "fiber.hpp", "fiber.cpp",
     "scheduler.hpp", "scheduler.cpp",
     "socket.hpp", "socket.cpp",
-    "awaiter.hpp",
+    "awaiter.hpp", "awaiter.cpp",
     "echo.hpp", "echo.cpp"
   ],
   "submit_files": [
     "fiber.hpp", "fiber.cpp",
     "scheduler.hpp", "scheduler.cpp",
-    "awaiter.hpp",
+    "awaiter.hpp", "awaiter.cpp",
     "socket.hpp", "socket.cpp",
     "echo.hpp", "echo.cpp"
   ],

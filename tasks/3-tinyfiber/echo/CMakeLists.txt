@@ -17,6 +17,7 @@ set_task_sources(
   scheduler.hpp
   scheduler.cpp
   awaiter.hpp
+  awaiter.cpp
   socket.hpp
   socket.cpp
   echo.hpp
