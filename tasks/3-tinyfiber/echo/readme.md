@@ -170,7 +170,7 @@ Status Socket::ShutdownWrite() {
 
 ## Файлы решения
 
-Для поддержки сетевого ввода-вывода вы можете изменять файлы `scheduler.{hpp,cpp}`, `fiber.{hpp,cpp}` и `socket.{hpp,cpp}`.
+Для поддержки сетевого ввода-вывода вы можете изменять файлы `fiber.{hpp,cpp}`, `scheduler.{hpp,cpp}`, `awaiter.hpp` и `socket.{hpp,cpp}`.
 
 Реализация эхо-сервера находится в `echo.{hpp,cpp}`.
 
