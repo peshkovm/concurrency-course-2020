@@ -151,7 +151,7 @@ Status Socket::ShutdownWrite() {
 1) Останавливать текущий файбер и планировать его возобновление
 2) Прокидывать асинхронный результат из коллбэка
 
-Попробуйте инкапсулировать эту логику внутри класса `Awaiter` из `awaiter.hpp`.
+Попробуйте инкапсулировать эту логику внутри класса `Awaiter` из `awaiter.{hpp,cpp}`.
 
 ### Awaiter и Future
 
@@ -168,6 +168,6 @@ Status Socket::ShutdownWrite() {
 
 ## Файлы решения
 
-Для поддержки сетевого ввода-вывода вы можете изменять файлы `fiber.{hpp,cpp}`, `scheduler.{hpp,cpp}`, `awaiter.hpp` и `socket.{hpp,cpp}`.
+Для поддержки сетевого ввода-вывода вы можете изменять файлы `fiber.{hpp,cpp}`, `scheduler.{hpp,cpp}`, `awaiter.{hpp,cpp}` и `socket.{hpp,cpp}`.
 
 Реализация эхо-сервера находится в `echo.{hpp,cpp}`.
