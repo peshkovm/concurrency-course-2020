@@ -15,19 +15,28 @@
 1) Решить задачу [Echo](/tasks/0-intro/echo) и познакомиться с библиотекой _Asio_.
 2) Реализовать `SleepFor` голыми руками в задаче [SleepFor](/tasks/3-tinyfiber/sleep).
 
-Структурно решения двух вариантов задачи будут очень похожи, и возможно, после решения этой версии задачи вам захочется порефакторить ваше решение соседней задачи.
-
-## Asio
+## Таймеры в Asio
 
 Прочтите tutorial по таймерам:  [Using a timer asynchronously](http://think-async.com/Asio/asio-1.12.2/doc/asio/tutorial/tuttimer2.html).
 
 Используйте специализацию `WaitableTimer`, определенную в [timer.hpp](/tasks/3-tinyfiber/sleep-asio/timer.hpp).
 
-Изучите варианты методов `run` и `poll` из документации [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html).
+## Два цикла
 
-### Остановка цикла
+Для использования Asio в файберах вам потребуется сочетать итерации двух циклов:
 
-Если в `io_context` заканчиваются события, то он _останавливается_ (см. метод [`stopped`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context/stopped.html)): все последующие вызовы `run` и `poll` будут моментально возвращать управление, не вызывая никаких хэндлеров. Как вы увидите, такое поведение будет доставлять неудобства.
+1) Цикл запуска файберов, который находится в методе `RunLoop` планировщика
+2) Цикл обработки событий Asio: `io_context::run`
+
+Подумайте, итерации какого из этих циклов стоит подчинить другому.
+
+Изучите вариации методов `run` и `poll` из документации [io_context](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html).
+
+### Остановка цикла Asio
+
+Если в `io_context` заканчиваются события, то он _останавливается_ (см. метод [`stopped`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context/stopped.html)): все последующие вызовы `run` и `poll` будут моментально возвращать управление, не вызывая никаких хэндлеров. 
+
+В одном из подходов к решению такое поведение будет доставлять неудобства. 
 
 Воспользуйтесь рецептом из [Stopping the io_context from running out of work](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/io_context.html#asio.reference.io_context.stopping_the_io_context_from_running_out_of_work).
 
