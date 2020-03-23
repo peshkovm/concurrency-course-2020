@@ -1,6 +1,6 @@
+#include "api.hpp"
 #include "scheduler.hpp"
 #include "socket.hpp"
-#include "client.hpp"
 #include "echo.hpp"
 
 #include <twist/test_framework/test_framework.hpp>
@@ -141,13 +141,24 @@ class SimpleTcpClient {
 
 //////////////////////////////////////////////////////////////////////
 
+void RunFiberTest(FiberRoutine test) {
+  bool done{false};
+  RunScheduler([&]() {
+    test();
+    done = true;
+  });
+  ASSERT_TRUE_M(done, "Init fiber not completed");
+}
+
+//////////////////////////////////////////////////////////////////////
+
 // Sockets
 
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Sockets) {
   SIMPLE_TEST(ChooseAvailablePort) {
-    RunScheduler([]() {
+    RunFiberTest([]() {
       Acceptor acceptor_1;
       acceptor_1.Listen(0).ExpectOk();
 
@@ -163,7 +174,7 @@ TEST_SUITE(Sockets) {
   }
 
   SIMPLE_TEST(AddressAlreadyInUse) {
-    RunScheduler([]() {
+    RunFiberTest([]() {
       Acceptor acceptor_1;
       acceptor_1.ListenAvailablePort().ThrowIfError();
 
@@ -180,6 +191,7 @@ TEST_SUITE(Sockets) {
 
       auto connect = [port]() {
         auto socket = Socket::ConnectToLocal(port);
+        ASSERT_TRUE(socket.HasError());
         if (!socket) {
           std::cout << "Cannot connect ot port " << port << ": "
                     << socket.Error().message() << std::endl;
@@ -190,7 +202,7 @@ TEST_SUITE(Sockets) {
       //Socket client_socket = acceptor.Accept();
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   // Broke blocking accept
@@ -207,7 +219,7 @@ TEST_SUITE(Sockets) {
       Socket client_socket = acceptor.Accept();
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   // Broke blocking connect
@@ -224,7 +236,7 @@ TEST_SUITE(Sockets) {
       Socket socket = Socket::ConnectToLocal(port);
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(Hello) {
@@ -247,7 +259,7 @@ TEST_SUITE(Sockets) {
       ASSERT_EQ(message, kHelloMessage);
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(ReadAll) {
@@ -270,7 +282,7 @@ TEST_SUITE(Sockets) {
       ASSERT_EQ(message, kHelloMessage);
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(Shutdown) {
@@ -300,7 +312,7 @@ TEST_SUITE(Sockets) {
       client_socket.ShutdownWrite().ExpectOk();
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(SocketStreamReads) {
@@ -344,7 +356,7 @@ TEST_SUITE(Sockets) {
       ASSERT_EQ(sent.ToString(), received.ToString());
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(SocketHugeRead) {
@@ -381,7 +393,7 @@ TEST_SUITE(Sockets) {
       ASSERT_EQ(read_buf, sent.ToString());
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(HttpBin) {
@@ -403,7 +415,7 @@ TEST_SUITE(Sockets) {
       std::cout << "Response from httpbin: " << response << std::endl;
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 }
 
@@ -435,7 +447,7 @@ SimpleTcpClient MakeEchoClient() {
 
 TEST_SUITE(EchoServer) {
   SIMPLE_TEST(HelloWorld) {
-    RunScheduler([]() {
+    RunFiberTest([]() {
       static const std::string kMessage = "Hello, World!";
 
       Socket socket = Socket::ConnectToLocal(
@@ -466,7 +478,7 @@ TEST_SUITE(EchoServer) {
       ASSERT_EQ(client.ReadAll().Value(), kMessage);
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 
   SIMPLE_TEST(TwoClients) {
@@ -481,7 +493,7 @@ TEST_SUITE(EchoServer) {
       ASSERT_EQ(jake.ReadRequired(9).Value(), "Hi, Finn!");
     };
 
-    RunScheduler(test);
+    RunFiberTest(test);
   }
 }
 
