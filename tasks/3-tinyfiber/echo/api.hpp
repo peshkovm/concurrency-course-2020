@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tinysupport/time.hpp>
+
 #include <functional>
 
 namespace tinyfiber {
@@ -27,6 +29,10 @@ void Spawn(FiberRoutine routine);
 // Transfers control to the current scheduler
 // and puts the current fiber to the end of the run queue
 void Yield();
+
+// Blocks the execution of the current fiber for at least
+// the specified 'duration'
+void SleepFor(Duration duration);
 
 // Returns the id of the current fiber
 FiberId GetFiberId();

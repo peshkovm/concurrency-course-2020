@@ -21,6 +21,10 @@ void Yield() {
   GetCurrentScheduler()->Yield();
 }
 
+void SleepFor(Duration duration) {
+  GetCurrentScheduler()->SleepFor(duration);
+}
+
 FiberId GetFiberId() {
   return GetCurrentFiber()->Id();
 }

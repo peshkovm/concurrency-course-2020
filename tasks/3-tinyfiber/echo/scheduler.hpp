@@ -21,6 +21,7 @@ class Scheduler {
 
   void Spawn(FiberRoutine routine);
   void Yield();
+  void SleepFor(Duration duration);
   void Terminate();
 
   Fiber* GetCurrentFiber();
