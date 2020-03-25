@@ -37,7 +37,9 @@
 
 Метод `Read` реализуйте через `ReadSome`.
 
-Метод `ListenAvailablePort` реализуется через `Listen(0)`.
+Не делайте публичных конструкторов у `Socket`, сокеты создаются либо с помощью статических конструкторов `ConnectTo` / `ConnectToLocal`, либо с помощью `acceptor.Accept()`.
+
+Метод `ListenAvailablePort` у `Acceptor` реализуется через `Listen(0)`.
 
 ### Установка соединения
 
@@ -131,6 +133,7 @@ Status Socket::ShutdownWrite() {
   return make_result::ToStatus(error);
 }
 ```
+
 
 ### Подходы к обработке ошибок
 
