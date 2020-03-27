@@ -11,6 +11,14 @@
 - [Weak Memory Consistency](https://people.mpi-sws.org/~viktor/wmc/)
 - [Weakly Consistent Concurrency](https://www.cs.tau.ac.il/~orilahav/seminar18/index.html)
 
+
+## Futures
+
+- [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html)
+- [Futures for C++11 at Facebook](https://engineering.fb.com/developer-tools/futures-for-c-11-at-facebook/), [Folly Futures](https://github.com/facebook/folly/blob/master/folly/docs/Futures.md), 
+- [Zero-cost futures in Rust](http://aturon.github.io/blog/2016/08/11/futures/)
+- [Designing futures for Rust](http://aturon.github.io/blog/2016/09/07/futures-design/)
+
 ## Lock-Free data structures
 
 - [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](http://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
