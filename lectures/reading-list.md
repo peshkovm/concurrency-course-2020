@@ -29,6 +29,20 @@
 - [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
 - [C++ Coroutines: Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type)
 
+
+## Asynchronous Programming
+
+- [Asynchronous Programming Techniques](https://kotlinlang.org/docs/tutorials/coroutines/async-programming.html)
+
+### Async / await
+
+- [Dissecting the async methods in C#](https://devblogs.microsoft.com/premier-developer/dissecting-the-async-methods-in-c/)
+- [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
+
+### Colours
+
+- [What Color is Your Function?](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/), [Hacker news](https://news.ycombinator.com/item?id=8984648)
+
 ## Lock-Free data structures
 
 - [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](http://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
