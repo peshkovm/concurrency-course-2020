@@ -134,6 +134,23 @@ TEST_SUITE(Scheduler) {
     tinyfiber::RunScheduler(main);
   }
 
+  SIMPLE_TEST(SleepAndAdd) {
+    size_t counter = 0;
+
+    auto increase_counter = [&]() {
+        tinyfiber::SleepFor(std::chrono::seconds(1));
+        ++counter;
+    };
+
+    tinyfiber::RunScheduler([&]() {
+        tinyfiber::Spawn(increase_counter);
+        tinyfiber::SleepFor(std::chrono::seconds(1));
+        tinyfiber::Spawn(increase_counter);
+    });
+
+    ASSERT_TRUE(counter == 2);
+  }
+
   SIMPLE_TEST(SleepQueuePriority) {
     bool stop_requested = false;
 
