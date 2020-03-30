@@ -134,7 +134,7 @@ TEST_SUITE(Scheduler) {
     tinyfiber::RunScheduler(main);
   }
 
-  SIMPLE_TEST(SleepAndAdd) {
+  SIMPLE_TEST(PrematureWorkReset) {
     size_t counter = 0;
 
     auto increase_counter = [&]() {
