@@ -258,6 +258,19 @@ TEST_SUITE(Coroutine) {
     coroutine::Coroutine foo(foo_routine);
     ASSERT_THROW(foo.Resume(), MyException);
   }
+
+  SIMPLE_TEST(Leak) {
+    auto shared_ptr = std::make_shared<int>(42);
+    std::weak_ptr<int> weak_ptr = shared_ptr;
+
+    {
+      auto routine = [ptr = std::move(shared_ptr)]() {};
+      coroutine::Coroutine co(routine);
+      co.Resume();
+    }
+
+    ASSERT_FALSE(weak_ptr.lock());
+  }
 }
 
 static void RunScheduler(tinyfiber::FiberRoutine init, size_t threads) {
