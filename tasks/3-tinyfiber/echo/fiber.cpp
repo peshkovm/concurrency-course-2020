@@ -40,8 +40,8 @@ static void FiberTrampoline() {
 
   self->SetState(FiberState::Running);
 
-  auto routine = self->UserRoutine();
   try {
+    auto routine = self->UserRoutine();
     routine();
   } catch (...) {
     TINY_PANIC("Uncaught exception in fiber: " << CurrentExceptionMessage());
