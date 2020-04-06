@@ -63,15 +63,6 @@ void Scheduler::Yield() {
   SwitchToScheduler();
 }
 
-void Scheduler::SleepFor(Duration duration) {
-  // Intentionally ineffective implementation
-
-  StopWatch stop_watch;
-  do {
-    Yield();
-  } while (stop_watch.Elapsed() < duration);
-}
-
 void Scheduler::Terminate() {
   Fiber* caller = GetCurrentFiber();
   caller->SetState(FiberState::Terminated);
