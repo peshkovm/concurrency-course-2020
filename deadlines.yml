@@ -42,11 +42,16 @@
     - task: 3-tinyfiber/sleep-asio
       score: 400
 
-- group:    Echoes
+- group:    Echo (Asio)
   start:    18-03-2020 00:00
   deadline: 01-04-2020 09:00
   tasks:
     - task: 0-intro/echo
       score: 200
+
+- group:    Echo (Tiny Fibers)
+  start:    18-03-2020 00:00
+  deadline: 09-04-2020 09:00
+  tasks:
     - task: 3-tinyfiber/echo
       score: 500
