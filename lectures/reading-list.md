@@ -11,6 +11,42 @@
 - [Weak Memory Consistency](https://people.mpi-sws.org/~viktor/wmc/)
 - [Weakly Consistent Concurrency](https://www.cs.tau.ac.il/~orilahav/seminar18/index.html)
 
+## Futures
+
+- [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html)
+- [Futures for C++11 at Facebook](https://engineering.fb.com/developer-tools/futures-for-c-11-at-facebook/), [Folly Futures](https://github.com/facebook/folly/blob/master/folly/docs/Futures.md), 
+- [Zero-cost futures in Rust](http://aturon.github.io/blog/2016/08/11/futures/), [Designing futures for Rust](http://aturon.github.io/blog/2016/09/07/futures-design/)
+
+## Coroutines
+
+### Stackless
+- [Stackless Coroutine in Asio](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/coroutine.html)
+- [On Duff's Device and Coroutines](https://research.swtch.com/duff)
+
+### Assymmetric Transfer
+- [Coroutine Theory](https://lewissbaker.github.io/2017/09/25/coroutine-theory)
+- [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
+- [C++ Coroutines: Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type)
+
+
+## Asynchronous Programming
+
+- [Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI)
+- [Асинхронность в программировании](https://habr.com/ru/company/jugru/blog/446562/)
+- [Асинхронность: назад в будущее](https://habr.com/ru/post/201826/)
+- [Kotlin Coroutines Proposal](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
+
+### Async / await
+
+- C#: [Dissecting the async methods in C#](https://devblogs.microsoft.com/premier-developer/dissecting-the-async-methods-in-c/)
+- C++: [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
+- Rust: [A final proposal for await syntax](https://boats.gitlab.io/blog/post/await-decision/), [Await Syntax Write Up](https://paper.dropbox.com/doc/Await-Syntax-Write-Up--AcIbhZ1tPTCloXb2fmFpBTt~Ag-t9NlOSeI4RQ8AINsaSSyJ)
+
+### Colours
+
+- [What Color is Your Function?](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/), [Hacker news](https://news.ycombinator.com/item?id=8984648)
+- [How do you color your functions?](https://medium.com/@elizarov/how-do-you-color-your-functions-a6bb423d936d)
+
 ## Lock-Free data structures
 
 - [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](http://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
