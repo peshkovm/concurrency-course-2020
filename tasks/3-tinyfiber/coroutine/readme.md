@@ -64,7 +64,7 @@ coroutine::Coroutine co(routine);
 
 [Реализация ThreadPool](/tasks/3-tinyfiber/coroutine/scheduler.hpp)
 
-Пул потоков ничего не знает про корутины, он исполняет абстрактные _задачи_ – `std::function<void()>`.
+Пул потоков ничего не знает про корутины, он исполняет абстрактные _задачи_ (_tasks_) – `std::function<void()>`.
 
 ### Примеры
 
@@ -114,7 +114,7 @@ thread_pool.Submit(deeper);
 ThreadPool thread_pool(/*threads=*/4);
 
 auto jake = []() {
-  // Уступаем текущий поток планировщика другому файберу
+  // Уступаем текущий поток другому файберу
   Yield();
 };
 
