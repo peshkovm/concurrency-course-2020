@@ -1,5 +1,9 @@
 # Эхо-сервер
 
+*Programs must be written for people to read, and only incidentally for machines to execute.* - Harold Abelson, Gerald Jay Sussman
+
+---
+
 Эхо-сервер – это _HelloWorld_ мира сетевых приложений. Его задача – принимать
 tcp-соединения клиентов, читать из них данные и отправлять их обратно. Поэтому и _эхо_.
 
