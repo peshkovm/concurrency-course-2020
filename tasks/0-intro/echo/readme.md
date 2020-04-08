@@ -11,7 +11,7 @@ tcp-соединения клиентов, читать из них данные
 
 ## Потоки и синхронность
  
-Посмотрим на простую [многопоточную реализацию](https://www.boost.org/doc/libs/1_67_0/doc/html/boost_asio/example/cpp11/echo/blocking_tcp_echo_server.cpp) с использованием библиотеки [Asio](https://github.com/chriskohlhoff/asio/). 
+Посмотрим на простую [многопоточную реализацию](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp11/echo/blocking_tcp_echo_server.cpp) с использованием библиотеки [Asio](https://github.com/chriskohlhoff/asio/). 
 
 В этой реализации на каждого клиента заводится отдельный поток, который в бесконечном цикле читает из клиентского сокета очередную порцию данных и затем пишет ее обратно в сокет. 
 
