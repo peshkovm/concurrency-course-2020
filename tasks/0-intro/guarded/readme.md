@@ -12,3 +12,5 @@ items->push_back(42);
 ```
 
 Набор защищаемых методов `Guarded`-у заранее неизвестен, он должен уметь оборачивать произвольный класс.
+
+Изучите [Synchronized](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md) из библиотеки folly.
