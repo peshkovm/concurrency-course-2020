@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug", "FaultyFiber", "FaultyAsan", "FaultyTsan"],
+  "test_targets": ["unit_test", "stress_test"],
+  "lint_files": ["semaphore.hpp", "channel.hpp"],
+  "submit_files": ["semaphore.hpp", "channel.hpp"]
+}

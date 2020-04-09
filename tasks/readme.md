@@ -7,4 +7,5 @@
 1-mutex | spinlock
 1-mutex | tricky
 1-mutex | try-lock
-
+2-condvar | barrier
+2-condvar | semaphore

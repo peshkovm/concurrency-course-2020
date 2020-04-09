@@ -1,0 +1,6 @@
+{
+  "test_profiles": ["Debug", "FaultyFiber", "FaultyAsan", "FaultyTsan"],
+  "test_targets": ["unit_test", "stress_test"],
+  "lint_files": ["condvar.hpp"],
+  "submit_files": ["condvar.hpp"]
+}
