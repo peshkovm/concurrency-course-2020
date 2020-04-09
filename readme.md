@@ -8,6 +8,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 - [Как сдавать задачи](docs/ci.md)
 - [Приложение](http://tpcc.btty.su:5111/)
+- [Scoreboard](https://docs.google.com/spreadsheets/d/1nkKbVLGtXYFRLfYaie8s8k2-Rq2_jHvC-tqdik6iuWo/edit?usp=sharing)
 
 ## Навигация
 
