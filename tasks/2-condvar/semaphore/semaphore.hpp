@@ -7,7 +7,8 @@ namespace solutions {
 
 class Semaphore {
  public:
-  explicit Semaphore(size_t /*count*/) {
+  explicit Semaphore(size_t /*initial_count*/) {
+    // Not implemented
   }
 
   void Acquire() {
