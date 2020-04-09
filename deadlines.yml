@@ -55,3 +55,14 @@
   tasks:
     - task: 3-tinyfiber/echo
       score: 500
+
+- group:    Condvars
+  start:    09-04-2020 00:00
+  deadline: 21-04-2020 09:00
+  tasks:
+    - task: 2-condvar/barrier
+      score: 200
+    - task: 2-condvar/condvar
+      score: 300
+    - task: 2-condvar/semaphore
+      score: 200
