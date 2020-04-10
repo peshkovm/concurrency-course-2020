@@ -2,7 +2,6 @@
 
 #include <twist/stdlike/atomic.hpp>
 #include <twist/support/compiler.hpp>
-#include <twist/support/locking.hpp>
 
 #include <pthread.h>
 
