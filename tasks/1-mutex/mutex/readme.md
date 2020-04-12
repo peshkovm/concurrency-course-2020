@@ -36,8 +36,11 @@
 atomic<uint32_t> state; 
 Futex futex{state};
 
-// будим <= 3 потока, спящих в Wait
-futex.Wake(3);
+// будим один поток, спящий в очереди
+futex.WakeOne();
+
+// будим все потоки
+futex.WakeAll();
 
 // засыпаем, если значение атомика state равно 1 
 futex.Wait(/*expected=*/1);
