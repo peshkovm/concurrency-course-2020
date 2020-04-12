@@ -28,16 +28,6 @@ TEST_SUITE(Semaphore) {
     semaphore.Release();  // +1
   }
 
-  SIMPLE_T_TEST(Buffer) {
-    solutions::BufferedChannel<std::string> channel{2};
-
-    channel.Send("hello");
-    channel.Send("world");
-
-    ASSERT_EQ(channel.Receive(), "hello");
-    ASSERT_EQ(channel.Receive(), "world");
-  }
-
   SIMPLE_T_TEST(Blocking) {
     solutions::Semaphore semaphore(0);
 
@@ -93,6 +83,26 @@ TEST_SUITE(BufferedChannel) {
     solutions::BufferedChannel<int> chan{1};
     chan.Send(42);
     ASSERT_EQ(chan.Receive(), 42);
+  }
+
+  SIMPLE_T_TEST(MoveIt) {
+    solutions::BufferedChannel<std::unique_ptr<std::string>> channel{1};
+
+    channel.Send(
+        std::make_unique<std::string>("Move it"));
+
+    auto message = channel.Receive();
+    ASSERT_EQ(*message, "Move it");
+  }
+
+  SIMPLE_T_TEST(Buffer) {
+    solutions::BufferedChannel<std::string> channel{2};
+
+    channel.Send("hello");
+    channel.Send("world");
+
+    ASSERT_EQ(channel.Receive(), "hello");
+    ASSERT_EQ(channel.Receive(), "world");
   }
 
   SIMPLE_T_TEST(FifoSmall) {
