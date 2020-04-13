@@ -13,6 +13,7 @@
 
 ## Futures
 
+- [Futures and Promises](http://dist-prog-book.com/chapter/2/futures.html)
 - [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html), [Your Server as a Function](https://monkey.org/~marius/funsrv.pdf)
 - [Futures for C++11 at Facebook](https://engineering.fb.com/developer-tools/futures-for-c-11-at-facebook/), [Folly Futures](https://github.com/facebook/folly/blob/master/folly/docs/Futures.md), 
 - [Zero-cost futures in Rust](http://aturon.github.io/blog/2016/08/11/futures/), [Designing futures for Rust](http://aturon.github.io/blog/2016/09/07/futures-design/)
@@ -24,7 +25,7 @@
 - [On Duff's Device and Coroutines](https://research.swtch.com/duff)
 
 ### Assymmetric Transfer
-- [Coroutine Theory](https://lewissbaker.github.io/2017/09/25/coroutine-theory)
+
 - [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
 - [C++ Coroutines: Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type)
 
@@ -38,6 +39,7 @@
 
 ### Async / await
 
+- C++: [Asymmetric Transfer](https://lewissbaker.github.io/)
 - C#: [Механика asnyc/await в C#](https://habr.com/ru/post/260217/)
 - Kotlin: [Coroutines / Implementation details](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md#implementation-details)
 - C++: [Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await), [Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type)
