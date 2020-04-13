@@ -31,10 +31,10 @@
 
 ## Asynchronous Programming
 
-- [Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI)
 - [Асинхронность в программировании](https://habr.com/ru/company/jugru/blog/446562/)
 - [Асинхронность: назад в будущее](https://habr.com/ru/post/201826/)
 - [Kotlin Coroutines Proposal](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
+- [Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI), [RustLatam 2019 - Without Boats: Zero-Cost Async IO](https://www.youtube.com/watch?v=skos4B5x7qE)
 
 ### Async / await
 
