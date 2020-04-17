@@ -13,7 +13,7 @@ macro(get_task_target VAR NAME)
 endmacro()
 
 function(add_task_executable BINARY_NAME)
-    prepend(BINARY_SOURCES "${TASK_DIR}/" ${ARGN})
+    set(BINARY_SOURCES ${ARGN})
 
     add_executable(${BINARY_NAME} ${BINARY_SOURCES} ${TASK_SOURCES})
     target_link_libraries(${BINARY_NAME} pthread ${LIBS_LIST})
@@ -57,12 +57,52 @@ endmacro()
 
 # --------------------------------------------------------------------
 
+# Libraries
+
+function(add_task_library LIB_NAME)
+    set(LIB_DIR ${TASK_DIR}/${LIB_NAME})
+
+    get_task_target(LIB_TARGET ${LIB_NAME})
+    log_info("Add task library target = ${LIB_TARGET}")
+
+    # Library
+    file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_DIR}/*.cpp)
+    file(GLOB_RECURSE LIB_HEADERS ${LIB_DIR}/*.hpp)
+    add_library(${LIB_TARGET} STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
+
+    # Dependencies
+    target_link_libraries(${LIB_TARGET} ${ARGN})
+
+    # Append ${LIB_TARGET to LIBS_LIST
+    list(APPEND LIBS_LIST ${LIB_TARGET})
+    set(LIBS_LIST ${LIBS_LIST} PARENT_SCOPE)
+endfunction()
+
+# --------------------------------------------------------------------
+
 # Tests
 
 function(add_task_test BINARY_NAME)
     get_task_target(TEST_NAME ${BINARY_NAME})
-    add_task_executable(${TEST_NAME} ${ARGN})
 
+    prepend(TEST_SOURCES "${TASK_DIR}/" ${ARGN})
+    add_task_executable(${TEST_NAME} ${TEST_SOURCES})
+
+    # Append test to TEST_LIST
+    list(APPEND TEST_LIST ${TEST_NAME})
+    set(TEST_LIST "${TEST_LIST}" PARENT_SCOPE)
+endfunction()
+
+function(add_task_test_dir DIR_NAME)
+    set(BINARY_NAME ${DIR_NAME})
+    get_task_target(TEST_NAME ${BINARY_NAME})
+
+    set(TEST_DIR "${TASK_DIR}/${DIR_NAME}")
+    file(GLOB_RECURSE TEST_CXX_SOURCES ${TEST_DIR}/*.cpp)
+
+    add_task_executable(${TEST_NAME} ${TEST_CXX_SOURCES})
+
+    # Append test to TEST_LIST
     list(APPEND TEST_LIST ${TEST_NAME})
     set(TEST_LIST "${TEST_LIST}" PARENT_SCOPE)
 endfunction()
@@ -78,7 +118,9 @@ endfunction()
 
 function(add_task_benchmark BINARY_NAME)
     get_task_target(BENCH_NAME ${BINARY_NAME})
-    add_task_executable(${BENCH_NAME} ${ARGN})
+
+    prepend(BENCH_SOURCES "${TASK_DIR}/" ${ARGN})
+    add_task_executable(${BENCH_NAME} ${BENCH_SOURCES})
     target_link_libraries(${BENCH_NAME} benchmark)
 
     if(${TOOL_BUILD})
