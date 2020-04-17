@@ -10,10 +10,9 @@
 5  | Модели памяти I 
 6  | Moдели памяти II 
 7  | Futures 
-7  | Лок-фри 
-8  | Планировщик 
-9  | Coroutines - I
-10 | Coroutines - II 
-11 | ? 
+8  | Лок-фри 
+9  | Планировщик 
+10 | Coroutines - I
+11 | Coroutines - II 
 12 | ? 
 13 | Final 
