@@ -4,6 +4,7 @@
 - [Memory Models: A Case For Rethinking Parallel Languages and Hardware](https://cacm.acm.org/magazines/2010/8/96610-memory-models-a-case-for-rethinking-parallel-languages-and-hardware/pdf)
 - [Go Memory Model](https://golang.org/ref/mem), [Don't be clever](https://golang.org/ref/mem#tmp_1)
 - [Java Memory Model](https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4)
+- [Atomics in Rust](https://doc.rust-lang.org/nomicon/atomics.html)
 - [Foundations of the C++ Concurrency Memory Model](http://www.hpl.hp.com/techreports/2008/HPL-2008-56.pdf)
 - [Explanation of the Linux-Kernel Memory Consistency Model](https://github.com/torvalds/linux/tree/master/tools/memory-model/Documentation) 
 - [The Problem of Programming Language Concurrency Semantics](https://www.cl.cam.ac.uk/~jp622/the_problem_of_programming_language_concurrency_semantics.pdf)
@@ -13,6 +14,7 @@
 
 ## Futures
 
+- [Futures and Promises](http://dist-prog-book.com/chapter/2/futures.html)
 - [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html), [Your Server as a Function](https://monkey.org/~marius/funsrv.pdf)
 - [Futures for C++11 at Facebook](https://engineering.fb.com/developer-tools/futures-for-c-11-at-facebook/), [Folly Futures](https://github.com/facebook/folly/blob/master/folly/docs/Futures.md), 
 - [Zero-cost futures in Rust](http://aturon.github.io/blog/2016/08/11/futures/), [Designing futures for Rust](http://aturon.github.io/blog/2016/09/07/futures-design/)
@@ -24,20 +26,21 @@
 - [On Duff's Device and Coroutines](https://research.swtch.com/duff)
 
 ### Assymmetric Transfer
-- [Coroutine Theory](https://lewissbaker.github.io/2017/09/25/coroutine-theory)
+
 - [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
 - [C++ Coroutines: Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type)
 
 
 ## Asynchronous Programming
 
-- [Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI)
 - [Асинхронность в программировании](https://habr.com/ru/company/jugru/blog/446562/)
 - [Асинхронность: назад в будущее](https://habr.com/ru/post/201826/)
 - [Kotlin Coroutines Proposal](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
+- [Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI), [RustLatam 2019 - Without Boats: Zero-Cost Async IO](https://www.youtube.com/watch?v=skos4B5x7qE)
 
 ### Async / await
 
+- C++: [Asymmetric Transfer](https://lewissbaker.github.io/)
 - C#: [Механика asnyc/await в C#](https://habr.com/ru/post/260217/)
 - Kotlin: [Coroutines / Implementation details](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md#implementation-details)
 - C++: [Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await), [Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type)

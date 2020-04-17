@@ -51,7 +51,7 @@
 
 - group:    Echo (Tiny Fibers)
   start:    18-03-2020 00:00
-  deadline: 09-04-2020 09:00
+  deadline: 18-04-2020 09:00
   tasks:
     - task: 3-tinyfiber/echo
       score: 500
