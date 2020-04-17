@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 enable_language(ASM)
 
 begin_task()
-task_link_libraries(libtinysupport)
+task_link_libraries(libtinysupport asio-no-boost)
 set_task_sources(
   context.hpp
   context.cpp
