@@ -7,3 +7,6 @@
 [submodule "library/tiny-support"]
 	path = library/tiny-support
 	url = https://gitlab.com/Lipovsky/tiny-support
+[submodule "library/asio"]
+	path = library/asio
+	url = https://github.com/chriskohlhoff/asio
