@@ -6,6 +6,7 @@
     "sleep_queue.hpp", "sleep_queue.cpp",
     "scheduler.hpp", "scheduler.cpp"
   ],
+  "lint_includes": ["tiny-support-v1"],
   "submit_files": [
     "fiber.hpp", "fiber.cpp",
     "sleep_queue.hpp", "sleep_queue.cpp",

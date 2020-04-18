@@ -8,6 +8,7 @@
     "awaiter.hpp", "awaiter.cpp",
     "echo.hpp", "echo.cpp"
   ],
+  "lint_includes": ["tiny-support-v1"],
   "submit_files": [
     "fiber.hpp", "fiber.cpp",
     "scheduler.hpp", "scheduler.cpp",

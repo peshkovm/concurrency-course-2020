@@ -2,6 +2,7 @@
   "test_profiles": ["Debug"],
   "test_targets": ["test"],
   "lint_files": ["fiber.hpp", "fiber.cpp", "scheduler.hpp", "scheduler.cpp"],
+  "lint_includes": ["tiny-support-v1"],
   "submit_files": ["fiber.hpp", "fiber.cpp", "scheduler.hpp", "scheduler.cpp"],
   "forbidden_patterns": [
     "sleep_for", "usleep", "sleep(",
