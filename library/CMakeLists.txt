@@ -8,5 +8,10 @@ target_include_directories(asio-no-boost INTERFACE asio/asio/include)
 # ------------------------------------------------------------------------------
 
 add_subdirectory(twist)
-add_subdirectory(tiny-support)
 
+# ------------------------------------------------------------------------------
+
+add_subdirectory(tiny-support-v1)
+add_subdirectory(tiny-support-v2)
+
+# ------------------------------------------------------------------------------

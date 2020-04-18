@@ -10,3 +10,11 @@
 [submodule "library/asio"]
 	path = library/asio
 	url = https://github.com/chriskohlhoff/asio
+[submodule "library/tiny-support-v1"]
+	path = library/tiny-support-v1
+	url = https://gitlab.com/Lipovsky/tiny-support
+	branch = v1
+[submodule "library/tiny-support-v2"]
+	path = library/tiny-support-v2
+	url = https://gitlab.com/Lipovsky/tiny-support
+	branch = v2
