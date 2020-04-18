@@ -60,7 +60,3 @@ tcp-соединения клиентов, читать из них данные
 * [Asio](https://github.com/chriskohlhoff/asio/)
 * [Basic Asio Anatomy](http://think-async.com/Asio/asio-1.12.2/doc/asio/overview/core/basics.html)
 * [Thinking Asynchronously: Designing Applications with Boost.Asio](https://www.youtube.com/watch?v=D-lTwGJRx0o), [слайды](http://cpp.mimuw.edu.pl/files/boost_vs_qt/asio/thinking_asynchronously.pdf)
-
-## Зависимости
-
-Для сборки этой задачи вам нужно [установить](/docs/install_asio.md) в контейнер библиотеку _Asio_.
