@@ -66,3 +66,10 @@
       score: 300
     - task: 2-condvar/semaphore
       score: 200
+
+- group:    Futures
+  start:    22-04-2020 00:00
+  deadline: 06-05-2020 09:00
+  tasks:
+    - task: 4-futures/executors
+      score: 500
