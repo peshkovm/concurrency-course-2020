@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "profiles": ["Debug"],
+      "targets": ["tests"]
+    }
+  ],
+  "lint_files": ["tinyfutures"],
+  "lint_includes": ["tiny-support-v2"],
+  "submit_files": ["tinyfutures"],
+  "forbidden_patterns": [
+    "asio"
+  ]
+}
