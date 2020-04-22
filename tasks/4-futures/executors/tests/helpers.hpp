@@ -3,6 +3,9 @@
 #include <chrono>
 #include <ctime>
 
+#include <mutex>
+#include <condition_variable>
+
 namespace test_helpers {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +57,30 @@ class CPUTimeMeter {
 
  private:
   std::clock_t start_clocks_;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+class OnePassBarrier {
+ public:
+  OnePassBarrier(size_t threads)
+    : threads_(threads) {
+  }
+
+  void Arrive() {
+    std::unique_lock lock(mutex_);
+    --threads_;
+    if (threads_ > 0) {
+      all_arrived_.wait(lock, [this]() { return threads_ == 0; });
+    } else {
+      all_arrived_.notify_all();
+    }
+  }
+
+ private:
+  size_t threads_;
+  std::mutex mutex_;
+  std::condition_variable all_arrived_;
 };
 
 }  // namespace test_helpers

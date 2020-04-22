@@ -182,4 +182,36 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     tp->Join();
     ASSERT_EQ(count, 0);
   }
+
+  SIMPLE_TEST(ConcurrentExecutes) {
+    auto tp = MakeStaticThreadPool(2, "test");
+
+    static const size_t kProducers = 5;
+    static const size_t kTasks = 1024;
+
+    test_helpers::OnePassBarrier barrier{kProducers};
+    std::atomic<int> done{0};
+
+    auto task = [&done]() {
+      ASSERT_EQ(GetThreadLabel(), "test");
+      done.fetch_add(1);
+    };
+
+    std::vector<std::thread> producers;
+
+    for (size_t i = 0; i < kProducers; ++i) {
+      producers.emplace_back([tp, &task, &barrier]() {
+        barrier.Arrive();
+        for (size_t j = 0; j < kTasks; ++j) {
+          tp->Execute(task);
+        }
+      });
+    }
+
+    for (auto& t : producers) {
+      t.join();
+    }
+
+    tp->Join();
+  }
 }
