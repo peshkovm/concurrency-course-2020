@@ -213,5 +213,8 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     }
 
     tp->Join();
+
+    ASSERT_EQ(tp->ExecutedTaskCount(), kProducers * kTasks);
+    ASSERT_EQ(done.load(), kProducers * kTasks);
   }
 }

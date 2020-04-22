@@ -4,6 +4,8 @@
 #include <tinyfutures/executors/strand.hpp>
 #include <tinyfutures/executors/thread_label.hpp>
 
+#include "helpers.hpp"
+
 #include <thread>
 #include <atomic>
 
@@ -95,6 +97,41 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
       ASSERT_EQ(counters[i].Value(), kBatchSize * kIterations);
     }
   }
+
+  SIMPLE_TEST(ConcurrentExecutes) {
+    auto tp = MakeStaticThreadPool(2, "test");
+    auto strand = MakeStrand(tp);
+
+    static const size_t kProducers = 5;
+    static const size_t kTasks = 1024;
+
+    test_helpers::OnePassBarrier barrier{kProducers};
+    std::atomic<int> done{0};
+
+    auto task = [&done]() {
+      ASSERT_EQ(GetThreadLabel(), "test");
+      done.fetch_add(1);
+    };
+
+    std::vector<std::thread> producers;
+
+    for (size_t i = 0; i < kProducers; ++i) {
+      producers.emplace_back([strand, &task, &barrier]() {
+        barrier.Arrive();
+        for (size_t j = 0; j < kTasks; ++j) {
+          strand->Execute(task);
+        }
+      });
+    }
+
+    for (auto& t : producers) {
+      t.join();
+    }
+
+    tp->Join();
+    ASSERT_EQ(done.load(), kProducers * kTasks);
+  }
+
 
   SIMPLE_TEST(Batching) {
     auto tp = MakeStaticThreadPool(1, "tp");
