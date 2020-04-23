@@ -4,6 +4,8 @@
 #include <tinyfutures/executors/queues.hpp>
 #include <tinyfutures/executors/helpers.hpp>
 
+#include <twist/stdlike/thread.hpp>
+
 namespace tiny::executors {
 
 IThreadPoolPtr MakeStaticThreadPool(size_t threads, const std::string& name) {
