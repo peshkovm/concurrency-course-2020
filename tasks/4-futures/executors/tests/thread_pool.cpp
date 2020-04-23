@@ -65,6 +65,17 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     ASSERT_EQ(tp->ExecutedTaskCount(), 2);
   }
 
+  SIMPLE_TEST(AfterJoin) {
+    auto tp = MakeStaticThreadPool(1, "single");
+    tp->Join();
+
+    tp->Execute([]() {
+      FAIL_TEST("Executed after Join");
+    });
+
+    std::this_thread::sleep_for(500ms);
+  }
+
   SIMPLE_TEST(Shutdown) {
     auto tp = MakeStaticThreadPool(1, "test");
 
