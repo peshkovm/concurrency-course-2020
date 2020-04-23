@@ -1,7 +1,5 @@
 #pragma once
 
-#include <deque>
-#include <condition_variable>
 #include <optional>
 
 namespace tiny::executors {
