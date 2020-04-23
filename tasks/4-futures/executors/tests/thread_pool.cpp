@@ -73,11 +73,20 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
       std::this_thread::sleep_for(1s);
     });
 
+    std::this_thread::sleep_for(100ms);
+
     bool done = false;
     tp->Execute([&done]() {
       done = true;
     });
     tp->Shutdown();
+
+    ASSERT_FALSE(done);
+
+    tp->Execute([&done]() {
+      done = true;
+    });
+    std::this_thread::sleep_for(1s);
 
     ASSERT_FALSE(done);
   }

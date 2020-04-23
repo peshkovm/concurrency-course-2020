@@ -222,6 +222,8 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
       strand->Execute(step);
       std::this_thread::sleep_for(kStepPause);
     }
+
+    tp->Join();
   }
 
   SIMPLE_TEST(Exceptions) {
