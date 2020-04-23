@@ -223,4 +223,25 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
       std::this_thread::sleep_for(kStepPause);
     }
   }
+
+  SIMPLE_TEST(Exceptions) {
+    auto tp = MakeStaticThreadPool(1, "pool");
+    auto strand = MakeStrand(tp);
+
+    tp->Execute([]() {
+      std::this_thread::sleep_for(1s);
+    });
+
+    bool done = false;
+
+    strand->Execute([]() {
+      throw std::runtime_error("You shall not pass!");
+    });
+    strand->Execute([&done]() {
+      done = true;
+    });
+
+    tp->Join();
+    ASSERT_TRUE(done);
+  }
 }
