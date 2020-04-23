@@ -94,8 +94,14 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
   SIMPLE_TEST(BlockingQueue) {
     auto tp = MakeStaticThreadPool(3, "test");
 
+    // Warmup
+    tp->Execute([](){});
+
     test_helpers::CPUTimeMeter cpu_time_meter;
     std::this_thread::sleep_for(1s);
+
+    tp->Join();
+
     ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
   }
 
@@ -111,6 +117,8 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
         ++next_task;
       });
     }
+
+    tp->Join();
   }
 
   SIMPLE_TEST(RacyCounter) {
