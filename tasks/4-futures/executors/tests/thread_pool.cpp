@@ -116,6 +116,18 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
   }
 
+  SIMPLE_TEST(BlockingJoin) {
+    auto tp = MakeStaticThreadPool(2, "test");
+
+    tp->Execute([]() {
+      std::this_thread::sleep_for(1s);
+    });
+
+    test_helpers::CPUTimeMeter cpu_time_meter;
+    tp->Join();
+    ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
+  }
+
   SIMPLE_TEST(Fifo) {
     auto tp = MakeStaticThreadPool(1, "thread");
 
