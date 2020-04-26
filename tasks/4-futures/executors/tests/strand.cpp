@@ -246,4 +246,24 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     tp->Join();
     ASSERT_TRUE(done);
   }
+
+  SIMPLE_TEST(NonBlockingExecute) {
+    auto tp = MakeStaticThreadPool(1, "tp");
+    auto strand = MakeStrand(tp);
+
+    strand->Execute([]() {
+      ExpectThread("tp");
+      std::this_thread::sleep_for(2s);
+    });
+
+    std::this_thread::sleep_for(500ms);
+
+    test_helpers::StopWatch stop_watch;
+    strand->Execute([]() {
+      ExpectThread("tp");
+    });
+    ASSERT_LE(stop_watch.Elapsed(), 100ms);
+
+    tp->Join();
+  }
 }
