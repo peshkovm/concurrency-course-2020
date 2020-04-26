@@ -55,4 +55,33 @@ TEST_SUITE_WITH_PRIORITY(Work, 3) {
 
     tp1->Join();
   }
+
+  SIMPLE_TEST(Counting) {
+    auto tp1 = MakeStaticThreadPool(1, "tp1");
+    auto tp2 = MakeStaticThreadPool(1, "tp2");
+    auto tp3 = MakeStaticThreadPool(1, "tp3");
+
+    tp1->Execute([tp3, work = MakeWorkFor(tp3)]() {
+      ExpectThread("tp1");
+      std::this_thread::sleep_for(500ms);
+      tp3->Execute([]() {
+        ExpectThread("tp3");
+      });
+    });
+
+    tp2->Execute([tp3, work = MakeWorkFor(tp3)]() {
+      ExpectThread("tp2");
+      std::this_thread::sleep_for(1s);
+      tp3->Execute([]() {
+        ExpectThread("tp3");
+      });
+    });
+
+    tp3->Join();
+
+    ASSERT_EQ(tp3->ExecutedTaskCount(), 2);
+
+    tp1->Join();
+    tp2->Join();
+  }
 }
