@@ -165,4 +165,8 @@ thread_pool.Join();
 
 Вы можете писать код в `coroutine.hpp`, `coroutine.cpp` и `fiber.cpp`.
 
-При работе с исключениями в корутинах используйте [std::exception_ptr](https://en.cppreference.com/w/cpp/error/exception_ptr).
+## Замечания по реализации
+
+Используйте [std::exception_ptr](https://en.cppreference.com/w/cpp/error/exception_ptr) для прокидывания исключения из корутины в caller-а.
+
+Не добавляйте в публичный интерфейс `Coroutine` служебные методы, которые пользователь корутины не должен вызывать напрямую.
