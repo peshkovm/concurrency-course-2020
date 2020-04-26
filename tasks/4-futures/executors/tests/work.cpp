@@ -5,6 +5,8 @@
 #include <tinyfutures/executors/strand.hpp>
 #include <tinyfutures/executors/work.hpp>
 
+#include "helpers.hpp"
+
 using namespace tiny::executors;
 using namespace std::chrono_literals;
 
@@ -77,7 +79,9 @@ TEST_SUITE_WITH_PRIORITY(Work, 3) {
       });
     });
 
+    test_helpers::CPUTimeMeter cpu_time_meter;
     tp3->Join();
+    ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
 
     ASSERT_EQ(tp3->ExecutedTaskCount(), 2);
 
