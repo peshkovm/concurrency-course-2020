@@ -1,5 +1,6 @@
 {
   "test_profiles": ["Debug", "FaultyAsan"],
+  "test_targets": ["unit_test", "stress_test"],
   "lint_files": ["toyalloc.hpp", "toyalloc.cpp"],
   "submit_files": ["toyalloc.cpp"],
   "forbidden_patterns": ["malloc", "new", "Free list goes here", "Prepare to fork?"]
