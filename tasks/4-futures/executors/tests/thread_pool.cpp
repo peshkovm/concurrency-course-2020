@@ -108,12 +108,12 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     // Warmup
     tp->Execute([](){});
 
-    test_helpers::CPUTimeMeter cpu_time_meter;
-    std::this_thread::sleep_for(1s);
+    {
+      test_helpers::CPUTimeBudgetGuard budget(0.1);
 
-    tp->Join();
-
-    ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
+      std::this_thread::sleep_for(1s);
+      tp->Join();
+    }
   }
 
   SIMPLE_TEST(BlockingJoin) {
@@ -123,9 +123,10 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
       std::this_thread::sleep_for(1s);
     });
 
-    test_helpers::CPUTimeMeter cpu_time_meter;
-    tp->Join();
-    ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
+    {
+      test_helpers::CPUTimeBudgetGuard budget(0.1);
+      tp->Join();
+    }
   }
 
   SIMPLE_TEST(Fifo) {

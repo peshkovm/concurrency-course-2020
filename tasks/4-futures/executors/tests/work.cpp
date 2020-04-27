@@ -13,19 +13,21 @@ using namespace std::chrono_literals;
 #include <thread>
 
 TEST_SUITE_WITH_PRIORITY(Work, 3) {
-  SIMPLE_TEST(NestedExecute) {
+  SIMPLE_TEST(CrossPoolExecute) {
     auto tp1 = MakeStaticThreadPool(3, "tp1");
     auto tp2 = MakeStaticThreadPool(2, "tp2");
 
     bool done = false;
 
-    tp1->Execute([&, work = MakeWorkFor(tp2)]() {
-      ASSERT_EQ(GetThreadLabel(), "tp1");
+    auto tp2_task = [&done]() {
+      ExpectThread("tp2");
+      done = true;
+    };
+
+    tp1->Execute([tp2 = KeepWorking(tp2), tp2_task]() {
+      ExpectThread("tp1");
       std::this_thread::sleep_for(1s);
-      tp2->Execute([&]() {
-        ASSERT_EQ(GetThreadLabel(), "tp2");
-        done = true;
-      });
+      tp2->Execute(tp2_task);
     });
 
     tp2->Join();
@@ -35,20 +37,22 @@ TEST_SUITE_WITH_PRIORITY(Work, 3) {
     tp1->Join();
   }
 
-  SIMPLE_TEST(NestedExecute2) {
+  SIMPLE_TEST(CrossPoolExecute2) {
     auto tp1 = MakeStaticThreadPool(3, "tp1");
     auto tp2 = MakeStaticThreadPool(2, "tp2");
     auto strand2 = MakeStrand(tp2);
 
     bool done = false;
 
-    tp1->Execute([&, work = MakeWorkFor(strand2)]() {
-      ASSERT_EQ(GetThreadLabel(), "tp1");
+    auto tp2_task = [&done]() {
+      ExpectThread("tp2");
+      done = true;
+    };
+
+    tp1->Execute([tp2_task, strand2 = KeepWorking(strand2)]() {
+      ExpectThread("tp1");
       std::this_thread::sleep_for(1s);
-      strand2->Execute([&]() {
-        ASSERT_EQ(GetThreadLabel(), "tp2");
-        done = true;
-      });
+      strand2->Execute(tp2_task);
     });
 
     tp2->Join();
@@ -58,30 +62,31 @@ TEST_SUITE_WITH_PRIORITY(Work, 3) {
     tp1->Join();
   }
 
-  SIMPLE_TEST(Counting) {
+  SIMPLE_TEST(MorePools) {
     auto tp1 = MakeStaticThreadPool(1, "tp1");
     auto tp2 = MakeStaticThreadPool(1, "tp2");
     auto tp3 = MakeStaticThreadPool(1, "tp3");
 
-    tp1->Execute([tp3, work = MakeWorkFor(tp3)]() {
+    auto tp3_task = []() {
+      ExpectThread("tp3");
+    };
+
+    tp1->Execute([tp3_task, tp3 = KeepWorking(tp3)]() {
       ExpectThread("tp1");
       std::this_thread::sleep_for(500ms);
-      tp3->Execute([]() {
-        ExpectThread("tp3");
-      });
+      tp3->Execute(tp3_task);
     });
 
-    tp2->Execute([tp3, work = MakeWorkFor(tp3)]() {
+    tp2->Execute([tp3_task, tp3 = KeepWorking(tp3)]() {
       ExpectThread("tp2");
       std::this_thread::sleep_for(1s);
-      tp3->Execute([]() {
-        ExpectThread("tp3");
-      });
+      tp3->Execute(tp3_task);
     });
 
-    test_helpers::CPUTimeMeter cpu_time_meter;
-    tp3->Join();
-    ASSERT_TRUE(cpu_time_meter.UsageSeconds() < 0.1);
+    {
+      test_helpers::CPUTimeBudgetGuard budget(0.1);
+      tp3->Join();
+    }
 
     ASSERT_EQ(tp3->ExecutedTaskCount(), 2);
 

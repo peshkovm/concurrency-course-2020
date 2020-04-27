@@ -1,5 +1,7 @@
 #pragma once
 
+#include <twist/test_framework/test_framework.hpp>
+
 #include <chrono>
 #include <ctime>
 
@@ -57,6 +59,20 @@ class CPUTimeMeter {
 
  private:
   std::clock_t start_clocks_;
+};
+
+class CPUTimeBudgetGuard {
+ public:
+  CPUTimeBudgetGuard(double limit) : limit_(limit) {
+  }
+
+  ~CPUTimeBudgetGuard() {
+    ASSERT_TRUE(meter_.UsageSeconds() <= limit_);
+  }
+
+ private:
+  CPUTimeMeter meter_;
+  double limit_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
