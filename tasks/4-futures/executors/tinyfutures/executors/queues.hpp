@@ -7,10 +7,10 @@
 
 namespace tiny::executors {
 
-// Unbounded blocking queue
+// Multi-producer/multi-consumer (MPMC) unbounded blocking queue
 
 template <typename T>
-class BlockingQueue {
+class MPMCBlockingQueue {
  public:
   // Returns false iff queue is closed / shutted down
   bool Put(T item) {
@@ -36,6 +36,20 @@ class BlockingQueue {
 
  private:
   // Your code goes here
+};
+
+//////////////////////////////////////////////////////////////////////
+
+// Multi-producer/single-consumer (MPSC) unbounded lock-free queue
+
+template <typename T>
+class MPSCLockFreeQueue {
+ public:
+  void Put(T item) {
+    // Not implemented
+  }
+
+  // Take? or TakeAll?
 };
 
 }  // namespace tiny::executors
