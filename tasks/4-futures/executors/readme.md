@@ -211,8 +211,8 @@ Strand ничего не знает про число потоков, котор
 ```cpp
 // tp1, tp2 - два пула потоков
 
-// `work` не дает пулу `tp1` остановиться до запуска в нем задачи
-tp2->Execute([work = MakeWorkFor(tp1)]() {
+// Не даем пулу `tp1` остановиться до запуска в нем задачи
+tp2->Execute([tp1 = KeepWorking(tp1)]() {
   tp1->Execute([]() {
     std::cout << "Hello, World!";
   });
