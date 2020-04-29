@@ -6,8 +6,8 @@ namespace tiny::executors {
 
 struct IThreadPool : public IExecutor {
   // Graceful shutdown
-  // Await all scheduled (directly or via decorating executors or
-  // future pipelines) tasks and stop all threads
+  // Wait until the pool has no more outstanding work
+  // and stop the threads
   virtual void Join() = 0;
 
   // Just stop as soon as possible ignoring all scheduled tasks
