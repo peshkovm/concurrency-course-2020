@@ -39,12 +39,14 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     auto strand = MakeStrand(tp);
 
     static const size_t kIncrements = 123456;
+
     for (size_t i = 0; i < kIncrements; ++i) {
       strand->Execute([&counter]() {
         ASSERT_EQ(GetThreadLabel(), "pool");
         ++counter;
       });
     };
+
     tp->Join();
 
     ASSERT_EQ(counter, kIncrements);
@@ -58,6 +60,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     auto strand = MakeStrand(tp);
 
     static const size_t kTickets = 123456;
+
     for (size_t t = 0; t < kTickets; ++t) {
       strand->Execute([&next_ticket, t]() {
         ASSERT_EQ(GetThreadLabel(), "pool");
@@ -65,6 +68,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
         ++next_ticket;
       });
     };
+
     tp->Join();
 
     ASSERT_EQ(next_ticket, kTickets);
