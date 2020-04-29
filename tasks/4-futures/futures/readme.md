@@ -54,7 +54,7 @@ if (result.IsOk()) {
 
 ```cpp
 template <typename T>
-T Future<T>::GetValue() && {  // метод `Get` можно звать только на rvalue
+T Future<T>::GetValue() && {  // метод `GetValue` можно звать только на rvalue
     // ...
 }
 ```
@@ -63,7 +63,7 @@ T Future<T>::GetValue() && {  // метод `Get` можно звать толь
 
 ```cpp
 auto f = FetchHttp(url);
-auto content = std::move(f).Get();
+auto content = std::move(f).GetValue();
 ```
 
 Теперь можно пользоваться проверкой [`bugprone-use-after-move`](https://clang.llvm.org/extra/clang-tidy/checks/bugprone-use-after-move.html) в `clang-tidy`.
@@ -196,6 +196,8 @@ std::move(f).Subscribe([](Result<std::string> content) {
 Рассмотрим следующий пример:
 
 ```cpp
+// Ранее: [f, p] = MakeContract<int>();
+
 // В потоке A:
 std::move(p).SetValue(42);
 
