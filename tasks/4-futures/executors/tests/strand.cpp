@@ -50,6 +50,26 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     ASSERT_EQ(counter, kIncrements);
   }
 
+  SIMPLE_TEST(Fifo) {
+    auto tp = MakeStaticThreadPool(13, "pool");
+
+    size_t next_ticket = 0;
+
+    auto strand = MakeStrand(tp);
+
+    static const size_t kTickets = 123456;
+    for (size_t t = 0; t < kTickets; ++t) {
+      strand->Execute([&next_ticket, t]() {
+        ASSERT_EQ(GetThreadLabel(), "pool");
+        ASSERT_EQ(next_ticket, t);
+        ++next_ticket;
+      });
+    };
+    tp->Join();
+
+    ASSERT_EQ(next_ticket, kTickets);
+  }
+
   class Counter {
    public:
     Counter(IExecutorPtr e)
