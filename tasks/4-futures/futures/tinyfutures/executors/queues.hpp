@@ -33,9 +33,6 @@ class MPMCBlockingQueue {
   void Shutdown() {
     // Not implemented
   }
-
- private:
-  // Your code goes here
 };
 
 //////////////////////////////////////////////////////////////////////
