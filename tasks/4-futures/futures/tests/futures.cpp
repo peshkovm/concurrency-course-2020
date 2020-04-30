@@ -88,7 +88,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     });
 
     {
-      test_helpers::CPUTimeBudgetGuard budget(0.1);
+      test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
       auto message = std::move(f).GetValue();
       ASSERT_EQ(message, kMessage);
     }
@@ -109,10 +109,13 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     auto f2 = After(1200ms);
 
     test_helpers::StopWatch stop_watch;
+
     std::move(f1).GetValue();
     std::move(f2).GetValue();
-    ASSERT_GT(stop_watch.Elapsed(), 1s);
-    ASSERT_LT(stop_watch.Elapsed(), 1500ms);
+
+    auto elapsed = stop_watch.Elapsed();
+    ASSERT_GT(elapsed, 1s);
+    ASSERT_LT(elapsed, 1500ms);
   }
 
   SIMPLE_TEST(AsyncVia) {
@@ -203,7 +206,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
   }
 
   SIMPLE_TEST(SubscribeVia1) {
-    test_helpers::CPUTimeBudgetGuard budget(0.1);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
 
     auto tp = MakeStaticThreadPool(1, "callbacks");
 
@@ -228,7 +231,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
   }
 
   SIMPLE_TEST(SubscribeVia2) {
-    test_helpers::CPUTimeBudgetGuard budget(0.1);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
 
     auto tp_callbacks = MakeStaticThreadPool(1, "callbacks");
     auto tp_work = MakeStaticThreadPool(1, "work");
@@ -289,7 +292,9 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     fs.push_back(AsyncValue<int>(2, 1s));
     fs.push_back(AsyncValue<int>(3, 3s));
 
-    test_helpers::WallTimeLimitGuard guard(1200ms);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
+    test_helpers::WallTimeLimitGuard wall_time_limit(1200ms);
+
     ASSERT_EQ(FirstOf(std::move(fs)).GetValue(), 2);
   }
 
@@ -307,20 +312,24 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
 
   SIMPLE_TEST(WithTimeout) {
     {
-      test_helpers::WallTimeLimitGuard guard(700ms);
+      test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
+      test_helpers::WallTimeLimitGuard wall_time_limit(700ms);
+
       auto f = WithTimeout(AsyncValue(42, 500ms), 1s);
       ASSERT_EQ(std::move(f).GetValue(), 42);
     }
 
     {
-      test_helpers::WallTimeLimitGuard guard(1200ms);
+      test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
+      test_helpers::WallTimeLimitGuard wall_time_limit(1200ms);
+
       auto f = WithTimeout(AsyncValue(42, 2s), 1s);
       ASSERT_THROW(std::move(f).GetValue(), TimedOut);
     }
   }
 
   SIMPLE_TEST(ThenSynchronous) {
-    test_helpers::CPUTimeBudgetGuard budget(0.1);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
 
     auto [f, p] = MakeContract<int>();
 
@@ -350,7 +359,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
   }
 
   SIMPLE_TEST(ThenAfter) {
-    test_helpers::CPUTimeBudgetGuard budget(0.1);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
 
     auto [f, p] = MakeContract<Unit>();
 
@@ -379,7 +388,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
   }
 
   SIMPLE_TEST(ThenMultiPools) {
-    test_helpers::CPUTimeBudgetGuard budget(0.1);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
 
     auto tp1 = MakeStaticThreadPool(2, "tp1");
     auto tp2 = MakeStaticThreadPool(3, "tp2");
@@ -416,7 +425,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
   }
 
   SIMPLE_TEST(ViaThen) {
-    test_helpers::CPUTimeBudgetGuard budget(0.1);
+    test_helpers::CPUTimeBudgetGuard cpu_time_budget(0.1);
 
     auto tp1 = MakeStaticThreadPool(2, "tp1");
     auto tp2 = MakeStaticThreadPool(3, "tp2");
