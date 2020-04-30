@@ -46,13 +46,13 @@ class StopWatch {
   TimePoint start_time_;
 };
 
-class WallTimeGuard {
+class WallTimeLimitGuard {
   using Duration = StopWatch::Duration;
  public:
-  WallTimeGuard(Duration limit) : limit_(limit) {
+  WallTimeLimitGuard(Duration limit) : limit_(limit) {
   }
 
-  ~WallTimeGuard() {
+  ~WallTimeLimitGuard() {
     ASSERT_TRUE(stop_watch_.Elapsed() <= limit_);
   }
 

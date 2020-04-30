@@ -289,7 +289,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     fs.push_back(AsyncValue<int>(2, 1s));
     fs.push_back(AsyncValue<int>(3, 3s));
 
-    test_helpers::WallTimeGuard guard(1200ms);
+    test_helpers::WallTimeLimitGuard guard(1200ms);
     ASSERT_EQ(FirstOf(std::move(fs)).GetValue(), 2);
   }
 
@@ -307,13 +307,13 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
 
   SIMPLE_TEST(WithTimeout) {
     {
-      test_helpers::WallTimeGuard guard(700ms);
+      test_helpers::WallTimeLimitGuard guard(700ms);
       auto f = WithTimeout(AsyncValue(42, 500ms), 1s);
       ASSERT_EQ(std::move(f).GetValue(), 42);
     }
 
     {
-      test_helpers::WallTimeGuard guard(1200ms);
+      test_helpers::WallTimeLimitGuard guard(1200ms);
       auto f = WithTimeout(AsyncValue(42, 2s), 1s);
       ASSERT_THROW(std::move(f).GetValue(), TimedOut);
     }
