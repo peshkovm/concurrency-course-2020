@@ -18,6 +18,7 @@ namespace test_helpers {
 ////////////////////////////////////////////////////////////////////////////////
 
 class StopWatch {
+ public:
   using Clock = std::chrono::steady_clock;
   using TimePoint = std::chrono::time_point<Clock>;
   using Duration = std::chrono::nanoseconds;
@@ -43,6 +44,21 @@ class StopWatch {
 
  private:
   TimePoint start_time_;
+};
+
+class WallTimeGuard {
+  using Duration = StopWatch::Duration;
+ public:
+  WallTimeGuard(Duration limit) : limit_(limit) {
+  }
+
+  ~WallTimeGuard() {
+    ASSERT_TRUE(stop_watch_.Elapsed() <= limit_);
+  }
+
+ private:
+  StopWatch stop_watch_;
+  Duration limit_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
