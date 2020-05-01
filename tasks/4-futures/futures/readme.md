@@ -107,7 +107,7 @@ std::cout << AsyncVia(compute, tp).GetValue() << std::endl;
 
 * Таймаут (`After`)
 * Вычислительная задача в пуле потоков (`AsyncVia`)
-* [Remote Procedure Call](https://capnproto.org/cxxrpc.html#promises) к внешнему сервису
+* [Remote Procedure Call](https://capnproto.org/cxxrpc.html) к внешнему сервису
 * Чтение с диска
 
 ### Chaining
