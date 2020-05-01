@@ -10,6 +10,7 @@ struct IThreadPool : public IExecutor {
   // and stop the threads
   virtual void Join() = 0;
 
+  // Hard shutdown
   // Just stop as soon as possible ignoring all scheduled tasks
   virtual void Shutdown() = 0;
 
