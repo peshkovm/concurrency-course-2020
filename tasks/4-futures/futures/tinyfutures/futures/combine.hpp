@@ -8,7 +8,7 @@ namespace tiny::futures {
 
 namespace detail {
 
-// Your combiners
+// Your combinators
 
 }  // namespace detail
 
