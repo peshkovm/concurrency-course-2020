@@ -2,6 +2,7 @@
 
 #include <tinyfutures/futures/promise.hpp>
 
+#include <twist/stdlike/atomic.hpp>
 #include <twist/stdlike/thread.hpp>
 
 #include <asio.hpp>
@@ -57,7 +58,7 @@ class TimeKeeper {
   }
 
  private:
-  std::atomic<bool> stop_requested_{false};
+  twist::stdlike::atomic<bool> stop_requested_{false};
   asio::io_context io_context_;
   asio::executor_work_guard<asio::io_context::executor_type> work_guard_;
   twist::stdlike::thread worker_thread_;
