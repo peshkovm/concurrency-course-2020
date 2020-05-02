@@ -162,6 +162,7 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
               << counter << std::endl;
 
     ASSERT_NE(counter, kIncrements);
+    ASSERT_EQ(tp->ExecutedTaskCount(), kIncrements);
   }
 
   SIMPLE_TEST(TwoThreadPools) {
