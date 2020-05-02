@@ -18,8 +18,7 @@ class InlineExecutor : public IExecutor {
 
 class Instance {
  public:
-  Instance()
-    : e_(std::make_shared<InlineExecutor>()) {
+  Instance() : e_(std::make_shared<InlineExecutor>()) {
   }
 
   IExecutorPtr Get() {
