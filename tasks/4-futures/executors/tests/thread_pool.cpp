@@ -148,20 +148,20 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
   SIMPLE_TEST(RacyCounter) {
     auto tp = MakeStaticThreadPool(13, "pool");
 
-    size_t counter = 0;
+    std::atomic<size_t> counter = 0;
 
     static const size_t kIncrements = 123456;
     for (size_t i = 0; i < kIncrements; ++i) {
       tp->Execute([&counter]() {
-        ++counter;
+        counter.store(counter.load() + 1);
       });
     };
     tp->Join();
 
     std::cout << "Racy counter value after " << kIncrements << " increments: "
-              << counter << std::endl;
+              << counter.load() << std::endl;
 
-    ASSERT_NE(counter, kIncrements);
+    ASSERT_NE(counter.load(), kIncrements);
     ASSERT_EQ(tp->ExecutedTaskCount(), kIncrements);
   }
 
