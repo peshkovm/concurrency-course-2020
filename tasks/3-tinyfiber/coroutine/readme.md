@@ -114,7 +114,7 @@ thread_pool.Submit(deeper);
 ThreadPool thread_pool(/*threads=*/4);
 
 auto jake = []() {
-  // Уступаем текущий поток другому файберу
+  // Уступаем текущий поток пула другому файберу
   Yield();
 };
 
