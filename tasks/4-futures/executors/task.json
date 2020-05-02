@@ -1,7 +1,7 @@
 {
   "tests": [
     {
-      "profiles": ["Debug"],
+      "profiles": ["Debug", "FaultyAsan", "FaultyTsan"],
       "targets": ["tests"]
     }
   ],
