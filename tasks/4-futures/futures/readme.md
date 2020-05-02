@@ -75,7 +75,6 @@ auto content = std::move(f).GetValue();
 
 ```cpp
 auto tp = MakeStaticThreadPool(4, "tp");
-// ...
 
 auto compute = []() -> int {
     ExpectThread("tp");
@@ -106,9 +105,9 @@ std::cout << AsyncVia(compute, tp).GetValue() << std::endl;
 
 Типичные источники фьюч:
 
-* Таймаут
-* Вычислительная задача в пуле потоков
-* [Remote Procedure Call](https://capnproto.org/cxxrpc.html#promises) к внешнему сервису
+* Таймаут (`After`)
+* Вычислительная задача в пуле потоков (`AsyncVia`)
+* [Remote Procedure Call](https://capnproto.org/cxxrpc.html) к внешнему сервису
 * Чтение с диска
 
 ### Chaining
@@ -251,7 +250,7 @@ auto semi_future = FetchHttp(url);
 // Можно:
 // auto data = std::move(semi_future).Get();
 // Нельзя:
-// std::move(semi_future).Then(ParseJson)
+// std::move(semi_future).Then(ParseJson);
 
 // Трансформируем в полноценную фьючу с помощью `Via` и строим пайплайн
 auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
@@ -263,7 +262,7 @@ auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
 
 Может показаться, что разделение на две сущности `Promise` и `Future` не обязательное и избыточное.
 
-На практике разработчик прикладного асинхронного кода работает лишь с read-only фьючами и комбинаторами. Все возникающие по пути промисы и `Set`-ы - это изнанка фьюч, они спрятаны от него в реализации комбинаторов и асинхронных сервисов, генерирующих фьючи.
+На практике разработчик прикладного асинхронного кода работает лишь с read-only фьючами и комбинаторами. Все возникающие по пути промисы и `Set`-ы - это изнанка фьюч, они спрятаны в реализации комбинаторов и асинхронных сервисов, генерирующих фьючи.
 
 ## Фьючи и корутины в С++
 
