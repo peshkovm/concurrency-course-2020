@@ -145,6 +145,8 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     tp->Join();
   }
 
+#if !defined(TWIST_FAULTY)
+
   SIMPLE_TEST(RacyCounter) {
     auto tp = MakeStaticThreadPool(13, "pool");
 
@@ -164,6 +166,8 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     ASSERT_NE(counter.load(), kIncrements);
     ASSERT_EQ(tp->ExecutedTaskCount(), kIncrements);
   }
+
+#endif
 
   SIMPLE_TEST(TwoThreadPools) {
     auto tp1 = MakeStaticThreadPool(3, "tp1");
