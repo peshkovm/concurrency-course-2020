@@ -11,6 +11,7 @@ using namespace tiny::executors;
 using namespace std::chrono_literals;
 
 #include <thread>
+#include <atomic>
 
 TEST_SUITE_WITH_PRIORITY(Work, 3) {
   SIMPLE_TEST(CrossPoolExecute) {
@@ -92,5 +93,29 @@ TEST_SUITE_WITH_PRIORITY(Work, 3) {
 
     tp1->Join();
     tp2->Join();
+  }
+
+  SIMPLE_TEST(ConcurrentWork) {
+    auto tp = MakeStaticThreadPool(3, "test");
+
+    std::atomic<size_t> completed{0};
+
+    auto add_work = [&]() {
+      tp->WorkCreated();
+      std::this_thread::sleep_for(1s);
+      tp->WorkCompleted();
+      ++completed;
+    };
+
+    std::thread t1(add_work);
+    std::thread t2(add_work);
+
+    std::this_thread::sleep_for(500ms);
+
+    tp->Join();
+    ASSERT_EQ(completed.load(), 2);
+
+    t1.join();
+    t2.join();
   }
 }
