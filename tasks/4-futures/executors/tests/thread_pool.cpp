@@ -155,7 +155,9 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     static const size_t kIncrements = 123456;
     for (size_t i = 0; i < kIncrements; ++i) {
       tp->Execute([&counter]() {
-        counter.store(counter.load() + 1);
+        auto old = counter.load();
+        std::this_thread::yield();
+        counter.store(old + 1);
       });
     };
     tp->Join();
