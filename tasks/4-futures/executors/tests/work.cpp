@@ -103,8 +103,8 @@ TEST_SUITE_WITH_PRIORITY(Work, 3) {
     auto add_work = [&]() {
       tp->WorkCreated();
       std::this_thread::sleep_for(1s);
-      tp->WorkCompleted();
       ++completed;
+      tp->WorkCompleted();
     };
 
     std::thread t1(add_work);
