@@ -7,7 +7,6 @@
   ],
   "FaultyAsan": [
     "CMAKE_BUILD_TYPE=Debug",
-    "TWIST_FORK_TESTS=OFF",
     "TWIST_FAULTY=ON",
     "ASAN=ON"
   ],
