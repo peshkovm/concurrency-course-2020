@@ -98,7 +98,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
   SIMPLE_TEST(ConcurrentStrands) {
     auto tp = MakeStaticThreadPool(16, "pool");
 
-    static const size_t kStrands = 100;
+    static const size_t kStrands = 50;
 
     std::vector<Counter> counters;
     counters.reserve(kStrands);
@@ -107,7 +107,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     }
 
     static const size_t kBatchSize = 50;
-    static const size_t kIterations = 100;
+    static const size_t kIterations = 50;
     for (size_t i = 0; i < kIterations; ++i) {
       for (size_t j = 0; j < kStrands; ++j) {
         for (size_t k = 0; k < kBatchSize; ++k) {
