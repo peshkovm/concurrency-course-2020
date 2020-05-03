@@ -265,4 +265,23 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     ASSERT_EQ(tp->ExecutedTaskCount(), kProducers * kTasks);
     ASSERT_EQ(done.load(), kProducers * kTasks);
   }
+
+  SIMPLE_TEST(MissedWakeup) {
+    static const auto kTimeBudget = 5s;
+
+    test_helpers::StopWatch stop_watch;
+
+    while (stop_watch.Elapsed() < kTimeBudget) {
+      auto tp = MakeStaticThreadPool(1, "test");
+
+      std::atomic<bool> task_done{false};
+
+      tp->Execute([&task_done](){
+        task_done.store(true);
+      });
+
+      while (!task_done.load()) {};
+      tp->Join();
+    }
+  }
 }
