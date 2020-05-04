@@ -6,8 +6,10 @@
     }
   ],
   "lint_files": ["tinyfutures"],
-  "lint_includes": ["tiny-support-v2"],
+  "lint_includes": [
+    "tiny-support-v2",
+    "asio/asio/include"
+  ],
   "submit_files": ["tinyfutures"],
-  "forbidden_patterns": [
-  ]
+  "forbidden_patterns": []
 }
