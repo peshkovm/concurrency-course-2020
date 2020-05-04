@@ -2,5 +2,6 @@
   "test_profiles": ["Debug"],
   "test_targets": ["test"],
   "lint_files": ["server.hpp"],
+  "lint_includes": ["asio/asio/include"],
   "submit_files": ["server.hpp"]
 }
