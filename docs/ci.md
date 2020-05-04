@@ -187,7 +187,7 @@ tpcc push
 
 Команда `tpcc push` пушит коммиты из ветки текущей задачи локального репозитория решений в remote-репозиторий.
 
-Команда `tpcc merge` создает для текущей задачи [merge request](https://docs.gitlab.com/ee/user/project/merge_requests/) из ветки решения в мастер со всеми запушенными коммитами.
+Команда `tpcc merge-request` создает для текущей задачи [merge request](https://docs.gitlab.com/ee/user/project/merge_requests/) из ветки решения в мастер со всеми запушенными коммитами.
 
 В ветку с решением автоматически добавляется файл [gitlab-ci.yml](.grade.gitlab-ci.yml) – это конфиг для запуска тестов (чуть точнее, _джобов_ CI).
 
