@@ -5,7 +5,7 @@
     "coroutine.hpp", "coroutine.cpp",
     "fiber.cpp"
   ],
-  "lint_includes": ["tiny-support-v1"],
+  "lint_includes": ["tiny-support-v1", "asio-no-boost"],
   "submit_files": [
     "coroutine.hpp", "coroutine.cpp",
     "fiber.cpp"
