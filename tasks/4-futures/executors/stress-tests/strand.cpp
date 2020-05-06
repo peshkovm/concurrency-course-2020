@@ -77,9 +77,12 @@ void HangingStrand(TTestParameters parameters) {
       std::chrono::seconds(parameters.Get(0)));
 
   auto tp = MakeStaticThreadPool(3, "test");
-  auto strand = MakeStrand(tp);
+
+  TestProgress progress;
 
   for (size_t i = 0; !wall_time_budget.Exhausted(); ++i) {
+    auto strand = MakeStrand(tp);
+
     std::atomic<size_t> completed{0};
 
     auto task = [&completed]() {
@@ -92,10 +95,11 @@ void HangingStrand(TTestParameters parameters) {
       strand->Execute(task);
     }
 
-    WallTimeLimitGuard guard(1s);
     while (completed != tasks) {
       twist::strand::this_thread::yield();
     }
+
+    progress.IterCompleted();
   }
 
   tp->Join();

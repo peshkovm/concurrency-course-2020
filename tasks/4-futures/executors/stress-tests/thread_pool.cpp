@@ -29,7 +29,6 @@ void MissedWakeupInJoin(TTestParameters parameters) {
       task_done.store(true);
     });
 
-    WallTimeLimitGuard guard(1s);
     while (!task_done.load()) {};
     tp->Join();
   }

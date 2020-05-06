@@ -12,6 +12,21 @@ namespace test_helpers {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+class TestProgress {
+ public:
+  void IterCompleted() {
+    ++i_;
+    if (i_ % 256 == 0) {
+      std::cout << i_ << "-ith iteration completed\n";
+    }
+  }
+
+ private:
+  size_t i_{0};
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 class StopWatch {
  public:
   using Clock = std::chrono::steady_clock;
