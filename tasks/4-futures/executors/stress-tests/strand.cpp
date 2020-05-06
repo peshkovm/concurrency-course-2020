@@ -97,6 +97,8 @@ void HangingStrand(TTestParameters parameters) {
       twist::strand::this_thread::yield();
     }
   }
+
+  tp->Join();
 }
 
 T_TEST_CASES(HangingStrand).TimeLimit(15s).Case({10});
