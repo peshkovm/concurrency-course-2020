@@ -16,7 +16,7 @@ class TestProgress {
  public:
   void IterCompleted() {
     ++i_;
-    if (i_ % 256 == 0) {
+    if (i_ % 4096 == 0) {
       std::cout << i_ << "-ith iteration completed\n";
     }
   }
