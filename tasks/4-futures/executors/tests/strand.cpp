@@ -22,7 +22,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     bool done{false};
 
     strand->Execute([&done]() {
-      //ExpectThread("strands");
+      ExpectThread("strands");
       done = true;
     });
 
@@ -38,7 +38,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
 
     auto strand = MakeStrand(tp);
 
-    static const size_t kIncrements = 123456;
+    static const size_t kIncrements = 65536;
 
     for (size_t i = 0; i < kIncrements; ++i) {
       strand->Execute([&counter]() {
@@ -106,8 +106,8 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
       counters.emplace_back(tp);
     }
 
-    static const size_t kBatchSize = 50;
-    static const size_t kIterations = 50;
+    static const size_t kBatchSize = 25;
+    static const size_t kIterations = 25;
     for (size_t i = 0; i < kIterations; ++i) {
       for (size_t j = 0; j < kStrands; ++j) {
         for (size_t k = 0; k < kBatchSize; ++k) {

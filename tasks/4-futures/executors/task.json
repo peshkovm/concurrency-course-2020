@@ -3,6 +3,10 @@
     {
       "profiles": ["Debug", "FaultyAsan", "FaultyTsan"],
       "targets": ["tests"]
+    },
+    {
+      "profiles": ["FaultyAsan", "FaultyTsan"],
+      "targets": ["stress-tests"]
     }
   ],
   "lint_files": ["tinyfutures"],
