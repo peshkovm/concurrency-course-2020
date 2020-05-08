@@ -28,6 +28,8 @@ using tiny::support::Duration;
 using test_helpers::AsyncValue;
 using test_helpers::AsyncError;
 
+using test_helpers::TestError;
+
 TEST_SUITE_WITH_PRIORITY(Futures, 2) {
   SIMPLE_TEST(JustWorks) {
     Promise<int> p;
@@ -273,17 +275,37 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     ASSERT_EQ(ints, std::vector<int>({1, 2, 3}));
   }
 
+  SIMPLE_TEST(AllEmpty) {
+    std::vector<Future<int>> fs;
+
+    auto ints = All(std::move(fs)).GetValue();
+
+    ASSERT_EQ(ints, std::vector<int>());
+  }
+
   SIMPLE_TEST(AllWithErrors) {
     std::vector<Future<int>> fs;
 
     fs.push_back(AsyncValue(1, 500ms));
+    fs.push_back(AsyncError<int, TestError<1>>(1500ms));
     fs.push_back(AsyncValue(2, 500ms));
-    fs.push_back(AsyncError<int>(1s));
+    fs.push_back(AsyncError<int, TestError<2>>(1s));
+    fs.push_back(AsyncValue(3, 2s));
+    fs.push_back(AsyncError<int, TestError<3>>(2s));
+
+    auto f = All(std::move(fs));
+    ASSERT_THROW(std::move(f).GetValue(), TestError<2>);
+  }
+
+  SIMPLE_TEST(AllDontWaitAfterError) {
+    std::vector<Future<int>> fs;
+
+    fs.push_back(AsyncValue(1, 20s));
+    fs.push_back(AsyncError<int>(500ms));
 
     auto result = All(std::move(fs)).GetResult();
-
     ASSERT_TRUE(result.HasError());
-  }
+  };
 
   SIMPLE_TEST(FirstOf) {
     std::vector<Future<int>> fs;
@@ -298,7 +320,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     ASSERT_EQ(FirstOf(std::move(fs)).GetValue(), 2);
   }
 
-  SIMPLE_TEST(FirstOfWithErrors) {
+  SIMPLE_TEST(FirstOfWithErrors1) {
     std::vector<Future<int>> fs;
 
     fs.push_back(AsyncError<int>(500ms));
@@ -308,6 +330,27 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
 
     auto f = FirstOf(std::move(fs));
     ASSERT_EQ(std::move(f).GetValue(), 42);
+  }
+
+  SIMPLE_TEST(FirstOfWithErrors2) {
+    std::vector<Future<int>> fs;
+
+    fs.push_back(AsyncError<int, TestError<1>>(1s));
+    fs.push_back(AsyncError<int, TestError<2>>(1500ms));
+    fs.push_back(AsyncError<int, TestError<3>>(500ms));
+
+    auto f = FirstOf(std::move(fs));
+    ASSERT_THROW(std::move(f).GetValue(), TestError<2>);
+  }
+
+  SIMPLE_TEST(FirstOfDontWaitAfterValue) {
+    std::vector<Future<int>> fs;
+
+    fs.push_back(AsyncValue(1, 20s));
+    fs.push_back(AsyncValue(2, 500ms));
+
+    auto f = FirstOf(std::move(fs));
+    ASSERT_EQ(std::move(f).GetValue(), 2);
   }
 
   SIMPLE_TEST(WithTimeout) {

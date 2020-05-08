@@ -127,13 +127,13 @@ class OnePassBarrier {
 
 using UnitResult = tiny::support::Result<tiny::support::Unit>;
 
-template <typename T>
+template <typename T, typename TException = std::runtime_error>
 tiny::futures::Future<T> AsyncError(tiny::support::Duration d) {
   auto [f, p] = tiny::futures::MakeContract<T>();
 
   auto cb = [p = std::move(p)](UnitResult) mutable {
     auto e = tiny::support::make_result::Invoke([]() -> T {
-      throw std::runtime_error("Error");
+      throw TException("Error");
     });
     std::move(p).Set(std::move(e));
   };
@@ -156,6 +156,14 @@ tiny::futures::Future<T> AsyncValue(T value, tiny::support::Duration d) {
 
   return std::move(f);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <int id>
+struct TestError : public std::runtime_error {
+  TestError(const std::string& message) : std::runtime_error(message) {
+  }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
