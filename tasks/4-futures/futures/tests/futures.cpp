@@ -270,9 +270,37 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     fs.push_back(AsyncValue(3, 1s));
 
     auto ints = All(std::move(fs)).GetValue();
+
+    std::sort(ints.begin(), ints.end());
+    ASSERT_EQ(ints, std::vector<int>({1, 2, 3}));
+  }
+
+  SIMPLE_TEST(AllMultiThreaded) {
+    auto tp = MakeStaticThreadPool(4, "tp");
+
+    auto async_value = [tp](int value) {
+      auto value_task = [value]() -> int {
+        ExpectThread("tp");
+        std::this_thread::sleep_for(100ms);
+        return value;
+      };
+      return AsyncVia(value_task, tp);
+    };
+
+    static const size_t kValues = 16;
+
+    std::vector<Future<int>> fs;
+    for (int i = 0; i < (int)kValues; ++i) {
+      fs.push_back(async_value(i));
+    }
+
+    auto ints = All(std::move(fs)).GetValue();
     std::sort(ints.begin(), ints.end());
 
-    ASSERT_EQ(ints, std::vector<int>({1, 2, 3}));
+    ASSERT_EQ(ints.size(), kValues);
+    for (int i = 0; i < (int)kValues; ++i) {
+      ASSERT_EQ(ints[i], i);
+    }
   }
 
   SIMPLE_TEST(AllEmpty) {
