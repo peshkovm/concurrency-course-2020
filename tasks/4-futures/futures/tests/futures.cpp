@@ -511,7 +511,7 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
       });
     }
 
-    static const size_t kPipelines = 123456;
+    static const size_t kPipelines = 16384;
 
     for (size_t i = 0; i < kPipelines; ++i) {
       Promise<Unit> p;
