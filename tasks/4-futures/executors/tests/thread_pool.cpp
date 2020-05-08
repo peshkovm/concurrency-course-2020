@@ -102,6 +102,10 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     ASSERT_FALSE(done);
   }
 
+  SIMPLE_TEST(JoinThreads) {
+    auto tp = MakeStaticThreadPool(4, "test");
+  }
+
   SIMPLE_TEST(BlockingQueue) {
     auto tp = MakeStaticThreadPool(3, "test");
 

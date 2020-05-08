@@ -61,19 +61,33 @@ class CPUTimeMeter {
   std::clock_t start_clocks_;
 };
 
+#if __has_feature(thread_sanitizer) || __has_feature(address_sanitizer)
+
+class CPUTimeBudgetGuard {
+ public:
+  CPUTimeBudgetGuard(double /*limit*/) {
+  }
+};
+
+#else
+
 class CPUTimeBudgetGuard {
  public:
   CPUTimeBudgetGuard(double limit) : limit_(limit) {
   }
 
   ~CPUTimeBudgetGuard() {
-    ASSERT_TRUE(meter_.UsageSeconds() <= limit_);
+    auto usage = meter_.UsageSeconds();
+    std::cout << "CPU usage: " << usage << " seconds" << std::endl;
+    ASSERT_TRUE(usage <= limit_);
   }
 
  private:
   CPUTimeMeter meter_;
   double limit_;
 };
+
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
