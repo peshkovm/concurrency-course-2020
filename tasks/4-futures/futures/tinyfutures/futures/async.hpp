@@ -11,7 +11,7 @@ namespace tiny::futures {
 //
 // Usage:
 // auto tp = MakeStaticThreadPool(4, "tp");
-// std::cout << AsyncVia([]() { return 42; }, tp).GetValue() << std;:endl;
+// std::cout << AsyncVia([]() { return 42; }, tp).GetValue() << std::endl;
 
 template <typename F>
 auto AsyncVia(F&& f, executors::IExecutorPtr e) {
