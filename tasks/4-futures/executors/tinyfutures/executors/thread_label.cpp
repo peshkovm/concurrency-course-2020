@@ -14,9 +14,9 @@ void LabelThread(const ThreadLabel& label) {
 }
 
 void ExpectThread(const ThreadLabel& label) {
-  TINY_VERIFY(label == *thread_label,
-              "Unexpected thread label: '" << *thread_label
-                                           << "', expected `" << label << "`");
+  TINY_VERIFY(label == *thread_label, "Unexpected thread label: '"
+                                          << *thread_label << "', expected `"
+                                          << label << "`");
 }
 
 ThreadLabel GetThreadLabel() {
