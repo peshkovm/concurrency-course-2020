@@ -102,7 +102,12 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     ASSERT_FALSE(done);
   }
 
-  SIMPLE_TEST(JoinThreads) {
+  SIMPLE_TEST(JoinThreads1) {
+    // Use `Shutdown`
+    auto tp = MakeStaticThreadPool(4, "test");
+  }
+
+  SIMPLE_TEST(JoinThreads2) {
     std::weak_ptr<IThreadPool> weak;
     {
       auto tp = MakeStaticThreadPool(4, "test");
