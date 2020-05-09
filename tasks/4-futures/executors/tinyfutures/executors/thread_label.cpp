@@ -7,7 +7,7 @@
 namespace tiny::executors {
 
 // Fibers execution backend support: thread_local -> ThreadLocal
-static twist::strand::ThreadLocal<std::string> thread_label;
+static twist::strand::ThreadLocal<ThreadLabel> thread_label;
 
 void LabelThread(const ThreadLabel& label) {
   *thread_label = label;
