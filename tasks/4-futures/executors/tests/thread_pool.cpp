@@ -103,7 +103,12 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
   }
 
   SIMPLE_TEST(JoinThreads) {
-    auto tp = MakeStaticThreadPool(4, "test");
+    std::weak_ptr<IThreadPool> weak;
+    {
+      auto tp = MakeStaticThreadPool(4, "test");
+      weak = tp;
+    }
+    ASSERT_TRUE(weak.expired())
   }
 
   SIMPLE_TEST(BlockingQueue) {
