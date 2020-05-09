@@ -301,6 +301,8 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     for (int i = 0; i < (int)kValues; ++i) {
       ASSERT_EQ(ints[i], i);
     }
+
+    tp->Join();
   }
 
   SIMPLE_TEST(AllEmpty) {
