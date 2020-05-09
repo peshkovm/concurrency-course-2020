@@ -5,7 +5,7 @@
       "targets": ["tests"]
     },
     {
-      "profiles": ["FaultyAsan", "FaultyTsan"],
+      "profiles": ["FaultyFiber", "FaultyAsan", "FaultyTsan"],
       "targets": ["stress-tests"]
     }
   ],
