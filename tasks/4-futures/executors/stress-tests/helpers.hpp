@@ -16,13 +16,24 @@ class TestProgress {
  public:
   void IterCompleted() {
     ++i_;
-    if (i_ % 4096 == 0) {
-      std::cout << i_ << "-ith iteration completed\n";
+    if (i_ % step_ == 0) {
+      std::cout << i_ << "-th iteration completed" << std::endl;
+      AdjustStep();
     }
+  }
+
+  void Done() {
+    std::cout << i_ << " iterations completed!" << std::endl;
+  }
+
+ private:
+  void AdjustStep() {
+    step_ = (size_t)(step_ * 1.5);
   }
 
  private:
   size_t i_{0};
+  size_t step_{4096};
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,6 @@
 #include <twist/strand/test.hpp>
 
 #include <tinyfutures/executors/static_thread_pool.hpp>
-#include <tinyfutures/executors/strand.hpp>
 
 #include <twist/strand/stdlike.hpp>
 
@@ -20,6 +19,8 @@ void MissedWakeupInJoin(TTestParameters parameters) {
   WallTimeBudget wall_time_budget(
       std::chrono::seconds(parameters.Get(0)));
 
+  TestProgress progress;
+
   while (!wall_time_budget.Exhausted()) {
     auto tp = MakeStaticThreadPool(1, "test");
 
@@ -29,9 +30,15 @@ void MissedWakeupInJoin(TTestParameters parameters) {
       task_done.store(true);
     });
 
-    while (!task_done.load()) {};
+    while (!task_done.load()) {
+      twist::strand::this_thread::yield();
+    }
     tp->Join();
+
+    progress.IterCompleted();
   }
+
+  progress.Done();
 }
 
 T_TEST_CASES(MissedWakeupInJoin).TimeLimit(15s).Case({10});

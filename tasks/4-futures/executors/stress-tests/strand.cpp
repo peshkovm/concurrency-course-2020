@@ -66,9 +66,17 @@ void ConcurrentStrands(TTestParameters parameters) {
 }
 
 T_TEST_CASES(ConcurrentStrands)
+    .TimeLimit(30s)
+    .Case({50, 50, 50})
+    .Case({100, 100, 20});
+
+#if defined(TWIST_FIBER)
+
+T_TEST_CASES(ConcurrentStrands)
   .TimeLimit(30s)
-  .Case({50, 50, 50})
-  .Case({100, 100, 20});
+  .Case({256, 256, 20});
+
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -101,6 +109,8 @@ void HangingStrand(TTestParameters parameters) {
 
     progress.IterCompleted();
   }
+
+  progress.Done();
 
   tp->Join();
 }
