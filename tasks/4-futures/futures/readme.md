@@ -184,6 +184,7 @@ auto f = WithTimeout(service.MakeRPC(input), 1s);
 ```cpp
 auto f = FetchHttp(url);
 
+// Без блокировки подписываемся на результат фьючи
 std::move(f).Subscribe([](Result<std::string> content) {
   std::cout << "Content: " << content.Value() << std::endl;
 }
@@ -311,6 +312,8 @@ auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
 Перемещайте, а не копируйте `Result<T>` в шаблонном коде.
 
 Если вам нужно вызвать функцию и завернуть ее результат / исключение в `Result`, то используйте `support::make_result::Invoke`.
+
+Избегайте дублирования кода в комбинаторах, используйте функцию `Combine`.
 
 ## `std::`
 
