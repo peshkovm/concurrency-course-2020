@@ -262,6 +262,30 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     ASSERT_TRUE(called);
   }
 
+  SIMPLE_TEST(ViaDoesNotBlockThreadPool) {
+    auto tp = MakeStaticThreadPool(1, "single");
+
+    auto [f, p] = MakeContract<int>();
+
+    test_helpers::OneShotEvent done;
+
+    auto set_done = [&done](Result<int> result) {
+      ExpectThread("single");
+      ASSERT_EQ(result.Value(), 42);
+      done.Set();
+    };
+
+    std::move(f).Via(tp).Subscribe(set_done);
+
+    // thread pool is idle
+    AsyncVia([]() -> Unit { return {}; }, tp).GetValue();
+
+    std::move(p).SetValue(42);
+    done.Await();
+
+    tp->Join();
+  }
+
   SIMPLE_TEST(All) {
     std::vector<Future<int>> fs;
 
@@ -337,6 +361,27 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     ASSERT_TRUE(result.HasError());
   };
 
+  SIMPLE_TEST(AllNonBlocking) {
+    std::vector<Future<int>> fs;
+
+    fs.push_back(AsyncValue(1, 500ms));
+    fs.push_back(AsyncValue(2, 1s));
+
+    std::atomic<bool> done{false};
+
+    auto callback = [&done](Result<std::vector<int>> ints) {
+      ASSERT_EQ(test_helpers::Sorted(ints.Value()), std::vector<int>({1, 2}));
+      done.store(true);
+    };
+
+    All(std::move(fs)).Subscribe(callback);
+
+    std::this_thread::sleep_for(750ms);
+    ASSERT_FALSE(done.load());
+    std::this_thread::sleep_for(750ms);
+    ASSERT_TRUE(done.load());
+  }
+
   SIMPLE_TEST(FirstOf) {
     std::vector<Future<int>> fs;
 
@@ -399,6 +444,21 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
       auto f = WithTimeout(AsyncValue(42, 2s), 1s);
       ASSERT_THROW(std::move(f).GetValue(), TimedOut);
     }
+  }
+
+  SIMPLE_TEST(WithTimeoutNonBlocking) {
+    auto f = WithTimeout(AsyncValue(7, 1s), 3s);
+
+    std::atomic<bool> done{false};
+    std::move(f).Subscribe([&done](Result<int> result) {
+      ASSERT_EQ(result.Value(), 7);
+      done.store(true);
+    });
+
+    std::this_thread::sleep_for(500ms);
+    ASSERT_FALSE(done.load());
+    std::this_thread::sleep_for(1s);
+    ASSERT_TRUE(done.load());
   }
 
   SIMPLE_TEST(ThenSynchronous) {

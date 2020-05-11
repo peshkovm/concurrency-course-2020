@@ -136,6 +136,29 @@ class OnePassBarrier {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+class OneShotEvent {
+ public:
+  void Set() {
+    std::lock_guard guard(mutex_);
+    ready_ = true;
+    ready_cv_.notify_one();
+  }
+
+  void Await() {
+    std::unique_lock lock(mutex_);
+    while (!ready_) {
+      ready_cv_.wait(lock);
+    }
+  }
+
+ private:
+  bool ready_{false};
+  std::mutex mutex_;
+  std::condition_variable ready_cv_;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 // Does not depend on Then implementation
 // Use only `After` and `Subscribe`
 
@@ -178,6 +201,15 @@ struct TestError : public std::runtime_error {
   TestError(const std::string& message) : std::runtime_error(message) {
   }
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+std::vector<T> Sorted(const std::vector<T>& values) {
+  std::vector<T> sorted(values);
+  std::sort(sorted.begin(), sorted.end());
+  return sorted;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
