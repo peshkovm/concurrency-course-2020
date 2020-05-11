@@ -17,8 +17,8 @@ template <typename F>
 auto AsyncVia(F&& f, executors::IExecutorPtr e) {
   using T = decltype(f());
 
-  // Not implemented
-  return MakeBrokenFuture<T>();
+  return MakeBrokenFuture<T>();  // Not implemented
+  // Use MakeContract, tiny::support::make_result::Invoke
 }
 
 }  // namespace tiny::futures
