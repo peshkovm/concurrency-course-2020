@@ -174,7 +174,7 @@ Future<T> FirstOf(std::vector<Future<T>> futures);
 
 ```cpp
 // Навешиваем на произвольную фьючу таймаут
-auto f = WithTimeout(service.MakeRPC(input), 1s);
+auto f = WithTimeout(MakeGetRequest(url), 1s);
 ```
 
 ### Subscribe
