@@ -61,7 +61,7 @@ using Contract = std::pair<Future<T>, Promise<T>>;
 // https://en.cppreference.com/w/cpp/language/structured_binding
 
 template <typename T>
-static Contract<T> MakeContract() {
+Contract<T> MakeContract() {
   Promise<T> p;
   auto f = p.MakeFuture();
   return {std::move(f), std::move(p)};
