@@ -513,12 +513,17 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
       };
     };
 
-    auto finally = std::move(f)
+    auto almost_there = std::move(f)
     .Via(tp1).Then(stage(1, "tp1")).Then(stage(2, "tp1"))
-    .Via(tp2).Then(stage(3, "tp2")).Then(stage(4, "tp2"))
-    .Via(tp1).Then(stage(5, "tp1"));
+    .Via(tp2).Then(stage(3, "tp2"));
 
     std::move(p).SetValue("0");
+    std::this_thread::sleep_for(100ms);
+
+    auto finally = std::move(almost_there)
+    .Then(stage(4, "tp2"))
+    .Via(tp1).Then(stage(5, "tp1"));
+
 
     ASSERT_EQ(std::move(finally).GetValue(), "012345");
 
