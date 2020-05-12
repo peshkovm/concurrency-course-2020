@@ -5,9 +5,9 @@
 #include <twist/stdlike/atomic.hpp>
 #include <twist/stdlike/thread.hpp>
 
-#include <asio.hpp>
-
-#include <memory>
+#include <chrono>
+#include <queue>
+#include <mutex>
 
 using namespace std::chrono_literals;
 
@@ -19,10 +19,23 @@ using support::Unit;
 namespace detail {
 
 class TimeKeeper {
+  using Clock = std::chrono::steady_clock;
+  using TimePoint = Clock::time_point;
+
+  using TimerPromise = Promise<Unit>;
+
+  struct Timer {
+    TimePoint deadline_;
+    mutable TimerPromise promise_;
+
+    bool operator < (const Timer& rhs) const {
+      return deadline_ > rhs.deadline_;
+    }
+  };
+
  public:
   TimeKeeper()
-      : work_guard_(asio::make_work_guard(io_context_)),
-        worker_thread_([this]() { Work(); }) {
+        : worker_thread_([this]() { Work(); }) {
   }
 
   ~TimeKeeper() {
@@ -30,37 +43,64 @@ class TimeKeeper {
   }
 
   Future<Unit> After(Duration d) {
-    // asio requires copy-constructible handlers
-    auto promise = std::make_shared<Promise<Unit>>();
-    auto future = promise->MakeFuture();
-
-    auto timer = std::make_shared<asio::steady_timer>(io_context_);
-    timer->expires_after(d);
-    auto complete_future = [timer, promise](std::error_code /*ignored*/) {
-      std::move(*promise).SetValue(Unit{});
-    };
-    timer->async_wait(complete_future);
-    return future;
+    auto [f, p] = MakeContract<Unit>();
+    AddTimer(ToDeadLine(d), std::move(p));
+    return std::move(f);
   }
 
  private:
   void Work() {
     while (!stop_requested_.load()) {
-      io_context_.run_for(1s);
+      PollTimerQueue();
+      twist::stdlike::this_thread::sleep_for(1ms);
     }
   }
 
   void Stop() {
-    // TODO: cancel timers
-    work_guard_.reset();
     stop_requested_.store(true);
     worker_thread_.join();
   }
 
+  void AddTimer(TimePoint deadline, TimerPromise p) {
+    std::lock_guard guard(mutex_);
+    queue_.push({deadline, std::move(p)});
+  }
+
+  void PollTimerQueue() {
+    auto promises = GrabReadyTimers();
+
+    for (auto&& p : promises) {
+      std::move(p).SetValue({});
+    }
+  }
+
+  std::vector<TimerPromise> GrabReadyTimers() {
+    auto now = Clock::now();
+
+    std::lock_guard guard(mutex_);
+
+    std::vector<TimerPromise> promises;
+
+    while (!queue_.empty()) {
+      auto& next = queue_.top();
+      if (next.deadline_ > now) {
+        break;
+      }
+      promises.push_back(std::move(next.promise_));
+      queue_.pop();
+    }
+
+    return promises;
+  }
+
+  static TimePoint ToDeadLine(Duration d) {
+    return Clock::now() + d;
+  }
+
  private:
+  std::priority_queue<Timer> queue_;
+  twist::stdlike::mutex mutex_;
   twist::stdlike::atomic<bool> stop_requested_{false};
-  asio::io_context io_context_;
-  asio::executor_work_guard<asio::io_context::executor_type> work_guard_;
   twist::stdlike::thread worker_thread_;
 };
 
