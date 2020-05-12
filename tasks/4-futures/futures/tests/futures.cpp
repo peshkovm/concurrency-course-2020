@@ -590,42 +590,4 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     tp1->Join();
     tp2->Join();
   }
-
-  SIMPLE_TEST(MessWithExecutors) {
-    static const size_t kThreads = 4;
-
-    auto tp = MakeStaticThreadPool(kThreads, "tp");
-    auto strand = MakeStrand(tp);
-
-    std::atomic<size_t> total = 0;
-    size_t total_strand = 0;
-
-    for (size_t i = 0; i < kThreads; ++i) {
-      tp->Execute([]() {
-        std::this_thread::sleep_for(100ms);
-      });
-    }
-
-    static const size_t kPipelines = 16384;
-
-    for (size_t i = 0; i < kPipelines; ++i) {
-      Promise<Unit> p;
-
-      p.MakeFuture().Via(tp).Then([&total](Result<Unit>) {
-        total.fetch_add(1);
-        return Unit{};
-      }).Via(strand).Then([&total_strand](Result<Unit>) {
-        ++total_strand;
-        return Unit{};
-      });
-
-      // Launch pipeline
-      std::move(p).SetValue({});
-    }
-
-    tp->Join();
-
-    ASSERT_EQ(total.load(), kPipelines);
-    ASSERT_EQ(total_strand, kPipelines);
-  }
 }
