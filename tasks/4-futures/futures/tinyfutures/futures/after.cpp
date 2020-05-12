@@ -28,14 +28,13 @@ class TimeKeeper {
     TimePoint deadline_;
     mutable TimerPromise promise_;
 
-    bool operator < (const Timer& rhs) const {
+    bool operator<(const Timer& rhs) const {
       return deadline_ > rhs.deadline_;
     }
   };
 
  public:
-  TimeKeeper()
-        : worker_thread_([this]() { Work(); }) {
+  TimeKeeper() : worker_thread_([this]() { Work(); }) {
   }
 
   ~TimeKeeper() {
