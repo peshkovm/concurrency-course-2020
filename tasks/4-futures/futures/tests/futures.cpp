@@ -590,4 +590,72 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
     tp1->Join();
     tp2->Join();
   }
+
+  class Unique {
+   public:
+    Unique(int){};
+    Unique(Unique&&) = default;
+    Unique(const Unique&) = delete;
+    Unique& operator=(Unique&&) = default;
+    Unique& operator=(const Unique&) = delete;
+  };
+
+  SIMPLE_TEST(Unique) {
+    // WithTimeout
+    {
+      auto [f, p] = MakeContract<Unique>();
+      auto wto_f = WithTimeout(std::move(f), 100s);
+      std::move(p).SetValue(Unique(0));
+      std::move(wto_f).GetValue();
+    }
+
+    // All
+    {
+      std::vector<Future<Unique>> fs;
+      std::vector<Promise<Unique>> ps(10);
+      for (int i = 0; i < 10; ++i) {
+        fs.emplace_back(ps[i].MakeFuture());
+      }
+
+      auto all = All(std::move(fs));
+
+      for (int i = 0; i < 10; ++i) {
+        std::move(ps[i]).SetValue(Unique(0));
+      }
+
+      std::move(all).GetValue();
+    }
+
+    // FirstOf
+    {
+      std::vector<Future<Unique>> fs;
+      std::vector<Promise<Unique>> ps(10);
+      for (int i = 0; i < 10; ++i) {
+        fs.emplace_back(ps[i].MakeFuture());
+      }
+
+      auto first_of = FirstOf(std::move(fs));
+
+      for (int i = 0; i < 10; ++i) {
+        std::move(ps[i]).SetValue(Unique(0));
+      }
+
+      std::move(first_of).GetValue();
+    }
+
+    // Other
+    {
+      auto [f, p] = MakeContract<Unique>();
+      std::move(p).SetValue(Unique(0));
+      std::move(f)
+          .Via(GetInlineExecutor())
+          .Then([](Result<Unique>&&) { return Unique(0); })
+          .Then([](Result<Unique>&&) {
+            auto [f, p] = MakeContract<Unique>();
+            std::move(p).SetValue(Unique(0));
+            return std::move(f);
+          })
+          .GetValue();
+    }
+  }
 }
