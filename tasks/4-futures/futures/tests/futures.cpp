@@ -3,6 +3,7 @@
 #include <tinyfutures/executors/static_thread_pool.hpp>
 #include <tinyfutures/executors/strand.hpp>
 #include <tinyfutures/executors/work.hpp>
+#include <tinyfutures/executors/inline.hpp>
 #include <tinyfutures/executors/thread_label.hpp>
 
 #include <tinyfutures/futures/promise.hpp>
@@ -593,10 +594,15 @@ TEST_SUITE_WITH_PRIORITY(Futures, 2) {
 
   class Unique {
    public:
+    // No default ctor
     Unique(int){};
+
+    // Movable
     Unique(Unique&&) = default;
-    Unique(const Unique&) = delete;
     Unique& operator=(Unique&&) = default;
+
+    // Non-copyable
+    Unique(const Unique&) = delete;
     Unique& operator=(const Unique&) = delete;
   };
 
