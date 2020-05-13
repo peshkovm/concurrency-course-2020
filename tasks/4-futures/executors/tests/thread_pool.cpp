@@ -21,7 +21,7 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
 
     auto task = [&done]() {
       std::cout << "Hello from thread pool!" << std::endl;
-      ASSERT_EQ(GetThreadLabel(), "test");
+      ExpectThread("test");
       done = true;
     };
     tp->Execute(task);
@@ -39,7 +39,7 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     std::atomic<size_t> completed{0};
     for (size_t i = 0; i < kTasks; ++i) {
       tp->Execute([&completed]() {
-        ASSERT_EQ(GetThreadLabel(), "increments");
+        ExpectThread("increments");
         completed.fetch_add(1);
       });
     }
@@ -190,11 +190,11 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     auto tp2 = MakeStaticThreadPool(3, "tp2");
 
     tp1->Execute([]() {
-      ASSERT_EQ(GetThreadLabel(), "tp1");
+      ExpectThread("tp1");
     });
 
     tp2->Execute([]() {
-      ASSERT_EQ(GetThreadLabel(), "tp2");
+      ExpectThread("tp2");
     });
 
     tp2->Join();
@@ -208,7 +208,7 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
 
     auto sleeper = [&done]() {
       std::this_thread::sleep_for(1s);
-      ASSERT_EQ(GetThreadLabel(), "sleepers");
+      ExpectThread("sleepers");
       done.fetch_add(1);
     };
 
@@ -255,7 +255,7 @@ TEST_SUITE_WITH_PRIORITY(ThreadPool, 1) {
     std::atomic<int> done{0};
 
     auto task = [&done]() {
-      ASSERT_EQ(GetThreadLabel(), "test");
+      ExpectThread("test");
       done.fetch_add(1);
     };
 

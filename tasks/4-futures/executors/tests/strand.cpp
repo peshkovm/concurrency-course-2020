@@ -42,7 +42,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
 
     for (size_t i = 0; i < kIncrements; ++i) {
       strand->Execute([&counter]() {
-        ASSERT_EQ(GetThreadLabel(), "pool");
+        ExpectThread("pool");
         ++counter;
       });
     };
@@ -63,7 +63,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
 
     for (size_t t = 0; t < kTickets; ++t) {
       strand->Execute([&next_ticket, t]() {
-        ASSERT_EQ(GetThreadLabel(), "pool");
+        ExpectThread("pool");
         ASSERT_EQ(next_ticket, t);
         ++next_ticket;
       });
@@ -134,7 +134,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     std::atomic<int> done{0};
 
     auto task = [&done]() {
-      ASSERT_EQ(GetThreadLabel(), "test");
+      ExpectThread("test");
       done.fetch_add(1);
     };
 
@@ -230,7 +230,7 @@ TEST_SUITE_WITH_PRIORITY(Strand, 2) {
     static const auto kStepPause = 10ms;
 
     auto step = []() {
-      ASSERT_EQ(GetThreadLabel(), "thread");
+      ExpectThread("thread");
       std::this_thread::sleep_for(kStepPause);
     };
 
