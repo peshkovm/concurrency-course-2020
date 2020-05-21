@@ -88,7 +88,7 @@ size_t bytes_read = client_socket.Read(asio::buffer(read_buf, kBufSize));
 // Write возвращает `Status` - синоним `Result<void>`
 // Проверка результата и выбрасывание исключения
 // в случае ошибки происходит в вызове ExpectOk()
-client_socket->Write(asio::buffer(read_buf, bytes_read)).ExpectOk();
+client_socket.Write(asio::buffer(read_buf, bytes_read)).ExpectOk();
 
 ```
 
