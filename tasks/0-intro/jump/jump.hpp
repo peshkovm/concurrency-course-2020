@@ -6,6 +6,7 @@
 // Saved execution context
 struct JumpContext {
   // CPU registers?
+  size_t rip;
 };
 
 // Captures the current execution context into 'ctx'
@@ -16,4 +17,3 @@ extern "C" void Capture(JumpContext* ctx);
 // Jumps to 'Capture' call that captured provided 'ctx'
 // This function does not return
 extern "C" void JumpTo(JumpContext* ctx);
-
