@@ -17,6 +17,8 @@ TEST_SUITE(Deadlock) {
     auto fiber = [&]() {
       // Your code goes here
       // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
+      mutex.Lock();
+      mutex.Lock();
     };
 
     // RunScheduler(fiber) should throw DeadlockDetected exception
@@ -26,17 +28,28 @@ TEST_SUITE(Deadlock) {
   // Deadlock with two fibers
   SIMPLE_TEST(TwoFibers) {
     // Declare some Mutex-es
+    Mutex mutex_finn, mutex_jake;
 
     auto finn = [&]() {
       // Your code goes here
       // Use Yield() to reschedule current fiber
+      mutex_finn.Lock();
+      Yield();
+      mutex_jake.Lock();
+      mutex_jake.Unlock();
+      mutex_finn.Unlock();
     };
 
     auto jake = [&]() {
       // Your code goes here
+      mutex_jake.Lock();
+      Yield();
+      mutex_finn.Lock();
+      mutex_finn.Unlock();
+      mutex_jake.Unlock();
     };
 
-    // Don't change this routine
+    // Don't change this routine910033
     auto adventure = [&]() {
       // Run two cooperative fibers
       Spawn(finn);
@@ -56,4 +69,3 @@ TEST_SUITE(Deadlock) {
 }
 
 RUN_ALL_TESTS()
-
