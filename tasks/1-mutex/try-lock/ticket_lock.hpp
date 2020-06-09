@@ -20,7 +20,10 @@ class TicketLock {
   }
 
   bool TryLock() {
-    return false;  // To be implemented
+    // To be implemented
+    size_t expected = owner_ticket_.load();
+
+    return next_free_ticket_.compare_exchange_strong(expected, expected + 1);
   }
 
   // Don't change this method
