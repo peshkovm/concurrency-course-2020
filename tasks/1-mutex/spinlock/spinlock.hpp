@@ -21,7 +21,7 @@ class SpinLock {
   }
 
   bool TryLock() {
-    return false;  // Not implemented
+    return !AtomicExchange(&locked_, 1);  // Not implemented
   }
 
   void Unlock() {

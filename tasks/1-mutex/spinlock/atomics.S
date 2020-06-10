@@ -11,11 +11,31 @@
 
 FUNCTION_NAME(AtomicStore):
     # Your asm code goes here
+    ##########PROLOGUE##########
+    pushq   %rbp
+    movq    %rsp, %rbp
+    ##########PROLOGUE##########
+
     movq %rsi, (%rdi)
+
+    ##########EPILOGUE##########
+    mov %rbp, %rsp
+    popq %rbp
+    ##########EPILOGUE##########
     retq
 
 FUNCTION_NAME(AtomicExchange):
     # Your asm code goes here
-    movq (%rdi), %rax
-    movq %rsi, (%rdi)
+    ##########PROLOGUE##########
+    pushq   %rbp
+    movq    %rsp, %rbp
+    ##########PROLOGUE##########
+
+    xchgq (%rdi), %rsi
+    movq %rsi, %rax
+
+    ##########EPILOGUE##########
+    mov %rbp, %rsp
+    popq %rbp
+    ##########EPILOGUE##########
     retq
