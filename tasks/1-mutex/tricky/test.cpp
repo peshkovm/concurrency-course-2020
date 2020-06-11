@@ -22,6 +22,7 @@ TEST_SUITE(TrickyLock) {
       for (size_t i = 0; i < kIterations; ++i) {
         // Lock starts here
         while (thread_count++ > 0) {
+          Yield();
           --thread_count;
         }
         // Acquired
@@ -32,6 +33,7 @@ TEST_SUITE(TrickyLock) {
         // End of critical section
 
         // Unlock
+        Yield();
         --thread_count;
         // Released
       }
@@ -45,7 +47,7 @@ TEST_SUITE(TrickyLock) {
 
     static const size_t kSwitchesRequired = 12345;
 
-    RunScheduler(main, /*fuel=*/ kSwitchesRequired);
+    RunScheduler(main, /*fuel=*/kSwitchesRequired);
   }
 }
 
