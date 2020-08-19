@@ -17,7 +17,7 @@ class BufferedChannel {
   void Send(T item) {
     queue_is_full_.Acquire();
     mutex_.Acquire();
-    deque_.emplace_back(&item);
+    deque_.push_back(std::move(item));
     queue_is_empty_.Release();
     mutex_.Release();
   }
@@ -26,12 +26,11 @@ class BufferedChannel {
     // Not implemented
     queue_is_empty_.Acquire();
     mutex_.Acquire();
-    T* item_ptr = deque_.back();
-    deque_.pop_back();
+    auto item = std::move(deque_.front());
+    deque_.pop_front();
     queue_is_full_.Release();
     mutex_.Release();
 
-    T item = *item_ptr;
     return item;
   }
 
@@ -40,7 +39,7 @@ class BufferedChannel {
   solutions::Semaphore queue_is_full_;
   solutions::Semaphore queue_is_empty_{0};
   solutions::Semaphore mutex_{1};
-  std::deque<T*> deque_;
+  std::deque<T> deque_;
 };
 
 }  // namespace solutions
