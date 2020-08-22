@@ -2,6 +2,7 @@
 
 #include "api.hpp"
 #include "fiber.hpp"
+#include "sleep_queue.hpp"
 
 #include <tinysupport/time.hpp>
 
@@ -25,7 +26,10 @@ class Scheduler {
   Fiber* GetCurrentFiber();
 
  private:
+  void WakeUpFiber(Fiber* fiber);
+
   void RunLoop();
+  Fiber* GetNextFiber();
 
   // Context switch: current fiber -> scheduler
   void SwitchToScheduler();
@@ -44,6 +48,7 @@ class Scheduler {
  private:
   ExecutionContext loop_context_;
   FiberQueue run_queue_;
+  SleepQueue sleep_queue_;
   Fiber* running_{nullptr};
 };
 

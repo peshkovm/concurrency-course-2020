@@ -1,4 +1,5 @@
 #include "scheduler.hpp"
+#include <twist/stdlike/thread.hpp>
 
 namespace tinyfiber {
 
@@ -64,12 +65,15 @@ void Scheduler::Yield() {
 }
 
 void Scheduler::SleepFor(Duration duration) {
-  // Intentionally ineffective implementation
+  Fiber* caller = GetCurrentFiber();
+  sleep_queue_.PutFiberSleepFor(caller, duration);
+  caller->SetState(FiberState::Sleeping);
+  SwitchToScheduler();
+}
 
-  StopWatch stop_watch;
-  do {
-    Yield();
-  } while (stop_watch.Elapsed() < duration);
+void Scheduler::WakeUpFiber(Fiber* fiber) {
+  fiber->SetState(FiberState::Runnable);
+  run_queue_.PushBack(fiber);
 }
 
 void Scheduler::Terminate() {
@@ -86,9 +90,20 @@ void Scheduler::Run(FiberRoutine init) {
   RunLoop();
 }
 
+Fiber* Scheduler::GetNextFiber() {
+  if (sleep_queue_.IsAnyoneReadyToWakeUp()) {
+    WakeUpFiber(sleep_queue_.TakeReadyToWakeUpFiber());
+  } else if (run_queue_.IsEmpty()) {
+    twist::stdlike::this_thread::sleep_for(
+        Duration(sleep_queue_.MinSleepTime()));
+    WakeUpFiber(sleep_queue_.TakeReadyToWakeUpFiber());
+  }
+  return run_queue_.PopFront();
+}
+
 void Scheduler::RunLoop() {
-  while (!run_queue_.IsEmpty()) {
-    Fiber* next = run_queue_.PopFront();
+  while (!run_queue_.IsEmpty() || !sleep_queue_.IsEmpty()) {
+    Fiber* next = GetNextFiber();
     SwitchTo(next);
     Reschedule(next);
   }
@@ -105,6 +120,9 @@ void Scheduler::Reschedule(Fiber* fiber) {
   switch (fiber->State()) {
     case FiberState::Runnable:  // From Yield
       Schedule(fiber);
+      break;
+    case FiberState::Sleeping:  // From Sleep
+      // do nothing
       break;
     case FiberState::Terminated:  // From Terminate
       Destroy(fiber);
