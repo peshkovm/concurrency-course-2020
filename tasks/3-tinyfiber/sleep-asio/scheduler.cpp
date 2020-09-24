@@ -55,7 +55,6 @@ void Scheduler::SwitchToScheduler() {
 
 void Scheduler::Spawn(FiberRoutine routine) {
   auto* created = CreateFiber(routine);
-  num_of_not_terminated_fibers_++;
   Schedule(created);
 }
 
@@ -76,11 +75,12 @@ void Scheduler::SleepFor(Duration duration) {
   Fiber* fiber = GetCurrentFiber();
   fiber->SetState(FiberState::Sleeping);
 
-  WaitableTimer timer(sleep_context_, duration);
-  timer.async_wait([&](asio::error_code err) {
+  WaitableTimer timer(run_context_, duration);
+  timer.async_wait([this, fiber](asio::error_code err) {
     // handler code
     if (!err) {
       fiber->SetState(FiberState::Runnable);
+      SwitchTo(fiber);
       Reschedule(fiber);
     }
   });
@@ -101,27 +101,9 @@ void Scheduler::Run(FiberRoutine init) {
   RunLoop();
 }
 
-Fiber* Scheduler::GetNextFiber() {
-  if (!run_queue_.IsEmpty()) {
-    sleep_context_.poll();
-  } else {
-    sleep_context_.run_one();
-  }
-  return run_queue_.PopFront();
-}
-
-bool Scheduler::ShouldStopSleepContext() {
-  return num_of_not_terminated_fibers_ == 0;
-}
-
 void Scheduler::RunLoop() {
-  while (!run_queue_.IsEmpty() || !sleep_context_.stopped()) {
-    Fiber* next = GetNextFiber();
-    SwitchTo(next);
-    Reschedule(next);
-    if (ShouldStopSleepContext()) {
-      work_.reset();
-    }
+  while (!run_context_.stopped()) {
+    run_context_.run();
   }
 }
 
@@ -142,7 +124,6 @@ void Scheduler::Reschedule(Fiber* fiber) {
       break;
     case FiberState::Terminated:  // From Terminate
       Destroy(fiber);
-      num_of_not_terminated_fibers_--;
       break;
     default:
       TINY_PANIC("Unexpected fiber state");
@@ -150,8 +131,17 @@ void Scheduler::Reschedule(Fiber* fiber) {
   }
 }
 
+void Scheduler::AddToQueue(Fiber* fiber) {
+  run_context_.post([this, fiber]() {
+    // handler code
+    SwitchTo(fiber);
+    Reschedule(fiber);
+  });
+}
+
 void Scheduler::Schedule(Fiber* fiber) {
-  run_queue_.PushBack(fiber);
+  //  run_queue_.PushBack(fiber);
+  AddToQueue(fiber);
 }
 
 Fiber* Scheduler::CreateFiber(FiberRoutine routine) {

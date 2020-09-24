@@ -28,8 +28,6 @@ class Scheduler {
 
  private:
   void RunLoop();
-  Fiber* GetNextFiber();
-  bool ShouldStopSleepContext();
 
   // Context switch: current fiber -> scheduler
   void SwitchToScheduler();
@@ -45,14 +43,12 @@ class Scheduler {
   void SetCurrentFiber(Fiber* fiber);
   Fiber* GetAndResetCurrentFiber();
 
+  void AddToQueue(Fiber* fiber);
+
  private:
   ExecutionContext loop_context_;
-  FiberQueue run_queue_;
-  asio::io_context sleep_context_;
-  asio::executor_work_guard<asio::io_context::executor_type> work_ =
-      asio::make_work_guard(sleep_context_);
+  asio::io_context run_context_;
   Fiber* running_{nullptr};
-  int num_of_not_terminated_fibers_ = 0;
 };
 
 //////////////////////////////////////////////////////////////////////
