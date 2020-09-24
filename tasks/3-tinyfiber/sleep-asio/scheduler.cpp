@@ -1,4 +1,5 @@
 #include "scheduler.hpp"
+#include "timer.hpp"
 
 namespace tinyfiber {
 
@@ -66,10 +67,24 @@ void Scheduler::Yield() {
 void Scheduler::SleepFor(Duration duration) {
   // Intentionally ineffective implementation
 
-  StopWatch stop_watch;
-  do {
-    Yield();
-  } while (stop_watch.Elapsed() < duration);
+  //  StopWatch stop_watch;
+  //  do {
+  //    Yield();
+  //  } while (stop_watch.Elapsed() < duration);
+
+  Fiber* fiber = GetCurrentFiber();
+  fiber->SetState(FiberState::Sleeping);
+
+  WaitableTimer timer(run_context_, duration);
+  timer.async_wait([this, fiber](asio::error_code err) {
+    // handler code
+    if (!err) {
+      fiber->SetState(FiberState::Runnable);
+      SwitchTo(fiber);
+      Reschedule(fiber);
+    }
+  });
+  SwitchToScheduler();
 }
 
 void Scheduler::Terminate() {
@@ -87,10 +102,8 @@ void Scheduler::Run(FiberRoutine init) {
 }
 
 void Scheduler::RunLoop() {
-  while (!run_queue_.IsEmpty()) {
-    Fiber* next = run_queue_.PopFront();
-    SwitchTo(next);
-    Reschedule(next);
+  while (!run_context_.stopped()) {
+    run_context_.run();
   }
 }
 
@@ -106,6 +119,9 @@ void Scheduler::Reschedule(Fiber* fiber) {
     case FiberState::Runnable:  // From Yield
       Schedule(fiber);
       break;
+    case FiberState::Sleeping:  // From Sleep
+      // do nothing
+      break;
     case FiberState::Terminated:  // From Terminate
       Destroy(fiber);
       break;
@@ -115,8 +131,17 @@ void Scheduler::Reschedule(Fiber* fiber) {
   }
 }
 
+void Scheduler::AddToQueue(Fiber* fiber) {
+  run_context_.post([this, fiber]() {
+    // handler code
+    SwitchTo(fiber);
+    Reschedule(fiber);
+  });
+}
+
 void Scheduler::Schedule(Fiber* fiber) {
-  run_queue_.PushBack(fiber);
+  //  run_queue_.PushBack(fiber);
+  AddToQueue(fiber);
 }
 
 Fiber* Scheduler::CreateFiber(FiberRoutine routine) {

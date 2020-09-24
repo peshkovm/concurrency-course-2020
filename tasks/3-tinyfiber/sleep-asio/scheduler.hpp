@@ -43,9 +43,11 @@ class Scheduler {
   void SetCurrentFiber(Fiber* fiber);
   Fiber* GetAndResetCurrentFiber();
 
+  void AddToQueue(Fiber* fiber);
+
  private:
   ExecutionContext loop_context_;
-  FiberQueue run_queue_;
+  asio::io_context run_context_;
   Fiber* running_{nullptr};
 };
 
