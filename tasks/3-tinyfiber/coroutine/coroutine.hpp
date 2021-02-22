@@ -34,11 +34,42 @@ class Coroutine {
 
   bool IsCompleted() const;
 
+  Routine UserRoutine() {
+    return routine_;
+  }
+
+  bool Completed() const {
+    return completed_;
+  }
+
+  void SetCompleted(bool completed) {
+    completed_ = completed;
+  }
+
+  std::exception_ptr Exception() {
+    return exception_;
+  }
+
+  void SetException(std::exception_ptr exception) {
+    exception_ = exception;
+  }
+
+ private:
+  static void CoroutineTrampoline();
+  void SetupTrampoline();
+
  private:
   // Your code goes here
+  Routine routine_;
+  Stack stack_;
+  ExecutionContext caller_context_;
+  ExecutionContext coro_context_;
+  bool completed_{false};
+  std::exception_ptr exception_{nullptr};
 };
 
 void Suspend();
+Coroutine* GetCurrentCoroutine();
 
 }  // namespace coroutine
 }  // namespace tinyfiber
